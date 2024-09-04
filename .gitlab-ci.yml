@@ -1,0 +1,13 @@
+stages:
+  - verify
+
+block_experimental_to_main:
+  stage: verify
+  script:
+    - |
+      if [[ "$CI_COMMIT_REF_NAME" == "experimental" && "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" == "main" ]]; then
+        echo "Don't merge 'experimental' to 'main'"
+        exit 1
+      fi
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
