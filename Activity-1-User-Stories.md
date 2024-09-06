@@ -11,7 +11,7 @@ As a player, I want a game map with multiple interactive elements to keep the ga
 As a player, I want to explore more than one game map to experience different environments with new challenges in each map.<br>
 
 As a designer, I want to provide a text/JSON file that the system can read to generate the game map.<br>
-As a designer, I want the freedom to place walls, items, enemies etc.<br> in the game map wherever I choose.<br>
+As a designer, I want the freedom to place walls, items, enemies etc. in the game map wherever I choose.<br>
 As a designer, I want to set varying sizes of each game map.<br>
 As a designer, I want to modify the game map’s appearance by changing the symbols used for the floor, walls, NPCs, and other elements.<br>
 As a designer, I want to customize all map settings using a simple configuration file in the game directory.<br>
