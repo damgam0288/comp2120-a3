@@ -1,5 +1,8 @@
 # COMP2120-Wed16_A3_F
 
+## Branches
+*Bugfix branch:* This branch comes off the Main branch and is used to fix minor bugs on the Main branch itself. It shouldn't be used for feature development or any major changes.
+
 
 
 ## Getting started
