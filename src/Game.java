@@ -2,6 +2,8 @@ import java.io.IOException;
 
 public class Game {
 
+
+
     public Game() throws IOException {
         // Load map from assets, load Player, NPCs, Enemies, inventory etc.
     }
