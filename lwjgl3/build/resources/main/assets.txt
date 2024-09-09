@@ -1,3 +1,0 @@
-libgdx.png
-map-01.json
-map-02.json
