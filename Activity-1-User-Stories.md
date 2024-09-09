@@ -22,6 +22,7 @@ As a game tester, I want an efficient way to test multiple game maps to ensure a
 # User stories for Enemies
 As a player, I hope the enemy can block my path and force me to either fight against them or find alternative routes, so that I can increase the depth of my mobile strategy.<br>
 As a player, I want to encounter enemies at specific locations on the map so that I can engage in combat and face challenges in key areas.<br>
+
 As a designer, I want to define the generation points of enemies in the game configuration file, so that enemies will appear in fixed positions and cause strategic difficulty in certain parts of the map.<br>
 
 # User stories for Inventory system
