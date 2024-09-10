@@ -25,6 +25,9 @@ public class Game {
         map.addEntity(player);
 
         map.draw();
+        player.move(1,0,map);
+        player.move(1,0,map);
+        player.move(1,0,map);
 
     }
 
