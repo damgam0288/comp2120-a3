@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,24 +8,34 @@ public class Map {
 
     private final String name;
     private char[][] world = null;
-    private char[][] grid = null;
+    private char[][] grid = null;   // Playable grid containing game map, player, items, NPCs etc.
     private final int width;
     private final int height;
 
     private final List<Entity> entities;
 
-    public Map(String name, char[][] world) {
-        this.name = name;
-        this.world = world;                         // This is only the game map with the floor, walls, obstacles etc.
-        this.width = 5;
-        this.height = 5;
+    public Map(String n, String filePath) throws IOException {
+        name = n;
+        entities = new ArrayList<>();
 
-        this.grid = new char[width][height];        // This is the playable grid containing game map, player, items, NPCs etc.
+        // Load JSON file
+        List<String> lines = Files.readAllLines(Paths.get(filePath));
+        lines = lines.stream()
+                .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
+                .filter(line -> !line.trim().isEmpty())
+                .toList();
 
-        this.entities = new ArrayList<>();
+        // Create world using JSON data
+        height = lines.size();
+        width = lines.get(0).length();
+        world = new char[width][height];
+        grid = new char[width][height];
 
-        // TODO: Read grid from file and calculate width and height from file
-
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                world[j][i] = lines.get(i).charAt(j);
+            }
+        }
     }
 
     /**
@@ -31,7 +44,7 @@ public class Map {
     public void draw() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                // Initialize game grid with the game map
+                // Put world map into the playable grid
                 grid[x][y] = world[x][y];
 
                 // Put entities onto the grid

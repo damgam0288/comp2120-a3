@@ -8,24 +8,9 @@ public class Game {
     private final Entity player;
 
     public Game() throws IOException {
-        // Load map from assets, load Entity, NPCs, Enemies, inventory etc.
-        char[][] grid = new char[5][5];
-        grid[0][0] = '#';
-        grid[1][0] = '#';
-        grid[2][0] = '#';
-        grid[3][0] = '#';
-        grid[4][0] = '#';
-        for (int i = 0; i <= 4; i++) {
-            for (int j = 1; j <= 3; j++) {
-                grid[i][j] = '.';
-            }
-        }
-        grid[0][4] = '#';
-        grid[1][4] = '#';
-        grid[2][4] = '#';
-        grid[3][4] = '#';
-        grid[4][4] = '#';
-        currentMap = new Map("map-default", grid);
+
+        currentMap = new Map("map2", "assets/map2.json");
+
         player = new Entity(1, 2, 'P');
         currentMap.addEntity(player);
 
@@ -34,13 +19,16 @@ public class Game {
     }
 
     // Main game "loop" - handle user inputs through Scanner
-    public void start() {
+    public void start() throws IOException {
+        currentMap.draw();
         Scanner scanner = new Scanner(System.in);
-        while (true) {
+        while (!scanner.nextLine().equalsIgnoreCase("q")) {
             currentMap.draw();
-            System.out.println("W for Up, S for Down, A for Left, D for Right: ");
-            handleMovement(scanner.nextLine());
+            System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, Q to quit): ");
+            String input = scanner.nextLine();
+            handleMovement(input); // Handle player movement
         }
+        scanner.close();
     }
 
     // Handle player movement within the current map
