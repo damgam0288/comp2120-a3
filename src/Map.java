@@ -1,22 +1,25 @@
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Map {
 
     private String name;
-    private char[][] originalGrid = null;
+    private char[][] world = null;
     private char[][] grid = null;
     private int width;
     private int height;
+
     private List<Entity> entities;
 
-    public Map(String name, char[][] grid) {
+    public Map(String name, char[][] world) {
         this.name = name;
-        this.grid = grid;
-        this.originalGrid = grid;
+        this.world = world;
         this.width  = 5;
         this.height = 5;
+
+        this.grid = new char[width][height];
+
         this.entities = new ArrayList<>();
 
         // TODO: Read grid from file
@@ -24,8 +27,26 @@ public class Map {
 
     }
 
-    // Draw game map to terminal
     public void draw() {
+        // Put the world into the game grid
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                grid[x][y] = world[x][y];
+            }
+        }
+
+        // Put entities into the game grid
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                for (Entity e : entities) {
+                    if (e.getX() == x && e.getY() == y) {
+                        grid[x][y] = e.getSymbol();
+                    }
+                }
+            }
+        }
+
+        // Draw the game grid
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 System.out.print(grid[x][y]);
@@ -42,15 +63,15 @@ public class Map {
      */
 
     public char getTile(int x, int y) {
-        return grid[x][y];
+        return world[x][y];
     }
 
     public void setTile(int x, int y, char value) {
-        grid[x][y] = value;
+        world[x][y] = value;
     }
 
     public boolean isWalkable(int x, int y) {
-        return grid[x][y] != '#';
+        return world[x][y] != '#';
     }
 
     // Check if position is within the game map boundaries
@@ -65,7 +86,7 @@ public class Map {
     public boolean addEntity(Entity e) {
         if (!entities.contains(e)) {
             entities.add(e);
-            grid[e.getX()][e.getY()] = e.getSymbol();
+            setTile(e.getX(),e.getY(),e.getSymbol());
             return true;
         }
         return false;
@@ -77,8 +98,9 @@ public class Map {
      */
     public void moveEntity(Entity e, int newX, int newY) {
         if (isValidPosition(newX,newY)) {
-            this.setTile(e.getX(),e.getY(),originalGrid[e.getX()][e.getY()]);
-            this.setTile(newX,newY,e.getSymbol());
+
+//            this.setTile(e.getX(),e.getY(),originalGrid[e.getX()][e.getY()]);
+//            this.setTile(newX,newY,e.getSymbol());
         }
     }
 

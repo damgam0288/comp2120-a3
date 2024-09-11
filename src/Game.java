@@ -21,13 +21,15 @@ public class Game {
         grid[0][4] = '#'; grid[1][4] = '#'; grid[2][4] = '#'; grid[3][4]='#'; grid[4][4]='#';
 
         Map map = new Map("map-default",grid);
-        Entity player = new Entity(1,2);
+
+        Entity player = new Entity(1,2, 'P');
         map.addEntity(player);
+        Entity npc = new Entity(3,3, 'N');
+        map.addEntity(npc);
 
         map.draw();
-        player.move(1,0,map);
-        player.move(1,0,map);
-        player.move(1,0,map);
+//        player.move(1,0,map);
+
 
     }
 

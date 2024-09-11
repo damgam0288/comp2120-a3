@@ -1,10 +1,12 @@
 public class Entity {
 
     private int x, y;
+    private char symbol;
 
-    public Entity(int startX, int startY) {
+    public Entity(int startX, int startY, char symbol) {
         this.x = startX;
         this.y = startY;
+        this.symbol = symbol;
     }
 
     public void move(int deltaX, int deltaY, Map map) {
