@@ -3,13 +3,13 @@ import java.util.List;
 
 public class Map {
 
-    private String name;
+    private final String name;
     private char[][] world = null;
     private char[][] grid = null;
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
-    private List<Entity> entities;
+    private final List<Entity> entities;
 
     public Map(String name, char[][] world) {
         this.name = name;
@@ -92,10 +92,12 @@ public class Map {
         if (isValidPosition(newX,newY)) {
             e.setX(newX);
             e.setY(newY);
-            draw();
             return true;
         }
-        return false;
+        else {
+            System.out.println("Can't move there!");
+            return false;
+        }
     }
 
 }

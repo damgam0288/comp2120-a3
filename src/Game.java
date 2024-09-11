@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Game {
 
@@ -27,9 +28,24 @@ public class Game {
         Entity npc = new Entity(3,3, 'N');
         map.addEntity(npc);
 
-        map.draw();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            map.draw(); // Call the method to display the current map
+            System.out.println("Enter 1 to move P and 2 to move N");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("Q")) {
+                System.out.println("Exiting game...");
+                break;
+            }
+            else if (input.equalsIgnoreCase("1")) {
+                player.move(1, 0, map);
 
-        player.move(1,0,map);
+            }
+            else if (input.equalsIgnoreCase("2")) {
+                npc.move(1, 0, map);
+
+            }
+        }
     }
 
     private void handleMap() {
