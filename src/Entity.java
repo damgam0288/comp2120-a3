@@ -35,7 +35,7 @@ public class Entity {
 
     public char getSymbol() {
         // TODO: Replace with Symbol enum and .toString()
-        return 'P';
+        return symbol;
     }
 
     // TODO: Additional player functionality...
