@@ -13,7 +13,7 @@ public class Map {
 
     public Map(String name, char[][] world) {
         this.name = name;
-        this.world = world;                         // This is the game map including floor, walls, obstacles etc.
+        this.world = world;                         // This is only the game map with the floor, walls, obstacles etc.
         this.width = 5;
         this.height = 5;
 
@@ -31,7 +31,7 @@ public class Map {
     public void draw() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                // Initialize grid with the game map
+                // Initialize game grid with the game map
                 grid[x][y] = world[x][y];
 
                 // Put entities onto the grid
@@ -42,11 +42,12 @@ public class Map {
                     }
                 }
 
-                // Draw play grid
+                // Draw game grid
                 System.out.print(grid[x][y]);
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public char getTile(int x, int y) {
@@ -76,22 +77,25 @@ public class Map {
      * Adds (non-duplicate) entity to the list of entities on this map
      * but does not re-draw the game world to the terminal
      */
-    public boolean addEntity(Entity e) {
+    public void addEntity(Entity e) {
         if (!entities.contains(e)) {
             entities.add(e);
             setTile(e.getX(),e.getY(),e.getSymbol());
-            return true;
         }
-        return false;
     }
 
     /**
-     * Move a given entity around the map (if it exists in this game world)
+     * Move a given entity around the map if it exists in this game world
+     * and if the move is valid
      */
-    public void moveEntity(Entity e, int newX, int newY) {
+    public boolean moveEntity(Entity e, int newX, int newY) {
         if (isValidPosition(newX,newY)) {
-            // TODO
+            e.setX(newX);
+            e.setY(newY);
+            draw();
+            return true;
         }
+        return false;
     }
 
 }

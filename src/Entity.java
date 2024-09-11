@@ -12,17 +12,15 @@ public class Entity {
     public void move(int deltaX, int deltaY, Map map) {
         int newX = x + deltaX;
         int newY = y + deltaY;
+        map.moveEntity(this,newX,newY);
+    }
 
-        if (map.isWalkable(newX, newY)) {
+    public void setX(int x) {
+        this.x = x;
+    }
 
-            map.moveEntity(this, newX, newY);
-
-            x = newX;
-            y = newY;
-        }
-        else {
-            System.out.println("You can't move there!");
-        }
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getX() {

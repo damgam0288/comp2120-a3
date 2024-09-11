@@ -28,9 +28,8 @@ public class Game {
         map.addEntity(npc);
 
         map.draw();
-//        player.move(1,0,map);
 
-
+        player.move(1,0,map);
     }
 
     private void handleMap() {
