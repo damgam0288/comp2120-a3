@@ -58,19 +58,18 @@ public class Map {
         grid[x][y] = value;
     }
 
-    public boolean isWalkable(int x, int y) {
-        return grid[x][y] != '#';
-    }
-
     /**
-     * Returns true if the given x,y position is not over the game world boundaries
+     * Checks if given x,y position is not over the game world boundaries
      * or over an obstacle
      */
     public boolean isValidPosition(int x, int y) {
         return x >= 0 && x < width &&
-                y >= 0 && y < height;
+                y >= 0 && y < height &&
+                !isObstacle(x, y);
+    }
 
-        // TODO Check for collision with obstacles
+    private boolean isObstacle(int x, int y) {
+        return getTile(x, y) == '#';
     }
 
     /**

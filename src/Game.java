@@ -35,7 +35,6 @@ public class Game {
 
     // Main game "loop" - handle user inputs through Scanner
     public void start() {
-        // Handle user input
         Scanner scanner = new Scanner(System.in);
         while (true) {
             currentMap.draw();
