@@ -3,14 +3,15 @@ import java.util.Scanner;
 
 public class Game {
 
-
     private final Map currentMap;
     private final Entity player;
 
+    // Game initiation
     public Game() throws IOException {
 
         currentMap = new Map("map2", "assets/map2.json");
 
+        // Dummy entities: can move this to a config file later
         player = new Entity(1, 2, 'P');
         currentMap.addEntity(player);
 
@@ -21,13 +22,17 @@ public class Game {
     // Main game "loop" - handle user inputs through Scanner
     public void start() throws IOException {
         currentMap.draw();
+
         Scanner scanner = new Scanner(System.in);
-        while (!scanner.nextLine().equalsIgnoreCase("q")) {
-            currentMap.draw();
+        String input;
+        do {
             System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, Q to quit): ");
-            String input = scanner.nextLine();
+            input = scanner.nextLine();
+
             handleMovement(input); // Handle player movement
-        }
+            currentMap.draw();
+        } while (!input.equalsIgnoreCase("q"));
+
         scanner.close();
     }
 
@@ -43,10 +48,6 @@ public class Game {
 
     private void handleInteraction() {
         // Handle  NPCs / enemy interaction here
-    }
-
-    private void handleInventory() {
-        // Handle inventory system
     }
 
     public static void main(String[] args) throws IOException {
