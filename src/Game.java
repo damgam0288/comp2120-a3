@@ -4,30 +4,37 @@ import java.util.Scanner;
 public class Game {
 
 
-    private Map currentMap;
-    private Entity player;
+    private final Map currentMap;
+    private final Entity player;
 
     public Game() throws IOException {
         // Load map from assets, load Entity, NPCs, Enemies, inventory etc.
-    }
-
-    // Main game "loop" - handle user inputs through Scanner
-    public void start() {
         char[][] grid = new char[5][5];
-        grid[0][0] = '#'; grid[1][0] = '#'; grid[2][0] = '#'; grid[3][0]='#'; grid[4][0]='#';
+        grid[0][0] = '#';
+        grid[1][0] = '#';
+        grid[2][0] = '#';
+        grid[3][0] = '#';
+        grid[4][0] = '#';
         for (int i = 0; i <= 4; i++) {
-            for (int j = 1; j <= 3 ; j++) {
-                grid[i][j]='.';
+            for (int j = 1; j <= 3; j++) {
+                grid[i][j] = '.';
             }
         }
-        grid[0][4] = '#'; grid[1][4] = '#'; grid[2][4] = '#'; grid[3][4]='#'; grid[4][4]='#';
+        grid[0][4] = '#';
+        grid[1][4] = '#';
+        grid[2][4] = '#';
+        grid[3][4] = '#';
+        grid[4][4] = '#';
         currentMap = new Map("map-default", grid);
         player = new Entity(1, 2, 'P');
         currentMap.addEntity(player);
 
-        Entity npc = new Entity(3,3, 'N');
+        Entity npc = new Entity(3, 3, 'N');
         currentMap.addEntity(npc);
+    }
 
+    // Main game "loop" - handle user inputs through Scanner
+    public void start() {
         // Handle user input
         Scanner scanner = new Scanner(System.in);
         while (true) {
