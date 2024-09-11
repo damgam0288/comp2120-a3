@@ -4,14 +4,15 @@ import java.util.Scanner;
 public class Game {
 
 
+    private Map currentMap;
+    private Entity player;
 
     public Game() throws IOException {
         // Load map from assets, load Entity, NPCs, Enemies, inventory etc.
     }
 
+    // Main game "loop" - handle user inputs through Scanner
     public void start() {
-        // Main game "loop" - handle user inputs through Scanner
-
         char[][] grid = new char[5][5];
         grid[0][0] = '#'; grid[1][0] = '#'; grid[2][0] = '#'; grid[3][0]='#'; grid[4][0]='#';
         for (int i = 0; i <= 4; i++) {
@@ -20,40 +21,30 @@ public class Game {
             }
         }
         grid[0][4] = '#'; grid[1][4] = '#'; grid[2][4] = '#'; grid[3][4]='#'; grid[4][4]='#';
+        currentMap = new Map("map-default", grid);
+        player = new Entity(1, 2, 'P');
+        currentMap.addEntity(player);
 
-        Map map = new Map("map-default",grid);
-
-        Entity player = new Entity(1,2, 'P');
-        map.addEntity(player);
         Entity npc = new Entity(3,3, 'N');
-        map.addEntity(npc);
+        currentMap.addEntity(npc);
 
+        // Handle user input
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            map.draw(); // Call the method to display the current map
-            System.out.println("Enter 1 to move P and 2 to move N");
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("Q")) {
-                System.out.println("Exiting game...");
-                break;
-            }
-            else if (input.equalsIgnoreCase("1")) {
-                player.move(1, 0, map);
-
-            }
-            else if (input.equalsIgnoreCase("2")) {
-                npc.move(1, 0, map);
-
-            }
+            currentMap.draw();
+            System.out.println("W for Up, S for Down, A for Left, D for Right: ");
+            handleMovement(scanner.nextLine());
         }
     }
 
-    private void handleMap() {
-        // Display and update the map according to user inputs
-    }
-
-    private void handleMovement() {
-        // Handle player movement within the current map
+    // Handle player movement within the current map
+    private void handleMovement(String move) {
+        switch (move.toLowerCase()) {
+            case "w" -> player.move(0, -1, currentMap);
+            case "s" -> player.move(0, 1, currentMap);
+            case "a" -> player.move(-1, 0, currentMap);
+            case "d" -> player.move(1, 0, currentMap);
+        }
     }
 
     private void handleInteraction() {
