@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Map {
@@ -14,74 +13,68 @@ public class Map {
 
     public Map(String name, char[][] world) {
         this.name = name;
-        this.world = world;
-        this.width  = 5;
+        this.world = world;                         // This is the game map including floor, walls, obstacles etc.
+        this.width = 5;
         this.height = 5;
 
-        this.grid = new char[width][height];
+        this.grid = new char[width][height];        // This is the playable grid containing game map, player, items, NPCs etc.
 
         this.entities = new ArrayList<>();
 
-        // TODO: Read grid from file
-        // TODO: Calculate width and height from file
+        // TODO: Read grid from file and calculate width and height from file
 
     }
 
+    /**
+     * Draws game map together with all entities, items etc. to the terminal
+     */
     public void draw() {
-        // Put the world into the game grid
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
+                // Initialize grid with the game map
                 grid[x][y] = world[x][y];
-            }
-        }
 
-        // Put entities into the game grid
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+                // Put entities onto the grid
                 for (Entity e : entities) {
                     if (e.getX() == x && e.getY() == y) {
                         grid[x][y] = e.getSymbol();
+                        break;
                     }
                 }
-            }
-        }
 
-        // Draw the game grid
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+                // Draw play grid
                 System.out.print(grid[x][y]);
             }
             System.out.println();
         }
     }
 
-    /*
-        Option 1: update grid[] values whenever entities are added/moved
-        and use the grid[] to draw the map
-
-        Option 2: don't change grid[] values; just draw world[] char along with entity chars each time
-     */
-
     public char getTile(int x, int y) {
-        return world[x][y];
+        return grid[x][y];
     }
 
     public void setTile(int x, int y, char value) {
-        world[x][y] = value;
+        grid[x][y] = value;
     }
 
     public boolean isWalkable(int x, int y) {
-        return world[x][y] != '#';
+        return grid[x][y] != '#';
     }
 
-    // Check if position is within the game map boundaries
+    /**
+     * Returns true if the given x,y position is not over the game world boundaries
+     * or over an obstacle
+     */
     public boolean isValidPosition(int x, int y) {
         return x >= 0 && x < width &&
                 y >= 0 && y < height;
+
+        // TODO Check for collision with obstacles
     }
 
     /**
      * Adds (non-duplicate) entity to the list of entities on this map
+     * but does not re-draw the game world to the terminal
      */
     public boolean addEntity(Entity e) {
         if (!entities.contains(e)) {
@@ -93,14 +86,11 @@ public class Map {
     }
 
     /**
-     * Move the given entity on the map by re-drawing the entity's current position as the
-     * original grid's x,y values, and then drawing the entity into the new x,y in the grid
+     * Move a given entity around the map (if it exists in this game world)
      */
     public void moveEntity(Entity e, int newX, int newY) {
         if (isValidPosition(newX,newY)) {
-
-//            this.setTile(e.getX(),e.getY(),originalGrid[e.getX()][e.getY()]);
-//            this.setTile(newX,newY,e.getSymbol());
+            // TODO
         }
     }
 
