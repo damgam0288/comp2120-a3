@@ -61,7 +61,10 @@ public class Map {
                 // First make the "floor"
                 grid[x][y] = world[x][y];
 
-                // Next put the entities on the "floor"
+                // Then add the player
+                if (player.getX() == x && player.getY() == y) grid[x][y] = player.getSymbol();
+
+                // Next add the entities
                 for (Entity e : entities) {
                     if (e.getX() == x && e.getY() == y) {
                         grid[x][y] = e.getSymbol();
