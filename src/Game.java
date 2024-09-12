@@ -4,23 +4,23 @@ import java.util.Scanner;
 public class Game {
 
     private final Map currentMap;
-    private final Entity player;
+    private final Player player;
+    private final NPC npc;
 
     // Game initiation
-    public Game() throws IOException {
+    public Game() throws Exception {
 
-        currentMap = new Map("map2", "assets/map2.json");
+        player = new Player(1, 2, 'P');
+
+        currentMap = new Map("map2", "assets/map2.json", player);
 
         // Dummy entities: can move this to a config file later
-        player = new Entity(1, 2, 'P');
-        currentMap.addEntity(player);
-
-        Entity npc = new Entity(3, 3, 'N');
+        npc = new NPC(3, 3, 'N');
         currentMap.addEntity(npc);
     }
 
     // Main game "loop" - handle user inputs through Scanner
-    public void start() throws IOException {
+    public void start() {
         currentMap.draw();
 
         Scanner scanner = new Scanner(System.in);
@@ -29,7 +29,9 @@ public class Game {
             System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, Q to quit): ");
             input = scanner.nextLine();
 
-            handleMovement(input); // Handle player movement
+            handleMovement(input);      // Handle player movement
+            handleNPCInteraction();     // Handle interaction with NPCs
+
             currentMap.draw();
         } while (!input.equalsIgnoreCase("q"));
 
@@ -46,11 +48,15 @@ public class Game {
         }
     }
 
-    private void handleInteraction() {
+    private void handleNPCInteraction() {
         // Handle  NPCs / enemy interaction here
+
+        // Testing method only - TODO remove later
+        System.out.println("TEST: Who's player colliding: " + currentMap.getCollidingEntity());
+
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         new Game().start();
     }
 }

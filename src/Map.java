@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Conceptually, the game is played on a "playable grid". This class
@@ -12,10 +13,11 @@ import java.util.List;
 public class Map {
 
     private final String name;
-    private char[][] world = null;  // Actual map of the world only
-    private char[][] grid = null;   // Playable grid containing game map, player, items, NPCs etc.
+    private final char[][] world;  // Actual map of the world only
+    private char[][] grid;   // Playable grid containing game map, player, items, NPCs etc.
     private final int width;
     private final int height;
+    private final Player player;
     private final List<Entity> entities;
 
     /**
@@ -25,23 +27,29 @@ public class Map {
      * @param filePath - path to json file containing world
      * @throws IOException - in case cannot find json file
      */
-    public Map(String n, String filePath) throws IOException {
+    public Map(String n, String filePath, Player p) throws Exception {
+        // Player cannot be null
+        if (Objects.isNull(p)) {
+            throw new IllegalArgumentException("Player cannot be null");
+        }
+
+        // Base parameters
         name = n;
         entities = new ArrayList<>();
+        player = p;
 
-        // Load JSON file
+        // Read JSON file
         List<String> lines = Files.readAllLines(Paths.get(filePath));
         lines = lines.stream()
                 .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
                 .filter(line -> !line.trim().isEmpty())
                 .toList();
-
-        // Put JSON data into the game world[][] array
         height = lines.size();
         width = lines.get(0).length();
         world = new char[width][height];
         grid = new char[width][height];
 
+        // Put JSON data into the game world[][] array
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 world[j][i] = lines.get(i).charAt(j);
@@ -58,7 +66,10 @@ public class Map {
                 // First make the "floor"
                 grid[x][y] = world[x][y];
 
-                // Next put the entities on the "floor"
+                // Then add the player
+                if (player.getX() == x && player.getY() == y) grid[x][y] = player.getSymbol();
+
+                // Next add the entities
                 for (Entity e : entities) {
                     if (e.getX() == x && e.getY() == y) {
                         grid[x][y] = e.getSymbol();
@@ -117,18 +128,49 @@ public class Map {
     }
 
     /**
-     * Move a given entity around the map if it exists in this game world
-     * and if the move is valid.
-     * NOTE: Does NOT re-draw the play grid to the terminal
+     * Updates entity position on the map IF it exists in this game world
+     * and if the move is valid.<br>
+     * NOTE: Does NOT re-draw the play grid to the terminal - other classes
+     * must do that separately if required
      */
-    public boolean moveEntity(Entity e, int newX, int newY) {
+    public void moveEntity(Entity e, int newX, int newY) {
         if (isValidPosition(newX, newY)) {
             e.setX(newX); e.setY(newY);
-            return true;
         }
         else {
             System.out.println("Can't move there!");
-            return false;
         }
     }
+
+    /**
+     * @return Null if player is null <br>
+     * Null if no entities on the map <br>
+     * The entity that the Player is colliding with
+     */
+    public Entity getCollidingEntity() {
+        if (Objects.isNull(player))
+            return null;
+
+        if (entities.isEmpty())
+            return null;
+
+        for (Entity e : entities) {
+            if (isColliding(player,e)) return e;
+        }
+
+        return null;
+    }
+
+    /**
+     * Helper method to check NPC / Enemy collision
+     * @param e1 first entity
+     * @param e2 second entity
+     * @return true if first and second entities are colliding
+     */
+    private boolean isColliding(Entity e1, Entity e2) {
+        return (e1.getX() == e2.getX() &&
+                e1.getY() == e2.getY());
+    }
+
+
 }
