@@ -17,6 +17,7 @@ public class Map {
     private char[][] grid;   // Playable grid containing game map, player, items, NPCs etc.
     private final int width;
     private final int height;
+    private final Player player;
     private final List<Entity> entities;
 
     /**
@@ -26,9 +27,10 @@ public class Map {
      * @param filePath - path to json file containing world
      * @throws IOException - in case cannot find json file
      */
-    public Map(String n, String filePath) throws IOException {
+    public Map(String n, String filePath, Player p) throws IOException {
         name = n;
         entities = new ArrayList<>();
+        player = p;
 
         // Load JSON file
         List<String> lines = Files.readAllLines(Paths.get(filePath));

@@ -4,18 +4,17 @@ import java.util.Scanner;
 public class Game {
 
     private final Map currentMap;
-    private final Entity player;
+    private final Player player;
     private final NPC npc;
 
     // Game initiation
     public Game() throws IOException {
 
-        currentMap = new Map("map2", "assets/map2.json");
+        player = new Player(1, 2, 'P');
+
+        currentMap = new Map("map2", "assets/map2.json", player);
 
         // Dummy entities: can move this to a config file later
-        player = new Player(1, 2, 'P');
-        currentMap.addEntity(player);
-
         npc = new NPC(3, 3, 'N');
         currentMap.addEntity(npc);
     }
