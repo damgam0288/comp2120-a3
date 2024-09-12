@@ -27,24 +27,29 @@ public class Map {
      * @param filePath - path to json file containing world
      * @throws IOException - in case cannot find json file
      */
-    public Map(String n, String filePath, Player p) throws IOException {
+    public Map(String n, String filePath, Player p) throws Exception {
+        // Player cannot be null
+        if (Objects.isNull(p)) {
+            throw new IllegalArgumentException("Player cannot be null");
+        }
+
+        // Base parameters
         name = n;
         entities = new ArrayList<>();
         player = p;
 
-        // Load JSON file
+        // Read JSON file
         List<String> lines = Files.readAllLines(Paths.get(filePath));
         lines = lines.stream()
                 .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
                 .filter(line -> !line.trim().isEmpty())
                 .toList();
-
-        // Put JSON data into the game world[][] array
         height = lines.size();
         width = lines.get(0).length();
         world = new char[width][height];
         grid = new char[width][height];
 
+        // Put JSON data into the game world[][] array
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 world[j][i] = lines.get(i).charAt(j);
