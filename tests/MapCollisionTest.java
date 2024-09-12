@@ -44,4 +44,12 @@ public class MapCollisionTest {
         player.move(2,2,testMap);
         assertNull(testMap.getCollidingEntity());
     }
+
+    @Test
+    public void testCollisionWithNoEntities() throws Exception {
+        player = new Player(2,2,'P');
+        testMap = new Map("test-map-1","resources/test-map-1.json",player);
+
+        assertNull(testMap.getCollidingEntity());
+    }
 }
