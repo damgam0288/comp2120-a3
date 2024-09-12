@@ -1,7 +1,7 @@
 /**
  * A generic class for Player, NPC and Enemy objects
  */
-public abstract class Entity {
+abstract class Entity {
 
     private int x, y;
     private final char symbol;
@@ -58,25 +58,3 @@ public abstract class Entity {
     }
 
 }
-
-/** Player class is a specific type of Entity */
-class Player extends Entity {
-
-    /** Constructor */
-    public Player(int startX, int startY, char symbol) {
-        super(startX, startY, symbol);
-    }
-}
-
-/**
- * NPC class is a specific Entity that can interact with the player
- * through conversation
- */
-class NPC extends Entity {
-
-    /** Constructor */
-    public NPC(int startX, int startY, char symbol) {
-        super(startX, startY, symbol);
-    }
-}
-
