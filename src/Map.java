@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Conceptually, the game is played on a "playable grid". This class
@@ -131,4 +132,19 @@ public class Map {
             return false;
         }
     }
+
+    public boolean isColliding(Entity e1, Entity e2) {
+        if (Objects.isNull(e1) || Objects.isNull(e2))
+            return false;
+
+        if (entities.isEmpty())
+            return false;
+
+        if (!(entities.contains(e1) && entities.contains(e2)))
+            return false;
+
+        return true;
+    }
+
+
 }

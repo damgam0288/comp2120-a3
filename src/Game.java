@@ -5,6 +5,7 @@ public class Game {
 
     private final Map currentMap;
     private final Entity player;
+    private final NPC npc;
 
     // Game initiation
     public Game() throws IOException {
@@ -15,7 +16,7 @@ public class Game {
         player = new Player(1, 2, 'P');
         currentMap.addEntity(player);
 
-        Entity npc = new NPC(3, 3, 'N');
+        npc = new NPC(3, 3, 'N');
         currentMap.addEntity(npc);
     }
 
@@ -30,6 +31,8 @@ public class Game {
             input = scanner.nextLine();
 
             handleMovement(input); // Handle player movement
+            handleNPCInteraction();   // Handle interaction with NPCs
+
             currentMap.draw();
         } while (!input.equalsIgnoreCase("q"));
 
@@ -46,8 +49,12 @@ public class Game {
         }
     }
 
-    private void handleInteraction() {
+    private void handleNPCInteraction() {
         // Handle  NPCs / enemy interaction here
+
+        // Testing method only
+        System.out.println("TEST: Player & NPC colliding: " + currentMap.isColliding(player,npc));
+
     }
 
     public static void main(String[] args) throws IOException {
