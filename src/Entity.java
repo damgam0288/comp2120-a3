@@ -1,7 +1,7 @@
 /**
  * A generic class for Player, NPC and Enemy objects
  */
-public abstract class Entity {
+public class Entity {
 
     private int x, y;
     private final char symbol;
