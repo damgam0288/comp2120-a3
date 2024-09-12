@@ -30,8 +30,8 @@ public class Game {
             System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, Q to quit): ");
             input = scanner.nextLine();
 
-            handleMovement(input); // Handle player movement
-            handleNPCInteraction();   // Handle interaction with NPCs
+            handleMovement(input);      // Handle player movement
+            handleNPCInteraction();     // Handle interaction with NPCs
 
             currentMap.draw();
         } while (!input.equalsIgnoreCase("q"));
@@ -52,7 +52,7 @@ public class Game {
     private void handleNPCInteraction() {
         // Handle  NPCs / enemy interaction here
 
-        // Testing method only
+        // Testing method only - TODO remove later
         System.out.println("TEST: Player & NPC colliding: " + currentMap.isColliding(player,npc));
 
     }

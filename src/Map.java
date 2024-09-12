@@ -13,8 +13,8 @@ import java.util.Objects;
 public class Map {
 
     private final String name;
-    private char[][] world = null;  // Actual map of the world only
-    private char[][] grid = null;   // Playable grid containing game map, player, items, NPCs etc.
+    private final char[][] world;  // Actual map of the world only
+    private char[][] grid;   // Playable grid containing game map, player, items, NPCs etc.
     private final int width;
     private final int height;
     private final List<Entity> entities;
@@ -122,14 +122,12 @@ public class Map {
      * and if the move is valid.
      * NOTE: Does NOT re-draw the play grid to the terminal
      */
-    public boolean moveEntity(Entity e, int newX, int newY) {
+    public void moveEntity(Entity e, int newX, int newY) {
         if (isValidPosition(newX, newY)) {
             e.setX(newX); e.setY(newY);
-            return true;
         }
         else {
             System.out.println("Can't move there!");
-            return false;
         }
     }
 
@@ -143,7 +141,8 @@ public class Map {
         if (!(entities.contains(e1) && entities.contains(e2)))
             return false;
 
-        return true;
+        return (e1.getX() == e2.getX() &&
+                e1.getY() == e2.getY());
     }
 
 
