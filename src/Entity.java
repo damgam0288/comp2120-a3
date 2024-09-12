@@ -1,5 +1,5 @@
 /**
- * A generic class for Player, NPC and Enemy objects
+ * A generic class that can be extended for Player, NPC and Enemy objects
  */
 public abstract class Entity {
 
