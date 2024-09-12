@@ -1,7 +1,7 @@
 /**
  * A generic class for Player, NPC and Enemy objects
  */
-public class Entity {
+abstract class Entity {
 
     private int x, y;
     private final char symbol;
@@ -58,3 +58,20 @@ public class Entity {
     }
 
 }
+
+class Player extends Entity {
+
+    /** Constructor */
+    public Player(int startX, int startY, char symbol) {
+        super(startX, startY, symbol);
+    }
+}
+
+class NPC extends Entity {
+
+    /** Constructor */
+    public NPC(int startX, int startY, char symbol) {
+        super(startX, startY, symbol);
+    }
+}
+

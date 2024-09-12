@@ -12,15 +12,15 @@ public class Game {
         currentMap = new Map("map2", "assets/map2.json");
 
         // Dummy entities: can move this to a config file later
-        player = new Entity(1, 2, 'P');
+        player = new Player(1, 2, 'P');
         currentMap.addEntity(player);
 
-        Entity npc = new Entity(3, 3, 'N');
+        Entity npc = new NPC(3, 3, 'N');
         currentMap.addEntity(npc);
     }
 
     // Main game "loop" - handle user inputs through Scanner
-    public void start() throws IOException {
+    public void start() {
         currentMap.draw();
 
         Scanner scanner = new Scanner(System.in);
