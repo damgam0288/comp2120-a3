@@ -59,6 +59,7 @@ abstract class Entity {
 
 }
 
+/** Player class is a specific type of Entity */
 class Player extends Entity {
 
     /** Constructor */
@@ -67,6 +68,10 @@ class Player extends Entity {
     }
 }
 
+/**
+ * NPC class is a specific Entity that can interact with the player
+ * through conversation
+ */
 class NPC extends Entity {
 
     /** Constructor */
