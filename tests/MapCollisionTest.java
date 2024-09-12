@@ -31,18 +31,17 @@ public class MapCollisionTest {
     @Test
     public void testCorrectEntityAfterMove() {
         // Colliding NPC no longer colliding with player
-        collidingNPC.move(1, 1, testMap);
+        player.move(1, 1, testMap);
         assertNotEquals(collidingNPC, testMap.getCollidingEntity());
 
         // Non-colliding NPC now colliding with player
-        nonCollidingNPC.move(-1,-1,testMap);
         assertEquals(nonCollidingNPC, testMap.getCollidingEntity());
     }
 
     @Test
     public void testNoCollision() {
         // No collision at all
-        collidingNPC.move(1,1,testMap);
+        player.move(2,2,testMap);
         assertNull(testMap.getCollidingEntity());
     }
 }
