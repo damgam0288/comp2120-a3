@@ -1,3 +1,9 @@
+#### Checklist
+- [ ] Code style is of decent standard
+- [ ] Documentation has been added
+- [ ] Tests have been written
+- [ ] No significant warnings or errors
+
 #### Description:
 *In brief, explain the purpose of this merge request, particularly how it will affect the project as a whole*
 
@@ -8,8 +14,8 @@
 *Optional: describe any specific instructions on how to test the changes that this merge request will make*
 
 #### Related Issues:
-- *List all issues that will be closed by this merge request*
-- *List any issues that are related to this request*
+*List all issues that will be closed by this merge request*
+*List any issues that are related to this request*
 
-#### Review:
-*List all aspects of the code to which you want to draw particular attention from your colleagues*
+#### Additional Notes
+*Include any additional comments, questions, or concerns.*
