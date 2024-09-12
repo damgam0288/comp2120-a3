@@ -1,9 +1,9 @@
 # COMP2120-Wed16_A3_F
 
 ## Branches
-*Bugfix branch:* This branch comes off the Main branch and is used to fix minor bugs on the Main branch itself. It shouldn't be used for feature development or any major changes.
+*Bugfix branch:* This branch is used to fix minor bugs on the associated branch. It shouldn't be used for feature development or any major changes. Only for minor fixes that don't warrant a whole new branch.
 
-
+*Development branch:* A stable branch containing cutting-edge of the game. It should be periodically merged into Main. All feature-branches should come off this dev branch.
 
 ## Getting started
 
