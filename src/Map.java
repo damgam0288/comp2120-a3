@@ -141,16 +141,21 @@ public class Map {
         }
     }
 
-    public boolean isColliding(Entity e1, Entity e2) {
-        if (Objects.isNull(e1) || Objects.isNull(e2))
-            return false;
+    public Entity getCollidingEntity() {
+        if (Objects.isNull(player))
+            return null;
 
         if (entities.isEmpty())
-            return false;
+            return null;
 
-        if (!(entities.contains(e1) && entities.contains(e2)))
-            return false;
+        for (Entity e : entities) {
+            if (isColliding(player,e)) return e;
+        }
 
+        return null;
+    }
+
+    private boolean isColliding(Entity e1, Entity e2) {
         return (e1.getX() == e2.getX() &&
                 e1.getY() == e2.getY());
     }

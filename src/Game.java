@@ -8,7 +8,7 @@ public class Game {
     private final NPC npc;
 
     // Game initiation
-    public Game() throws IOException {
+    public Game() throws Exception {
 
         player = new Player(1, 2, 'P');
 
@@ -52,11 +52,11 @@ public class Game {
         // Handle  NPCs / enemy interaction here
 
         // Testing method only - TODO remove later
-        System.out.println("TEST: Player & NPC colliding: " + currentMap.isColliding(player,npc));
+        System.out.println("TEST: Who's player colliding: " + currentMap.getCollidingEntity());
 
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         new Game().start();
     }
 }
