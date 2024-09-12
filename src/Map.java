@@ -128,9 +128,10 @@ public class Map {
     }
 
     /**
-     * Move a given entity around the map if it exists in this game world
-     * and if the move is valid.
-     * NOTE: Does NOT re-draw the play grid to the terminal
+     * Updates entity position on the map IF it exists in this game world
+     * and if the move is valid.<br>
+     * NOTE: Does NOT re-draw the play grid to the terminal - other classes
+     * must do that separately if required
      */
     public void moveEntity(Entity e, int newX, int newY) {
         if (isValidPosition(newX, newY)) {
@@ -141,6 +142,11 @@ public class Map {
         }
     }
 
+    /**
+     * @return Null if player is null <br>
+     * Null if no entities on the map <br>
+     * The entity that the Player is colliding with
+     */
     public Entity getCollidingEntity() {
         if (Objects.isNull(player))
             return null;
@@ -155,6 +161,12 @@ public class Map {
         return null;
     }
 
+    /**
+     * Helper method to check NPC / Enemy collision
+     * @param e1 first entity
+     * @param e2 second entity
+     * @return true if first and second entities are colliding
+     */
     private boolean isColliding(Entity e1, Entity e2) {
         return (e1.getX() == e2.getX() &&
                 e1.getY() == e2.getY());
