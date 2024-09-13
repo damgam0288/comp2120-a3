@@ -38,14 +38,17 @@ public class MapDrawTest {
     }
 
     @Test
+    public void testDrawWithPlayer() {
+        map.draw();
+        assertEquals(map.getTile(1,1),'P');
+    }
+
+    @Test
     public void testMovePlayerDrawMap() {
         fail();
     }
 
-    @Test
-    public void testDrawWithPlayer() {
-        map.draw();
-    }
+
 
     @Test
     public void testFileDoesNotExist() {
