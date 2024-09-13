@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.fail;
+
 public class MapEntityTest {
     private Player player;
     private Map testMap;
@@ -15,16 +17,16 @@ public class MapEntityTest {
 
     @Test
     public void testAddEntity() {
-
+        fail();
     }
 
     @Test
     public void testMoveEntity() {
-
+        fail();
     }
 
     @Test
     public void testRemoveEntity() {
-
+        fail();
     }
 }
