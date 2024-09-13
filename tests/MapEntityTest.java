@@ -1,8 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.fail;
 
+/** Tests whether Map.java keeps track of entities correctly */
 public class MapEntityTest {
     private Player player;
     private Map testMap;

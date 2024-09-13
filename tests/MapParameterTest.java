@@ -1,8 +1,10 @@
 import org.junit.Test;
 import java.io.IOException;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 
+/**
+ * Tests whether Map.java throws Exceptions with bad file names or parameters
+ */
 public class MapParameterTest {
 
     private Player player;

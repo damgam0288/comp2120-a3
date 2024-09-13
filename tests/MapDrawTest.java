@@ -1,8 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
+/** Tests Map.java class draws floor, player, NPCs etc. correctly */
 public class MapDrawTest {
 
     private Player player;
