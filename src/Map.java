@@ -161,6 +161,24 @@ public class Map {
         return null;
     }
 
+    public boolean allEnemiesDefeated() {
+        return entities.stream().noneMatch(e -> e instanceof Enemy);
+    }
+
+    public boolean canMoveToNextMap() {
+        return allEnemiesDefeated() && getTile(player.getX(), player.getY()) == 'O';
+    }
+
+    public boolean isVictory() {
+        return allEnemiesDefeated() && getTile(player.getX(), player.getY()) == 'W';
+    }
+
+    public void removeEntity(Entity e) {
+        entities.remove(e);
+        // Optionally update the grid if necessary
+        setTile(e.getX(), e.getY(), '.'); // Reset the tile to floor or another appropriate value
+    }
+
     /**
      * Helper method to check NPC / Enemy collision
      * @param e1 first entity
@@ -171,6 +189,7 @@ public class Map {
         return (e1.getX() == e2.getX() &&
                 e1.getY() == e2.getY());
     }
-
-
+    public String getMapNumber() {
+        return name;  // Placeholder for map number, adjust if necessary
+    }
 }
