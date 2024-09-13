@@ -87,6 +87,8 @@ public class Map {
 
     /**
      * Returns the char from the grid given x and y coordinates
+     * @param x - starts at 0
+     * @param y - starts at 0
      */
     public char getTile(int x, int y) {
         return grid[x][y];
@@ -94,6 +96,8 @@ public class Map {
 
     /**
      * Sets the char of the play grid given x,y coordinates and the char
+     * @param x - starts at 0
+     * @param y - starts at 0
      */
     public void setTile(int x, int y, char value) {
         grid[x][y] = value;
