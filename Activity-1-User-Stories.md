@@ -19,6 +19,9 @@ As a game tester, I want an efficient way to test multiple game maps to ensure a
 # User stories for Enemies
 As a player, I want to encounter enemies on the map so that I can participate in battles and make progress in the game.<br>
 As a player, I want to face enemies that block my path, forcing me to either fight them or find alternative routes, so that I can increase the strategic depth of my movements.<br>
+As a player, I want to take damage from enemies during battles, so that combat is more challenging.<br>
+As a player, I want to see the enemy's health, so that I can plan my battle strategy and decide my actions better.<br>
+As a player, I want to only move to the next map after defeating all enemies on the current map, so that the game has a clear goal.<br>
 
 As a designer, I want to define the generation points of enemies in the game configuration file, so that enemies will appear in fixed positions and cause strategic difficulty in certain parts of the map.<br>
 
