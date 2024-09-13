@@ -14,8 +14,6 @@ public class MapTest {
     @Before
     public void setup() throws Exception {
         player = new Player(1,1,'P');
-
-
         map = new Map("test-map-2","resources/test-map-2.json",player);
     }
 
@@ -82,7 +80,15 @@ public class MapTest {
 
     @Test
     public void testMoveEntity() {
-        fail();
+        NPC npcFour = new NPC(1,3,'4');
+
+        map.addEntity(npcFour);
+
+        npcFour.move(1,0,map);
+
+        map.draw();
+
+        assertEquals(map.getTile(2,3),'4');
     }
 
     @Test(expected = IOException.class)
