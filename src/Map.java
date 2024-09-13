@@ -38,7 +38,7 @@ public class Map {
         entities = new ArrayList<>();
         player = p;
 
-        // Read JSON file
+        // Read JSON file TODO: Must move this to separate class in line with SOLID principles
         List<String> lines = Files.readAllLines(Paths.get(filePath));
         lines = lines.stream()
                 .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
@@ -49,10 +49,11 @@ public class Map {
         world = new char[width][height];
         grid = new char[width][height];
 
-        // Put JSON data into the game world[][] array
+        // Put JSON data into the game world[][] and grid[][]
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 world[j][i] = lines.get(i).charAt(j);
+                grid[j][i] = lines.get(i).charAt(j);     // Init play grid with world
             }
         }
     }
