@@ -128,8 +128,15 @@ public class Map {
     public void addEntity(Entity e) {
         if (!entities.contains(e)) {
             entities.add(e);
-            setTile(e.getX(),e.getY(),e.getSymbol());
         }
+    }
+
+    /**
+     * Removes entity from the map if it exists
+     * NOTE: does NOT re-draw the game world to the terminal
+     */
+    public void removeEntity(Entity e) {
+        entities.remove(e);
     }
 
     /**
