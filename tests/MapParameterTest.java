@@ -11,7 +11,6 @@ public class MapParameterTest {
     @Test(expected = IOException.class)
     public void testFileDoesNotExist() {
         fail();
-
     }
 
 }

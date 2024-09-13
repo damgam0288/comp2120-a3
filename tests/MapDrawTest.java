@@ -1,24 +1,26 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.*;
 
 public class MapDrawTest {
 
     private Player player;
     private Map map;
+    private NPC npcOne;
+    private NPC npcTwo;
 
     @Before
     public void setup() throws Exception {
         player = new Player(1,1,'P');
+        npcOne = new NPC(2,1,'1');
+        npcTwo = new NPC(3,1,'2');
 
         map = new Map("test-map-2","resources/test-map-2.json",player);
     }
 
     @Test
-    public void testDrawMapOne() {
+    public void testDrawPlainMap() {
         // Row 0 and 4
         for (int x = 0; x <= 9; x++) {
             assertEquals(map.getTile(x, 0), '#');
@@ -54,7 +56,15 @@ public class MapDrawTest {
         assertEquals(map.getTile(4,2),'P');
     }
 
-    // TODO Test drawing other entities
+    @Test
+    public void testDrawNPC() {
+        map.addEntity(npcOne);
+        map.addEntity(npcTwo);
+        map.draw();
+
+        assertEquals(map.getTile(2,1),'1');
+        assertEquals(map.getTile(3,1),'2');
+    }
 
     // TODO later - test show/hide level exit door
 
