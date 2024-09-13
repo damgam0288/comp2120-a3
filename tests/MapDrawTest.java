@@ -54,4 +54,8 @@ public class MapDrawTest {
         assertEquals(map.getTile(4,2),'P');
     }
 
+    // TODO Test drawing other entities
+
+    // TODO later - test show/hide level exit door
+
 }
