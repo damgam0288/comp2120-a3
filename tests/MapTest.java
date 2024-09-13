@@ -1,9 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /** Tests Map.java class draws floor, player, NPCs etc. correctly */
-public class MapDrawTest {
+public class MapTest {
 
     private Player player;
     private Map map;
@@ -57,13 +60,38 @@ public class MapDrawTest {
     }
 
     @Test
-    public void testDrawNPC() {
+    public void testDrawEntity() {
         map.addEntity(npcOne);
         map.addEntity(npcTwo);
         map.draw();
 
         assertEquals(map.getTile(2,1),'1');
         assertEquals(map.getTile(3,1),'2');
+    }
+
+    @Test
+    public void testAddEntity() {
+        fail(); // TODO
+    }
+
+    @Test
+    public void testMoveEntity() {
+        fail(); // TODO
+    }
+
+    @Test
+    public void testRemoveEntity() {
+        fail(); // TODO
+    }
+
+    @Test(expected = IOException.class)
+    public void testFileDoesNotExist() {
+        fail(); // TODO
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullPlayerThrowsException() {
+        fail(); // TODO
     }
 
     // TODO later - test show/hide level exit door
