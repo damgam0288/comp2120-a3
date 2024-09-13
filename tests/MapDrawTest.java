@@ -11,37 +11,44 @@ public class MapDrawTest {
     public void setup() throws Exception {
         player = new Player(1,1,'P');
 
-        map = new Map("test-map-1","resources/test-map-1.json",player);
+        map = new Map("test-map-2","resources/test-map-2.json",player);
     }
 
     @Test
     public void testDrawMapOne() {
-        System.out.println(map.getTile(0,0));
+        // Row 0 and 4
+        for (int x = 0; x <= 9; x++) {
+            assertEquals(map.getTile(x, 0), '#');
+            assertEquals(map.getTile(x, 4), '#');
+        }
 
-    }
-
-    @Test
-    public void testDrawMapTwo() {
-
-    }
-
-    @Test
-    public void testMovePlayerDrawMap() {
-
-    }
-
-    @Test
-    public void testGetTile() {
-
+        // All other rows in between
+        for (int x = 1; x <= 8; x++) {
+            for (int y = 1; y <= 3; y++) {
+                assertEquals(map.getTile(x, y), '.');
+            }
+        }
     }
 
     @Test
     public void testSetTile() {
+        assertEquals(map.getTile(2,2),'.');
+        map.setTile(2,2,'D');
+        assertEquals(map.getTile(2,2),'D');
+    }
 
+    @Test
+    public void testMovePlayerDrawMap() {
+        fail();
+    }
+
+    @Test
+    public void testDrawWithPlayer() {
+        map.draw();
     }
 
     @Test
     public void testFileDoesNotExist() {
-
+        fail();
     }
 }
