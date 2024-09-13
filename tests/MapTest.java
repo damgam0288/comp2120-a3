@@ -10,14 +10,11 @@ public class MapTest {
 
     private Player player;
     private Map map;
-    private NPC npcOne;
-    private NPC npcTwo;
 
     @Before
     public void setup() throws Exception {
         player = new Player(1,1,'P');
-        npcOne = new NPC(2,1,'1');
-        npcTwo = new NPC(3,1,'2');
+
 
         map = new Map("test-map-2","resources/test-map-2.json",player);
     }
@@ -60,7 +57,21 @@ public class MapTest {
     }
 
     @Test
+    public void testAddRemoveEntity() {
+        NPC npcThree = new NPC(5,1,'3');
+        assertTrue(map.addEntity(npcThree));
+        assertFalse(map.addEntity(npcThree));
+
+        assertTrue(map.removeEntity(npcThree));
+        assertFalse(map.removeEntity(npcThree));
+    }
+
+
+    @Test
     public void testDrawEntity() {
+        NPC npcOne = new NPC(2,1,'1');
+        NPC npcTwo = new NPC(3,1,'2');
+
         map.addEntity(npcOne);
         map.addEntity(npcTwo);
         map.draw();
@@ -70,18 +81,8 @@ public class MapTest {
     }
 
     @Test
-    public void testAddEntity() {
-        fail(); // TODO
-    }
-
-    @Test
     public void testMoveEntity() {
-        fail(); // TODO
-    }
-
-    @Test
-    public void testRemoveEntity() {
-        fail(); // TODO
+        fail();
     }
 
     @Test(expected = IOException.class)

@@ -125,18 +125,25 @@ public class Map {
      * Adds (non-duplicate) entity to the list of entities on this map
      * NOTE: does NOT re-draw the game world to the terminal
      */
-    public void addEntity(Entity e) {
+    public boolean addEntity(Entity e) {
         if (!entities.contains(e)) {
             entities.add(e);
+            return true;
         }
+        return false;
     }
+
 
     /**
      * Removes entity from the map if it exists
      * NOTE: does NOT re-draw the game world to the terminal
      */
-    public void removeEntity(Entity e) {
-        entities.remove(e);
+    public boolean removeEntity(Entity e) {
+        if (entities.contains(e)) {
+            entities.remove(e);
+            return true;
+        }
+        return false;
     }
 
     /**
