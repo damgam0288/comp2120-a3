@@ -81,24 +81,21 @@ public class MapTest {
     @Test
     public void testMoveEntity() {
         NPC npcFour = new NPC(1,3,'4');
-
         map.addEntity(npcFour);
-
         npcFour.move(1,0,map);
-
         map.draw();
 
         assertEquals(map.getTile(2,3),'4');
     }
 
     @Test(expected = IOException.class)
-    public void testFileDoesNotExist() {
-        fail(); // TODO
+    public void testFileDoesNotExistThrowsException() throws Exception {
+        Map map1 = new Map("non-existent-map","resources/non-existent-file.json",player);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testNullPlayerThrowsException() {
-        fail(); // TODO
+    public void testNullPlayerThrowsException() throws Exception {
+        Map map1 = new Map("non-existent-map","resources/non-existent-file.json",null);
     }
 
     // TODO later - test show/hide level exit door
