@@ -45,7 +45,10 @@ public class MapDrawTest {
 
     @Test
     public void testMovePlayerDrawMap() {
-        fail();
+        player.move(3,1,map);
+        map.draw();
+        assertNotEquals(map.getTile(1,1),'P');
+        assertEquals(map.getTile(4,2),'P');
     }
 
 
