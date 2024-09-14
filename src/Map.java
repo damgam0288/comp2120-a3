@@ -161,21 +161,44 @@ public class Map {
         return null;
     }
 
+    /**
+     * Checks if all enemies on the map have been defeated.
+     *
+     * @return true if there are no enemies left on the map, false otherwise.
+     */
     public boolean allEnemiesDefeated() {
         return entities.stream().noneMatch(e -> e instanceof Enemy);
     }
 
+    /**
+     * Determines if the player can move to the next map.
+     * The player can only move to the next map if all enemies are defeated
+     * and the player is standing on the designated 'O' tile (exit point).
+     *
+     * @return true if the player can move to the next map, false otherwise.
+     */
     public boolean canMoveToNextMap() {
         return allEnemiesDefeated() && getTile(player.getX(), player.getY()) == 'O';
     }
 
+    /**
+     * Checks if the player has won the game.
+     * Victory is achieved if all enemies are defeated and the player is on the 'V' tile (victory point).
+     *
+     * @return true if the player has won the game, false otherwise.
+     */
     public boolean isVictory() {
-        return allEnemiesDefeated() && getTile(player.getX(), player.getY()) == 'W';
+        return allEnemiesDefeated() && getTile(player.getX(), player.getY()) == 'V';
     }
 
+    /**
+     * Removes a specified entity from the map and resets the tile where it was located.
+     * After removing the entity, the tile it occupied is set back to a default state,
+     *
+     * @param e The entity to be removed from the map.
+     */
     public void removeEntity(Entity e) {
         entities.remove(e);
-        // Optionally update the grid if necessary
         setTile(e.getX(), e.getY(), '.'); // Reset the tile to floor or another appropriate value
     }
 
