@@ -38,7 +38,7 @@ public class Map {
         entities = new ArrayList<>();
         player = p;
 
-        // Read JSON file TODO: Must move this to separate class in line with SOLID principles
+        // Read JSON file TODO: Move this to separate class in line with SOLID principles
         List<String> lines = Files.readAllLines(Paths.get(filePath));
         lines = lines.stream()
                 .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
@@ -133,19 +133,6 @@ public class Map {
         return false;
     }
 
-
-    /**
-     * Removes entity from the map if it exists
-     * NOTE: does NOT re-draw the game world to the terminal
-     */
-    public boolean removeEntity(Entity e) {
-        if (entities.contains(e)) {
-            entities.remove(e);
-            return true;
-        }
-        return false;
-    }
-
     /**
      * Updates entity position on the map IF it exists in this game world
      * and if the move is valid.<br>
@@ -216,9 +203,13 @@ public class Map {
      *
      * @param e The entity to be removed from the map.
      */
-    public void removeEntity(Entity e) {
-        entities.remove(e);
-        setTile(e.getX(), e.getY(), '.'); // Reset the tile to floor or another appropriate value
+    public boolean removeEntity(Entity e) {
+        if (entities.contains(e)) {
+            entities.remove(e);
+            setTile(e.getX(), e.getY(), world[e.getX()][e.getY()]);   // Reset the tile to floor value
+            return true;
+        }
+        return false;
     }
 
     /**
