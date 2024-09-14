@@ -12,7 +12,7 @@ public class MapCollisionTest {
 
     @Before
     public void setup() throws Exception {
-        player = new Player(2,2,'P');
+        player = new Player(2,2,'P', 10, 100);
 
         testMap = new Map("test-map-1","resources/test-map-1.json",player);
 
