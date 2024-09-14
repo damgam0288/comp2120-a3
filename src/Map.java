@@ -38,7 +38,7 @@ public class Map {
         entities = new ArrayList<>();
         player = p;
 
-        // Read JSON file TODO: Must move this to separate class in line with SOLID principles
+        // Read JSON file TODO: Move this to separate class in line with SOLID principles
         List<String> lines = Files.readAllLines(Paths.get(filePath));
         lines = lines.stream()
                 .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
