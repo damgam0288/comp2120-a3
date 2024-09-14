@@ -4,6 +4,7 @@
  */
 public class NPC extends Entity {
     private boolean hasGivenWeapon = false;
+
     /**
      * Constructor for the NPC class.
      *
@@ -31,7 +32,7 @@ public class NPC extends Entity {
             // NPC gives the player a weapon if not already given
             if (!hasGivenWeapon) {
                 System.out.println("NPC: Here's a weapon to help you!");
-                player.setAP(player.getAP() + 10);  // Increase player's AP
+                player.setAP(player.getAP() + 10);  // Increase player's AP  TODO: Change this to add an item to inventory when inventory is implemented
                 System.out.println("Your attack points (AP) is now: " + player.getAP());
                 hasGivenWeapon = true;
             } else {
