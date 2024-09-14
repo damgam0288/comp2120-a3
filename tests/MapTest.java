@@ -64,7 +64,6 @@ public class MapTest {
         assertFalse(map.removeEntity(npcThree));
     }
 
-
     @Test
     public void testDrawEntity() {
         NPC npcOne = new NPC(2,1,'1');
