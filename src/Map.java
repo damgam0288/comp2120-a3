@@ -38,7 +38,7 @@ public class Map {
         entities = new ArrayList<>();
         player = p;
 
-        // Read JSON file
+        // Read JSON file TODO: Must move this to separate class in line with SOLID principles
         List<String> lines = Files.readAllLines(Paths.get(filePath));
         lines = lines.stream()
                 .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
@@ -49,10 +49,11 @@ public class Map {
         world = new char[width][height];
         grid = new char[width][height];
 
-        // Put JSON data into the game world[][] array
+        // Put JSON data into the game world[][] and grid[][]
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 world[j][i] = lines.get(i).charAt(j);
+                grid[j][i] = lines.get(i).charAt(j);     // Init play grid with world
             }
         }
     }
@@ -86,6 +87,8 @@ public class Map {
 
     /**
      * Returns the char from the grid given x and y coordinates
+     * @param x - starts at 0
+     * @param y - starts at 0
      */
     public char getTile(int x, int y) {
         return grid[x][y];
@@ -93,6 +96,8 @@ public class Map {
 
     /**
      * Sets the char of the play grid given x,y coordinates and the char
+     * @param x - starts at 0
+     * @param y - starts at 0
      */
     public void setTile(int x, int y, char value) {
         grid[x][y] = value;
@@ -120,11 +125,25 @@ public class Map {
      * Adds (non-duplicate) entity to the list of entities on this map
      * NOTE: does NOT re-draw the game world to the terminal
      */
-    public void addEntity(Entity e) {
+    public boolean addEntity(Entity e) {
         if (!entities.contains(e)) {
             entities.add(e);
-            setTile(e.getX(),e.getY(),e.getSymbol());
+            return true;
         }
+        return false;
+    }
+
+
+    /**
+     * Removes entity from the map if it exists
+     * NOTE: does NOT re-draw the game world to the terminal
+     */
+    public boolean removeEntity(Entity e) {
+        if (entities.contains(e)) {
+            entities.remove(e);
+            return true;
+        }
+        return false;
     }
 
     /**
