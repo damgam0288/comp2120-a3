@@ -14,7 +14,7 @@ public class MapTest {
     @Before
     public void setup() throws Exception {
         player = new Player(1,1,'P', 10, 100);
-        map = new Map("test-map-2","resources/test-map-2.json",player);
+        map = new Map("test-map-2","tests/resources/test-map-2.json",player);
     }
 
     @Test
