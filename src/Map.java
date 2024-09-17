@@ -13,8 +13,8 @@ import java.util.Objects;
 public class Map {
 
     private final String name;
-    private final char[][] world;  // Actual map of the world only
-    private char[][] grid;   // Playable grid containing game map, player, items, NPCs etc.
+    private final char[][] world;   // Actual map of the world only
+    private char[][] grid;          // Playable grid containing game map, player, items, NPCs etc.
     private final int width;
     private final int height;
     private final Player player;
@@ -222,6 +222,7 @@ public class Map {
         return (e1.getX() == e2.getX() &&
                 e1.getY() == e2.getY());
     }
+
     public String getMapNumber() {
         return name;  // Placeholder for map number, adjust if necessary
     }

@@ -14,7 +14,6 @@
 - NPC/Enemy/Map file that the game config references is missing
 
 ## Approach
-
-- [ ] Allow loading of individual map files
+- [ ] IN PROGRESS... Allow loading of individual map files
 - [ ] Implement game config file to set level progression
 - [ ] Allow loading NPCs/enemies from files
