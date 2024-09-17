@@ -1,3 +1,7 @@
+import org.json.JSONObject;
+import org.json.JSONArray;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -55,8 +59,8 @@ public class MapController {
     }
 
 
-        /*
 
+/*
     public static void main(String[] args) {
         try {
             String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));

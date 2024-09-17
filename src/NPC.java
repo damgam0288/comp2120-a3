@@ -56,17 +56,17 @@ public class NPC extends Entity {
      * @param mapName The name of the current map where the interaction occurs.
      */
     public void interact(Player player, String mapName) {
-        if (mapName.equals("map1")) {
-            // NPC gives the player a weapon if not already given
+        if (mapName.equals("map1")) {       // TODO: Incorporate this into the Game Config JSON file
             if (hasItem()) {
                 System.out.println("NPC: Here's something to help you!");
 
+                // TODO: Change this to simply add the item to inventory, when inventory is implemented
                 if (item.getClass().equals(Weapon.class)) {
-                    player.setAP(player.getAP() + 10);  // Increase player's AP  TODO: Change this to add an item to inventory when inventory is implemented
-                    System.out.println("Your attack points (AP) is now: " + player.getAP()); // TODO: Change this to either increase AP or improve HP based on the item given
+                    player.setAP(player.getAP() + 10);
+                    System.out.println("Your attack points (AP) is now: " + player.getAP());
                 }
 
-                giveItem(player);
+                this.giveItem(player);
             } else {
                 System.out.println("NPC: Good luck out there!");
             }

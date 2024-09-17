@@ -1,0 +1,7 @@
+{
+  "npcs": [
+    {"startx": "1", "starty": "1", "char": "N"},
+    {"startx": "1", "starty": "2", "char": "N"},
+    {"startx": "1", "starty": "3", "char": "N"}
+  ]
+}
