@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+
 /** Player class is a specific type of Entity */
 public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
+    private Item item;      // TODO Replace this with proper inventory
 
     /**
      * Constructor
@@ -64,6 +67,14 @@ public class Player extends Entity {
     public void setPosition(int x, int y) {
         setX(x);
         setY(y);
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     /**
