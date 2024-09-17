@@ -15,10 +15,10 @@ public class MapController {
     }
 
     public static MapController getInstance() {
-        if (Objects.nonNull(instance))
-            return instance;
+        if (Objects.isNull(instance))
+            instance = new MapController();
 
-        return new MapController();
+        return instance;
     }
 
     public boolean nextMap() {
