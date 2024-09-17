@@ -13,8 +13,8 @@ public class Game {
 
         player = new Player(1, 2, 'P',10,100);
 
-//        currentMap = new Map("map1", "assets/map1.json", player);
-        currentMap = new Map("assets/map1.json", player);
+        currentMap = new Map("map1", "assets/map1.json", player);
+
 
         // Dummy entities: can move this to a config file later
         npc = new NPC(3, 3, 'N');

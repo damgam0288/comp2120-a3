@@ -21,15 +21,6 @@ public class Map {
     private List<Entity> entities;
 
 
-    public Map(String filepath, Player p) throws IOException {
-        player = p;
-        entities = new ArrayList<>();
-
-        MapFileLoader.loadMapWorldFromFile(filepath,this);
-
-    }
-
-
     /**
      * Constructor
      *
@@ -43,29 +34,11 @@ public class Map {
             throw new IllegalArgumentException("Player cannot be null");
         }
 
-        // Base parameters
         name = n;
         entities = new ArrayList<>();
         player = p;
 
-        // Read JSON file TODO: Move this to separate class in line with SOLID principles
-        List<String> lines = Files.readAllLines(Paths.get(filePath));
-        lines = lines.stream()
-                .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
-                .filter(line -> !line.trim().isEmpty())
-                .toList();
-        height = lines.size();
-        width = lines.get(0).length();
-        world = new char[width][height];
-        grid = new char[width][height];
-
-        // Put JSON data into the game world[][] and grid[][]
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                world[j][i] = lines.get(i).charAt(j);
-                grid[j][i] = lines.get(i).charAt(j);     // Init play grid with world
-            }
-        }
+        MapFileLoader.loadMapWorldFromFile(filePath,this);
     }
 
     /**
