@@ -13,7 +13,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'Game'
+    mainClass.set('Game')
 }
 
 sourceSets {

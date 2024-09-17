@@ -38,7 +38,7 @@ public class NPC extends Entity {
             } else {
                 System.out.println("NPC: Good luck out there!");
             }
-        }else if (mapName.equals("map2")) {
+        } else if (mapName.equals("map2")) {
             System.out.println("NPC: The exit is to the south.");
         }
     }
