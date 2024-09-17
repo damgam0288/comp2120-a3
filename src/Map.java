@@ -12,13 +12,23 @@ import java.util.Objects;
  */
 public class Map {
 
-    private final String name;
-    private final char[][] world;   // Actual map of the world only
+    private String name;
+    private char[][] world;   // Actual map of the world only
     private char[][] grid;          // Playable grid containing game map, player, items, NPCs etc.
-    private final int width;
-    private final int height;
-    private final Player player;
-    private final List<Entity> entities;
+    private int width;
+    private int height;
+    private Player player;
+    private List<Entity> entities;
+
+
+    public Map(String filepath, Player p) throws IOException {
+        player = p;
+        entities = new ArrayList<>();
+
+        MapFileLoader.loadMapWorldFromFile(filepath,this);
+
+    }
+
 
     /**
      * Constructor
@@ -90,7 +100,7 @@ public class Map {
      * @param x - starts at 0
      * @param y - starts at 0
      */
-    public char getTile(int x, int y) {
+    public char getGridTile(int x, int y) {
         return grid[x][y];
     }
 
@@ -99,8 +109,60 @@ public class Map {
      * @param x - starts at 0
      * @param y - starts at 0
      */
-    public void setTile(int x, int y, char value) {
+    public void setGridTile(int x, int y, char value) {
         grid[x][y] = value;
+    }
+
+    public char getWorldTile(int x, int y) {return world[x][y]; }
+
+    public void setWorldTile(int x, int y, char value) {world[x][y] = value; }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public char[][] getWorld() {
+        return world;
+    }
+
+    public void setWorld(char[][] world) {
+        this.world = world;
+    }
+
+    public char[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(char[][] grid) {
+        this.grid = grid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     /**
@@ -118,7 +180,7 @@ public class Map {
      * char that stands for an obstacle e.g. a wall
      */
     private boolean isObstacle(int x, int y) {
-        return getTile(x, y) == '#';
+        return getGridTile(x, y) == '#';
     }
 
     /**
@@ -184,7 +246,7 @@ public class Map {
      * @return true if the player can move to the next map, false otherwise.
      */
     public boolean canMoveToNextMap() {
-        return allEnemiesDefeated() && getTile(player.getX(), player.getY()) == 'O';
+        return allEnemiesDefeated() && getGridTile(player.getX(), player.getY()) == 'O';
     }
 
     /**
@@ -194,7 +256,7 @@ public class Map {
      * @return true if the player has won the game, false otherwise.
      */
     public boolean isVictory() {
-        return allEnemiesDefeated() && getTile(player.getX(), player.getY()) == 'V';
+        return allEnemiesDefeated() && getGridTile(player.getX(), player.getY()) == 'V';
     }
 
     /**
@@ -206,7 +268,7 @@ public class Map {
     public boolean removeEntity(Entity e) {
         if (entities.contains(e)) {
             entities.remove(e);
-            setTile(e.getX(), e.getY(), world[e.getX()][e.getY()]);   // Reset the tile to floor value
+            setGridTile(e.getX(), e.getY(), world[e.getX()][e.getY()]);   // Reset the tile to floor value
             return true;
         }
         return false;

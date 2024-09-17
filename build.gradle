@@ -13,7 +13,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'game'
+    mainClass = 'Game'
 }
 
 sourceSets {
