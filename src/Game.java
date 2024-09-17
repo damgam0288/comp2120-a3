@@ -7,6 +7,8 @@ public class Game {
     private final Player player;
     private NPC npc;
     private Enemy enemy;
+    private int mapNumber;
+    private int lastMapNumber;
 
     // Game initiation
     public Game() throws Exception {
@@ -154,6 +156,12 @@ public class Game {
         // Testing method only - TODO remove later
         System.out.println("TEST: Who's player colliding: " + currentMap.getCollidingEntity());
 
+    }
+
+    public void handleNextMap() {
+        // TODO - if (!isVictory) this method should load the next map using the game-config file
+        //  Use the map number fields to track which map to move into
+        //  Use a separate mapLoader class to do the work of loading the map
     }
 
     public static void main(String[] args) throws Exception {
