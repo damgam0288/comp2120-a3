@@ -55,4 +55,36 @@ public class MapController {
         return null;
     }
 
+
+        /*
+
+    public static void main(String[] args) {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
+            JSONObject jsonObject = new JSONObject(content);
+
+            JSONArray maps = jsonObject.getJSONArray("maps");
+
+            if (Objects.nonNull(maps)) {
+                loadMapsFromJSONArray(maps);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Queue<Map> loadMapsFromJSONArray(JSONArray dataArray) throws Exception {
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject mapRef = dataArray.getJSONObject(i);
+            allMaps.add(
+                    new Map(mapRef.getString("name"),
+                            mapRef.getString("filepath"),
+                            new Player(1, 1, 'P', 10, 100)));
+        }
+
+        return allMaps;
+    }
+    */
+
 }
