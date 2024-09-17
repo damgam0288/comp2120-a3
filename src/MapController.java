@@ -1,37 +1,58 @@
+import java.util.LinkedList;
 import java.util.Objects;
 
 /**
- * This class holds all the maps that the entire game will use. It determines which map the player will move into after completing each one.
+ * This singleton class holds all the maps that the entire game will use. It determines which map the player will move into after completing each one.
+ * It adds NPCs and Enemies to the Map based on the given configuration file. But it does not any NPC/enemy etc. interactions.
  */
 public class MapController {
 
+    private LinkedList<Map> maps;
+    private static MapController instance;
 
+    private MapController() {
+        maps = new LinkedList<>();
+    }
 
-    /*
-    public static boolean nextMap() {
-        if (Objects.isNull(allMaps))
+    public static MapController getInstance() {
+        if (Objects.nonNull(instance))
+            return instance;
+
+        return new MapController();
+    }
+
+    public boolean nextMap() {
+        if (Objects.isNull(maps))
             return false;
 
-        if (allMaps.isEmpty())
+        if (maps.isEmpty())
             return false;
 
-        allMaps.poll();
+        maps.poll();
+
         return true;
     }
 
-    public static int mapsRemaining() {
-        if (Objects.nonNull(allMaps)) {
-            return allMaps.size();
+    public boolean isLastMap() {
+        if (Objects.isNull(maps))
+            return true;
+
+        return (maps.isEmpty());
+    }
+
+    public int mapsRemaining() {
+        if (Objects.nonNull(maps)) {
+            return maps.size();
         }
 
         return -1;
     }
 
-    public static Map currentMap() {
-        if (Objects.nonNull(allMaps)) {
-            return allMaps.peek();
+    public Map currentMap() {
+        if (Objects.nonNull(maps)) {
+            return maps.peek();
         }
         return null;
     }
-    */
+
 }

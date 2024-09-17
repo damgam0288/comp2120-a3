@@ -9,8 +9,6 @@ import java.util.*;
 
 public class MapFileLoader {
 
-    static Map loadedMap;
-
     public static void loadMapWorldFromFile(String mapFilePath, Map map) throws IOException {
 
         // Read JSON file
