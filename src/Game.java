@@ -14,6 +14,8 @@ public class Game {
         player = new Player(1, 2, 'P',10,100);
 
         currentMap = new Map("map1", "assets/map1.json", player);
+
+
         // Dummy entities: can move this to a config file later
         npc = new NPC(3, 3, 'N');
         enemy = new Enemy(4, 4, 'E', 5, 20);
@@ -154,6 +156,12 @@ public class Game {
         // Testing method only - TODO remove later
         System.out.println("TEST: Who's player colliding: " + currentMap.getCollidingEntity());
 
+    }
+
+    public void handleNextMap() {
+        // TODO - if (!isVictory) this method should load the next map using the game-config file
+        //  Use the map number fields to track which map to move into
+        //  Use a separate mapLoader class to do the work of loading the map
     }
 
     public static void main(String[] args) throws Exception {

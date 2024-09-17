@@ -1,0 +1,6 @@
+{
+  "maps": [
+    {"name": "map1", "filepath": "assets/map1.json"},
+    {"name": "map2", "filepath": "assets/map2.json"}
+  ]
+}

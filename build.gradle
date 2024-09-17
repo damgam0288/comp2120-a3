@@ -1,0 +1,38 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'org.json:json:20231013'
+}
+
+application {
+    mainClass = 'Game'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['tests']  // Set source directory for test code
+        }
+        resources {
+            srcDirs = ['tests/resources']  // Resources directory for tests
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
