@@ -17,7 +17,6 @@ public class MapController {
     public static MapController getInstance() {
         if (Objects.isNull(instance))
             instance = new MapController();
-
         return instance;
     }
 

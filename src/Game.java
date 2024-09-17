@@ -15,9 +15,11 @@ public class Game {
 
         currentMap = new Map("map1", "assets/map1.json", player);
 
-
         // Dummy entities: can move this to a config file later
         npc = new NPC(3, 3, 'N');
+        npc.setItem(new Weapon("weapon1",10));
+        System.out.println(npc.hasItem());
+
         enemy = new Enemy(4, 4, 'E', 5, 20);
         currentMap.addEntity(enemy);
         currentMap.addEntity(npc);
@@ -148,10 +150,10 @@ public class Game {
      */
     private void handleNPCInteraction() {
         // Handle  NPCs / enemy interaction here
-            Entity collidingEntity = currentMap.getCollidingEntity();
-            if (collidingEntity instanceof NPC npc) {
-                npc.interact(player, currentMap.getMapNumber());
-            }
+        Entity collidingEntity = currentMap.getCollidingEntity();
+        if (collidingEntity instanceof NPC npc) {
+            npc.interact(player, currentMap.getMapNumber());
+        }
 
         // Testing method only - TODO remove later
         System.out.println("TEST: Who's player colliding: " + currentMap.getCollidingEntity());

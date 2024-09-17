@@ -7,6 +7,7 @@ import java.util.Objects;
 public class NPC extends Entity {
     private boolean hasGivenItem = false;
     private Item item;
+    private String clue;
 
     /**
      * Constructor for the NPC class.
@@ -26,14 +27,21 @@ public class NPC extends Entity {
         this.item = item;
     }
 
-    public Item giveItem() {
-        Item output = this.item;
-        item = null;
-        return output;
+    public void giveItem(Player player) {
+        player.receiveItem(item);
+        item=null;
     }
 
     public boolean hasItem() {
         return (Objects.nonNull(item));
+    }
+
+    public String getClue() {
+        return clue;
+    }
+
+    public void setClue(String clue) {
+        this.clue = clue;
     }
 
     /**
@@ -50,11 +58,15 @@ public class NPC extends Entity {
     public void interact(Player player, String mapName) {
         if (mapName.equals("map1")) {
             // NPC gives the player a weapon if not already given
-            if (!hasGivenItem) {
+            if (hasItem()) {
                 System.out.println("NPC: Here's something to help you!");
-                player.setAP(player.getAP() + 10);  // Increase player's AP  TODO: Change this to add an item to inventory when inventory is implemented
-                System.out.println("Your attack points (AP) is now: " + player.getAP()); // TODO: Change this to either increase AP or improve HP based on the item given
-                hasGivenItem = true;
+
+                if (item.getClass().equals(Weapon.class)) {
+                    player.setAP(player.getAP() + 10);  // Increase player's AP  TODO: Change this to add an item to inventory when inventory is implemented
+                    System.out.println("Your attack points (AP) is now: " + player.getAP()); // TODO: Change this to either increase AP or improve HP based on the item given
+                }
+
+                giveItem(player);
             } else {
                 System.out.println("NPC: Good luck out there!");
             }
@@ -63,24 +75,4 @@ public class NPC extends Entity {
         }
     }
 
-    public void interact2(Player player) {
-        if (hasItem()) {
-            System.out.println("NPC: Here's something to help you!");
-            player.setItem(this.giveItem());
-        } else {
-            System.out.println("NPC: Good luck out there!");
-        }
-    }
-
-    public static void main(String[] args) {
-        Player player = new Player(1,1,'P',10,100);
-        NPC npc = new NPC(1,1,'N');
-
-        npc.setItem(new Weapon("weapon1",10));
-
-        System.out.println(player.getItem());
-        npc.interact2(player);
-        System.out.println(player.getItem());
-        npc.interact2(player);
-    }
 }

@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /** Player class is a specific type of Entity */
 public class Player extends Entity {
     private int ap;  // Attack Power
@@ -73,7 +71,7 @@ public class Player extends Entity {
         return item;
     }
 
-    public void setItem(Item item) {
+    public void receiveItem(Item item) {
         this.item = item;
     }
 
