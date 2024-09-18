@@ -24,7 +24,7 @@ public class Game {
         player = new Player(1, 2, 'P', 10, 100);
         maps = new ArrayList<>();
 
-        // Load configuration from file
+        // Load configuration file
         String content =
                 new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
         JSONObject jsonObject =
@@ -33,7 +33,7 @@ public class Game {
         // Get all Level data into an array
         JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
-        // First load one of the Maps
+        // For each level, load the map first
         for (int i = 0; i < mapRefs.length(); i++) {
             JSONObject mapRef = mapRefs.getJSONObject(i);
 
@@ -54,22 +54,17 @@ public class Game {
                 // Add NPCs to the map
                 map.addEntity(npc);
             }
-
-
         }
-
-
 
         // Set current map
         currentMap = this.maps.get(0);       // TODO Replace with MapController later
-
 
         // Enemies
         enemy = new Enemy(4, 4, 'E', 5, 20);
         currentMap.addEntity(enemy);
 
+        // Finally add player
         currentMap.setPlayer(player);
-        currentMap.draw();
     }
 
     // Main game "loop" - handle user inputs through Scanner
