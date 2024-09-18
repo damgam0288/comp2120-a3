@@ -6,9 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public abstract class AbstractObjectLoader {
+abstract class AbstractObjectLoader {
 
-    public static JSONObject findJsonObjectInFile(String targetString, String arrayKeyword, String keyString, String filepath) throws IOException {
+    public static JSONObject findJsonObjectInFile
+            (String targetString, String arrayKeyword, String keyString, String filepath)
+            throws Exception {
 
         // Read JSON file
         String content = new String(Files.readAllBytes(Paths.get(filepath)));
@@ -32,7 +34,7 @@ public abstract class AbstractObjectLoader {
 
 class NPCLoader extends AbstractObjectLoader {
 
-    public static NPC loadNPCFromFile(String target, String npcFilePath) throws IOException {
+    public static NPC loadNPCFromFile(String target, String npcFilePath) throws Exception {
 
         JSONObject jsonObject = findJsonObjectInFile(target, "npcs",
                                 "name", npcFilePath);
@@ -59,7 +61,7 @@ class NPCLoader extends AbstractObjectLoader {
 }
 
 class ItemLoader extends AbstractObjectLoader {
-    public static Item loadItemFromFile(String target, String filepath) throws IOException {
+    public static Item loadItemFromFile(String target, String filepath) throws Exception {
         JSONObject itemRef = findJsonObjectInFile(target, "items", "name", filepath);
 
         if (Objects.nonNull(itemRef)) {
