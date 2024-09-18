@@ -15,41 +15,40 @@ public class ObjectLoaderTest {
     private NPCLoader npcLoader;
     private ItemLoader itemLoader;
 
-    // Test abstract loader can identify the right file
-    // it should handle missing filepaths, bad parameters
-
     @Before
     public void setup() {
         npcLoader = new NPCLoader();
         itemLoader = new ItemLoader();
     }
 
-    @Test(expected = NoSuchFileException.class)
+    @Test(expected = NoSuchFileException.class, timeout=1000)
     public void abstractLoaderNoFileException() throws Exception {
         AbstractObjectLoader.findJsonObjectInFile
                 ("npc1","npcs","name",
                         "resources/file-doesnt-exist.json");
     }
 
-    @Test(expected = JSONException.class)
-    public void abstractLoaderNoMatchingArray() throws Exception {
+    @Test(expected = JSONException.class, timeout=1000)
+    public void abstractLoaderNoMatchingArrayString() throws Exception {
         AbstractObjectLoader.findJsonObjectInFile
                 ("npc1","array-doesnt-exist","name",
-                        "resources/test-npcs.json");
+                        "tests/resources/test-npcs.json");
     }
 
-    @Test(expected = JSONException.class)
-    public void abstractLoaderNoMatchingObject() throws Exception {
-        AbstractObjectLoader.findJsonObjectInFile
-                ("bad-target","npcs","name",
-                        "resources/test-npcs.json");
-    }
-
-    @Test(expected = JSONException.class)
+    @Test(expected = JSONException.class, timeout=1000)
     public void abstractLoaderBadKeyString() throws Exception {
         AbstractObjectLoader.findJsonObjectInFile
                 ("npc1","npcs","bad-keystring",
-                        "resources/test-npcs.json");
+                        "tests/resources/test-npcs.json");
     }
+
+    @Test(expected = NoSuchFieldException.class, timeout=1000)
+    public void abstractLoaderNoMatchingTargetString() throws Exception {
+        AbstractObjectLoader.findJsonObjectInFile
+                ("bad-target","npcs","name",
+                        "tests/resources/test-npcs.json");
+    }
+
+    // TODO: Test
 
 }

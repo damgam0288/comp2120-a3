@@ -21,14 +21,15 @@ abstract class AbstractObjectLoader {
         for (int i = 0; i < array.length(); i++) {
             JSONObject object = array.getJSONObject(i);
 
-            // Found target object
-            if (Objects.nonNull(object)) {
-                if (object.getString(keyString).equalsIgnoreCase(targetString)) {
-                    return object;
-                }
+            // Find target object
+            String keyvalue = object.getString(keyString);
+            if (keyvalue.equalsIgnoreCase(targetString)) {
+                return object;
             }
         }
-        return null;
+        throw new NoSuchFieldException("Could not find " + targetString +
+                " in the JSON reference:" +
+                filepath + "/" + arrayKeyword + "/" + keyString);
     }
 }
 
