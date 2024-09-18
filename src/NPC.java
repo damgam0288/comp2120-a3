@@ -131,7 +131,7 @@ class NPCFileLoader {
                     // Add other data to NPC
                     String itemRef = npcRef.getString("item");
                     if (Objects.nonNull(itemRef)) {
-                        ItemLoader.loadItemFromFile(itemRef,"assets/items.json");
+                        npc.setItem(ItemLoader.loadItemFromFile(itemRef,"assets/items.json"));
                     }
 
 //                    String clueRef = npcRef.getString("clue");
