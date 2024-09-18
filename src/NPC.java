@@ -128,11 +128,12 @@ class NPCFileLoader {
                             npcRef.getString("char").charAt(0),
                             npcRef.getString("name"));
 
-                    // Add other data to this NPC if available
-//                    String itemRef = npcRef.getString("item");
-//                    if (Objects.nonNull(itemRef)) {
-//                        // TODO Add to NPC here
-//                    }
+                    // Add other data to NPC
+                    String itemRef = npcRef.getString("item");
+                    if (Objects.nonNull(itemRef)) {
+                        // TODO Add to NPC here
+                    }
+
 //                    String clueRef = npcRef.getString("clue");
 //                    if (Objects.nonNull(clueRef)) {
 //                        // TODO Add to NPC here
