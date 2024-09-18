@@ -47,22 +47,20 @@ public class Game {
 
             // NPCs
             JSONArray npcRefs = jsonObject.getJSONArray("npcs");
+            JSONArray itemRefs = jsonObject.getJSONArray("items");
             for (int i = 0; i < npcRefs.length(); i++) {
                 String name = npcRefs.getJSONObject(i).getString("name");
                 int startx = npcRefs.getJSONObject(i).getInt("startx");
                 int starty = npcRefs.getJSONObject(i).getInt("starty");
                 char ch = npcRefs.getJSONObject(i).getString("char").charAt(0);
+
                 String itemName = npcRefs.getJSONObject(i).getString("item");
-                Item item = findItemInJSONFile(npcRefs,itemName);
+                Item item = findItemInJSONFile(itemRefs,itemName);
 
-                currentMap.addEntity(new NPC(startx, starty, ch, name, item));
+                NPC n = new NPC(startx, starty, ch, name, item);
+                n.setItem(item);
+                currentMap.addEntity(n);
             }
-            
-//            for(NPC n : Objects.requireNonNull(NPCFileLoader.makeNPCsFromFile("assets/npcs.json"))) {
-//                n.setItem(new Weapon("weapon1",10));
-//                currentMap.addEntity(n);
-//            }
-
 
         } catch (Exception e) {
             e.printStackTrace();
