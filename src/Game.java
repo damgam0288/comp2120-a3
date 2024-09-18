@@ -21,7 +21,7 @@ public class Game {
     // Game initiation
     public Game() throws Exception {
 
-        player = new Player(1, 2, 'P', 10, 100);
+        player = new Player(1, 2, 'P', 10, 100); // TODO move to JSON file
         maps = new ArrayList<>();
 
         // Load configuration file
@@ -196,10 +196,6 @@ public class Game {
         if (collidingEntity instanceof NPC npc) {
             npc.interact(player, currentMap.getMapNumber());
         }
-
-        // Testing method only - TODO remove later
-        System.out.println("TEST: Who's player colliding: " + currentMap.getCollidingEntity());
-
     }
 
     public void handleNextMap() {

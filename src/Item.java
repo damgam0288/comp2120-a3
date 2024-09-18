@@ -14,6 +14,9 @@ public abstract class Item {
 
     String name = "";
 
+    public Item(String name) {
+        this.name = name;
+    }
     public String getName() {
         return name;
     }
@@ -30,7 +33,7 @@ class Weapon extends Item {
     private int ap;     // Attack points provided by this weapon
 
     public Weapon(String name, int ap) {
-        this.name = name;
+        super(name);
         this.ap = ap;
     }
 
@@ -63,15 +66,14 @@ class ItemLoader {
 
                 // Found target
                 if (name.equalsIgnoreCase(target)) {
+                    // Make item based on type
                     if (ref.getString("type").equalsIgnoreCase("weapon")) {
-                        String itemName = ref.getString("name");
-                        int itemAP = ref.getInt("ap");
-                        return new Weapon(itemName,itemAP);
+                        return new Weapon(ref.getString("name"),
+                                          ref.getInt("ap"));
                     }
-
-//                    if (ref.getString("type").equalsIgnoreCase("shield")) {
+                    if (ref.getString("type").equalsIgnoreCase("shield")) {
                         // TODO
-//                    }
+                    }
                 }
             }
         }

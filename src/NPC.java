@@ -96,10 +96,6 @@ public class NPC extends Entity {
             System.out.println("NPC: The exit is to the south.");
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        System.out.println(NPCFileLoader.loadNPCFromFile("npc1","assets/npcs.json"));
-    }
 }
 
 
@@ -132,7 +128,6 @@ class NPCFileLoader {
                     String itemRef = npcRef.getString("item");
                     if (Objects.nonNull(itemRef)) {
                         Item item = ItemLoader.loadItemFromFile(itemRef,"assets/items.json");
-                        System.out.println(item.getName());
                         npc.setItem(item);
                     }
 
