@@ -145,6 +145,14 @@ public class Map {
         this.player = player;
     }
 
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(List<Entity> entities) {
+        this.entities = entities;
+    }
+
     /**
      * Checks if given x,y position is not over the game world boundaries
      * or over an obstacle

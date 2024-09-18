@@ -54,15 +54,22 @@ public class Game {
                 // Add NPCs to the map
                 map.addEntity(npc);
             }
+
+
         }
+
+
 
         // Set current map
         currentMap = this.maps.get(0);       // TODO Replace with MapController later
+
 
         // Enemies
         enemy = new Enemy(4, 4, 'E', 5, 20);
         currentMap.addEntity(enemy);
 
+        currentMap.setPlayer(player);
+        currentMap.draw();
     }
 
     // Main game "loop" - handle user inputs through Scanner
