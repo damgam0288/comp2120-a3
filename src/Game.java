@@ -30,7 +30,7 @@ public class Game {
         JSONObject jsonObject =
                 new JSONObject(content);
 
-        // Get all Level data into an array
+        // Get all level data into an array
         JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
         // For each level, load the map first
@@ -51,7 +51,7 @@ public class Game {
                         npcRef.getString("name"),
                         npcRef.getString("filepath"));
 
-                // Add NPCs to the map
+                // Add NPC to the map
                 map.addEntity(npc);
             }
         }

@@ -4,8 +4,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -98,48 +96,64 @@ public class NPC extends Entity {
     }
 }
 
+class GeneralLoader {
 
-class NPCFileLoader {
-
-    /** Given a target NPC's name, and the file holding the NPC data, this method will return
-     * a newly created NPC object with start x,y, the char value and the NPC's name */
-    public static NPC loadNPCFromFile(String target, String npcFilePath) throws IOException {
+    public static JSONObject loadJSONObjectFromFile(String targetString, String arrayKeyword, String keyString, String filepath) throws IOException {
 
         // Read JSON file
-        String content = new String(Files.readAllBytes(Paths.get(npcFilePath)));
+        String content = new String(Files.readAllBytes(Paths.get(filepath)));
 
-        // Search through all NPCs in the JSON file
-        JSONArray npcArray = new JSONObject(content).getJSONArray("npcs");
+        // Search through all data in the JSON file
+        JSONArray array = new JSONObject(content).getJSONArray(arrayKeyword);
 
-        for (int i = 0; i < npcArray.length(); i++) {
-            JSONObject npcRef = npcArray.getJSONObject(i);
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
 
-            if (Objects.nonNull(npcRef)) {
-                String name = npcRef.getString("name");
-
-                // Found target NPC
-                if (name.equalsIgnoreCase(target)) {
-                    NPC npc = new NPC(npcRef.getInt("startx"),
-                            npcRef.getInt("starty"),
-                            npcRef.getString("char").charAt(0),
-                            npcRef.getString("name"));
-
-                    // Add other data to NPC
-                    String itemRef = npcRef.getString("item");
-                    if (Objects.nonNull(itemRef)) {
-                        Item item = ItemLoader.loadItemFromFile(itemRef,"assets/items.json");
-                        npc.setItem(item);
-                    }
-
-//                    String clueRef = npcRef.getString("clue");
-//                    if (Objects.nonNull(clueRef)) {
-//                        // TODO Add to NPC here
-//                    }
-                    return npc;
+            // Found target object
+            if (Objects.nonNull(object)) {
+                if (object.getString(keyString).equalsIgnoreCase(targetString)) {
+                    return object;
                 }
             }
         }
+        return null;
+    }
+}
 
+class NPCFileLoader {
+
+    /**
+     * Given a target NPC's name, and the file holding the NPC data, this method will return
+     * a newly created NPC object with start x,y, the char value and the NPC's name
+     */
+    public static NPC loadNPCFromFile(String target, String npcFilePath) throws IOException {
+
+        // Load entire JSON object for the NPC
+        JSONObject npcRef =
+                GeneralLoader.loadJSONObjectFromFile
+                        (target, "npcs",
+                                "name", npcFilePath);
+
+        // Put data from JSON object into NPC
+        if (Objects.nonNull(npcRef)) {
+            NPC npc = new NPC(npcRef.getInt("startx"),
+                    npcRef.getInt("starty"),
+                    npcRef.getString("char").charAt(0),
+                    npcRef.getString("name"));
+
+            // Add other data to NPC
+            String itemRef = npcRef.getString("item");
+            if (Objects.nonNull(itemRef)) {
+                Item item = ItemLoader.loadItemFromFile(itemRef, "assets/items.json");
+                npc.setItem(item);
+            }
+
+//            String clueRef = npcRef.getString("clue");
+//            if (Objects.nonNull(clueRef)) {
+//                // TODO Add to NPC here
+//            }
+            return npc;
+        }
         return null;
     }
 }
