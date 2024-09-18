@@ -13,6 +13,7 @@ public class Game {
 
     private Map currentMap;
     private List<Map> maps;
+    private List<Item> items;
     private final Player player;
     private NPC npc;
     private Enemy enemy;
@@ -23,17 +24,53 @@ public class Game {
         player = new Player(1, 2, 'P',10,100);
 
         // Load configuration from file
-        // Maps
-        maps = loadAllMaps("assets/game-config.json");
-        currentMap = new Map("map1", "assets/map1.json", player);       // TODO Replace with MapController
+        maps = new ArrayList<>();
+        items = new ArrayList<>();
 
-        // Items
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
+            JSONObject jsonObject = new JSONObject(content);
 
-        // NPCs
-        for(NPC n : Objects.requireNonNull(NPCFileLoader.makeNPCsFromFile("assets/npcs.json"))) {
-            n.setItem(new Weapon("weapon1",10));
-            currentMap.addEntity(n);
+            // Maps
+            JSONArray mapRefs = jsonObject.getJSONArray("maps");
+            for (int i = 0; i < mapRefs.length(); i++) {
+                JSONObject mapRef = mapRefs.getJSONObject(i);
+                String mapName = mapRef.getString("name");
+                String mapFilePath = mapRef.getString("filepath");
+
+                Map map = new Map(mapName, mapFilePath, player);
+                maps.add(map);
+            }
+
+            // Set current map
+            currentMap = this.maps.get(0);       // TODO Replace with MapController later
+
+            // NPCs
+            JSONArray npcRefs = jsonObject.getJSONArray("npcs");
+            for (int i = 0; i < npcRefs.length(); i++) {
+                String name = npcRefs.getJSONObject(i).getString("name");
+                int startx = npcRefs.getJSONObject(i).getInt("startx");
+                int starty = npcRefs.getJSONObject(i).getInt("starty");
+                char ch = npcRefs.getJSONObject(i).getString("char").charAt(0);
+                String itemName = npcRefs.getJSONObject(i).getString("item");
+                Item item = findItemInJSONFile(npcRefs,itemName);
+
+                currentMap.addEntity(new NPC(startx, starty, ch, name, item));
+            }
+            
+//            for(NPC n : Objects.requireNonNull(NPCFileLoader.makeNPCsFromFile("assets/npcs.json"))) {
+//                n.setItem(new Weapon("weapon1",10));
+//                currentMap.addEntity(n);
+//            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+
+
+
 
         // Enemies
         enemy = new Enemy(4, 4, 'E', 5, 20);
@@ -61,33 +98,27 @@ public class Game {
         scanner.close();
     }
 
-    // Load all game maps from configuration file
-    private List<Map> loadAllMaps(String filepath) {
-        List<Map> output = new ArrayList<>();
+    // Given a JSON array and the item name you are searching for,
+    // this method will return the Item object (if it exists in the given JSON array)
+    private Item findItemInJSONFile(JSONArray jsonArray, String target) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject itemRef = jsonArray.getJSONObject(i);
 
-        try {
-            // Read JSON file
-            String content = new String(Files.readAllBytes(Paths.get(filepath)));
-            JSONObject jsonObject = new JSONObject(content);
+            if (Objects.nonNull(itemRef)) {
+                String name = itemRef.getString("name");
 
-            JSONArray mapRefs = jsonObject.getJSONArray("maps");
-
-            for (int i = 0; i < mapRefs.length(); i++) {
-                JSONObject ref = mapRefs.getJSONObject(i);
-                String mapName = ref.getString("name");
-                String mapFilePath = ref.getString("filepath");
-
-                Map map = new Map(mapName,mapFilePath,player);
-                output.add(map);
+                if (name.equalsIgnoreCase(target)) {
+                    String type = itemRef.getString("type");
+                    if (type.equalsIgnoreCase("weapon"))
+                        return new Weapon(name, itemRef.getInt("ap"));
+                }
             }
-
-            return output;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
+
+        return null;
     }
+
+    // Given a Item object, this method will add it to the given NPC
 
 
     // Handle player movement within the current map

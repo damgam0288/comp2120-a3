@@ -19,7 +19,7 @@ public class NPC extends Entity {
         super(startX, startY, symbol);
     }
 
-    public NPC(int startX, int startY, char symbol, Item item) {
+    public NPC(int startX, int startY, char symbol, String name, Item item) {
         super(startX, startY, symbol);
     }
 
