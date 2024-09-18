@@ -108,14 +108,13 @@ class NPCFileLoader {
     /** Given a target NPC's name, and the file holding the NPC data, this method will return
      * a newly created NPC object with start x,y, the char value and the NPC's name */
     public static NPC loadNPCFromFile(String target, String npcFilePath) throws IOException {
-        NPC npc = null;
 
         // Read JSON file
         String content = new String(Files.readAllBytes(Paths.get(npcFilePath)));
-        JSONObject jsonObject = new JSONObject(content);
 
         // Search through all NPCs in the JSON file
-        JSONArray npcArray = jsonObject.getJSONArray("npcs");
+        JSONArray npcArray = new JSONObject(content).getJSONArray("npcs");
+
         for (int i = 0; i < npcArray.length(); i++) {
             JSONObject npcRef = npcArray.getJSONObject(i);
 
@@ -124,7 +123,7 @@ class NPCFileLoader {
 
                 // Found target NPC
                 if (name.equalsIgnoreCase(target)) {
-                    npc = new NPC(npcRef.getInt("startx"),
+                    NPC npc = new NPC(npcRef.getInt("startx"),
                             npcRef.getInt("starty"),
                             npcRef.getString("char").charAt(0),
                             npcRef.getString("name"));
@@ -138,11 +137,12 @@ class NPCFileLoader {
 //                    if (Objects.nonNull(clueRef)) {
 //                        // TODO Add to NPC here
 //                    }
+                    return npc;
                 }
             }
         }
 
-        return npc;
+        return null;
     }
 }
 

@@ -45,7 +45,7 @@ public class Game {
             JSONArray npcRefs = mapRef.getJSONArray("npcs");
 
             for (int j = 0; j < npcRefs.length(); j++) {
-                JSONObject npcRef = npcRefs.getJSONObject(i);
+                JSONObject npcRef = npcRefs.getJSONObject(j);
 
                 NPC npc = NPCFileLoader.loadNPCFromFile(
                         npcRef.getString("name"),
