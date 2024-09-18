@@ -80,7 +80,7 @@ public class NPC extends Entity {
     public void interact(Player player, String mapName) {
         if (mapName.equals("map1")) {       // TODO: Incorporate this into the Game Config JSON file
             if (hasItem()) {
-                System.out.println("NPC: Here's something to help you!");
+                System.out.println("NPC: Here's something to help!" + " ITEM RECEIVED: " + item.getName());
 
                 // TODO: Change this to simply add the item to inventory, when inventory is implemented
                 if (item.getClass().equals(Weapon.class)) {
@@ -131,7 +131,9 @@ class NPCFileLoader {
                     // Add other data to NPC
                     String itemRef = npcRef.getString("item");
                     if (Objects.nonNull(itemRef)) {
-                        npc.setItem(ItemLoader.loadItemFromFile(itemRef,"assets/items.json"));
+                        Item item = ItemLoader.loadItemFromFile(itemRef,"assets/items.json");
+                        System.out.println(item.getName());
+                        npc.setItem(item);
                     }
 
 //                    String clueRef = npcRef.getString("clue");

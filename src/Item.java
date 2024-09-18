@@ -64,8 +64,9 @@ class ItemLoader {
                 // Found target
                 if (name.equalsIgnoreCase(target)) {
                     if (ref.getString("type").equalsIgnoreCase("weapon")) {
-                        return new Weapon(ref.getString("name"),
-                                            ref.getInt("ap"));
+                        String itemName = ref.getString("name");
+                        int itemAP = ref.getInt("ap");
+                        return new Weapon(itemName,itemAP);
                     }
 
 //                    if (ref.getString("type").equalsIgnoreCase("shield")) {
