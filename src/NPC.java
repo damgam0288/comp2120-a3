@@ -28,10 +28,9 @@ public class NPC extends Entity {
         super(startX, startY, symbol);
     }
 
-    public NPC(int startX, int startY, char symbol, String name, Item item) {
+    public NPC(int startX, int startY, char symbol, String name) {
         super(startX, startY, symbol);
         this.name = name;
-        this.item = item;
     }
 
     /**
@@ -102,30 +101,33 @@ public class NPC extends Entity {
 
 class NPCFileLoader {
 
-    public static List<NPC> makeNPCsFromFile(String npcFilePath) throws IOException {
-        List<NPC> npcs = new ArrayList<>();
+    /** Given a target NPC's name, and the file holding the NPC data, this method will return
+     * a newly created NPC object with start x,y, the char value and the NPC's name */
+    public static NPC loadNPCFromFile(String target, String npcFilePath) throws IOException {
+        NPC npc = null;
 
-        try {
-            // Read JSON file
-            String content = new String(Files.readAllBytes(Paths.get(npcFilePath)));
-            JSONObject jsonObject = new JSONObject(content);
+        // Read JSON file
+        String content = new String(Files.readAllBytes(Paths.get(npcFilePath)));
+        JSONObject jsonObject = new JSONObject(content);
 
-            // NPC data
-            JSONArray npcBaseData = jsonObject.getJSONArray("npcs");
+        // Search through all NPCs in the JSON file
+        JSONArray npcArray = jsonObject.getJSONArray("npcs");
+        for (int i = 0; i < npcArray.length(); i++) {
+            JSONObject npcRef = npcArray.getJSONObject(i);
 
-            for (int i = 0; i < npcBaseData.length(); i++) {
-                JSONObject npcRef = npcBaseData.getJSONObject(i);
+            if (Objects.nonNull(npcRef)) {
+                String name = npcRef.getString("name");
 
-                npcs.add(new NPC(npcRef.getInt("startx"),
-                        npcRef.getInt("starty"),
-                        npcRef.getString("char").charAt(0)));
+                // Found target NPC
+                if (name.equalsIgnoreCase(target)) {
+                    npc = new NPC(npcRef.getInt("startx"),
+                            npcRef.getInt("starty"),
+                            npcRef.getString("char").charAt(0),
+                            npcRef.getString("name"));
+                }
             }
-
-            return npcs;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
+
+        return npc;
     }
 }
