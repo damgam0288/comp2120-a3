@@ -1,20 +1,13 @@
 {
-  "maps":
+  "levels":
   [
-    {"name": "map1", "filepath": "assets/map1.json"},
-    {"name": "map2", "filepath": "assets/map2.json"}
-  ],
+    {"name": "map1", "filepath": "assets/map1.json",
+      "npcs": [{"name": "npc1", "filepath": "assets/npcs.json"},
+               {"name": "npc2", "filepath": "assets/npcs.json"}]},
 
-  "npcs": [
-    {"name": "npc1", "filepath": "assets/npcs.json"},
-    {"name": "npc3", "filepath": "assets/npcs.json"},
-    {"name": "npc2", "filepath": "assets/npcs.json"}
-  ],
-
-  "items": [
-    {"name": "weapon1", "filepath": "assets/items.json"},
-    {"name": "weapon2", "filepath": "assets/items.json"},
-    {"name": "shield1", "filepath": "assets/items.json"},
-    {"name": "shield2", "filepath": "assets/items.json"}
+    {"name": "map2", "filepath": "assets/map2.json",
+      "npcs": [{"name": "npc3", "filepath": "assets/npcs.json"},
+               {"name": "npc1", "filepath": "assets/npcs.json"}]}
   ]
 }
+

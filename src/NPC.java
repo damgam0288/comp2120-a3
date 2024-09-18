@@ -13,9 +13,9 @@ import java.util.Objects;
  * through conversation
  */
 public class NPC extends Entity {
-    private String name;
-    private Item item;
-    private String clue;
+    private String name = null;
+    private Item item = null;
+    private String clue = null;
 
     /**
      * Constructor for the NPC class.
@@ -36,6 +36,7 @@ public class NPC extends Entity {
     /**
      * Getters and Setters
      */
+
     public String getName() {
         return name;
     }
@@ -96,6 +97,9 @@ public class NPC extends Entity {
         }
     }
 
+    public static void main(String[] args) throws IOException {
+        System.out.println(NPCFileLoader.loadNPCFromFile("npc1","assets/npcs.json"));
+    }
 }
 
 
@@ -124,6 +128,16 @@ class NPCFileLoader {
                             npcRef.getInt("starty"),
                             npcRef.getString("char").charAt(0),
                             npcRef.getString("name"));
+
+                    // Add other data to this NPC if available
+//                    String itemRef = npcRef.getString("item");
+//                    if (Objects.nonNull(itemRef)) {
+//                        // TODO Add to NPC here
+//                    }
+//                    String clueRef = npcRef.getString("clue");
+//                    if (Objects.nonNull(clueRef)) {
+//                        // TODO Add to NPC here
+//                    }
                 }
             }
         }
@@ -131,3 +145,4 @@ class NPCFileLoader {
         return npc;
     }
 }
+

@@ -30,42 +30,34 @@ public class Game {
         JSONObject jsonObject =
                 new JSONObject(content);
 
-        JSONArray mapRefs = jsonObject.getJSONArray("maps");
-        JSONArray npcRefs = jsonObject.getJSONArray("npcs");
-        JSONArray itemRefs = jsonObject.getJSONArray("items");
+        // Get all Level data into an array
+        JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
-        // Maps
+        // First load one of the Maps
         for (int i = 0; i < mapRefs.length(); i++) {
-            JSONObject ref = mapRefs.getJSONObject(i);
+            JSONObject mapRef = mapRefs.getJSONObject(i);
 
-            Map map = new Map(ref.getString("name"),
-                    ref.getString("filepath"), player);
-
+            Map map = new Map(mapRef.getString("name"),
+                                mapRef.getString("filepath"));
             maps.add(map);
+
+            // Then load NPCs
+            JSONArray npcRefs = mapRef.getJSONArray("npcs");
+
+            for (int j = 0; j < npcRefs.length(); j++) {
+                JSONObject npcRef = npcRefs.getJSONObject(i);
+
+                NPC npc = NPCFileLoader.loadNPCFromFile(
+                        npcRef.getString("name"),
+                        npcRef.getString("filepath"));
+
+                // Add NPCs to the map
+                map.addEntity(npc);
+            }
         }
 
         // Set current map
         currentMap = this.maps.get(0);       // TODO Replace with MapController later
-
-        // NPCs
-        for (int i = 0; i < npcRefs.length(); i++) {
-            JSONObject ref = npcRefs.getJSONObject(i);
-
-            // Get parameters
-            String name = ref.getString("name");
-            int startx = ref.getInt("startx");
-            int starty = ref.getInt("starty");
-            char ch = ref.getString("char").charAt(0);
-            String map = ref.getString("map");
-            String itemName = ref.getString("item");
-
-            // Create NPC
-            NPC n = new NPC(startx, starty, ch);
-            n.setName(name);
-            n.setItem(findItemInJSONFile(itemRefs, itemName));
-            findMap(map).addEntity(n);
-
-        }
 
         // Enemies
         enemy = new Enemy(4, 4, 'E', 5, 20);
@@ -92,45 +84,6 @@ public class Game {
 
         scanner.close();
     }
-
-    // Given a JSON array and the item name you are searching for,
-    // this method will return the Item object (if it exists in the given JSON array)
-    private Item findItemInJSONFile(JSONArray jsonArray, String target) {
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject itemRef = jsonArray.getJSONObject(i);
-
-            if (Objects.nonNull(itemRef)) {
-                String name = itemRef.getString("name");
-
-                if (name.equalsIgnoreCase(target)) {
-                    String type = itemRef.getString("type");
-                    if (type.equalsIgnoreCase("weapon"))
-                        return new Weapon(name, itemRef.getInt("ap"));
-                }
-            }
-        }
-
-        return null;
-    }
-
-    // Given a map name, this method will find the map object in the list of maps
-    // If it doesn't exist, it will return the first map, or null if nothing is available
-    private Map findMap(String targetMap) {
-
-        if (Objects.isNull(maps))
-            return null;
-
-        if (maps.isEmpty())
-            return null;
-
-        for(Map m : maps) {
-            if (m.getName().equalsIgnoreCase(targetMap))
-                return m;
-        }
-
-        return maps.get(0);
-    }
-
 
     // Handle player movement within the current map
     private void handleMovement(String move) {
@@ -254,6 +207,9 @@ public class Game {
     }
 
     public static void main(String[] args) throws Exception {
-        new Game().start();
+//        new Game().start();
+
+        new Game();
+
     }
 }

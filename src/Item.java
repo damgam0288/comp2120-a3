@@ -37,4 +37,5 @@ class Weapon implements Item {
     public void setAp(int ap) {
         this.ap = ap;
     }
+
 }

@@ -41,6 +41,13 @@ public class Map {
         MapFileLoader.loadMapWorldFromFile(filePath,this);
     }
 
+    public Map(String n, String filePath) throws Exception {
+        name = n;
+        entities = new ArrayList<>();
+
+        MapFileLoader.loadMapWorldFromFile(filePath,this);
+    }
+
     /**
      * Draws game map together with all entities, items etc. to the terminal
      */
