@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class Game {
 
     private Map currentMap;
+    // TODO Change this to use the MapController.java
     private List<Map> maps;
-    private List<Item> items;
     private final Player player;
     private NPC npc;
     private Enemy enemy;
@@ -21,60 +21,51 @@ public class Game {
     // Game initiation
     public Game() throws Exception {
 
-        player = new Player(1, 2, 'P',10,100);
+        player = new Player(1, 2, 'P', 10, 100);
+        maps = new ArrayList<>();
 
         // Load configuration from file
-        maps = new ArrayList<>();
-        items = new ArrayList<>();
+        String content =
+                new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
+        JSONObject jsonObject =
+                new JSONObject(content);
 
-        try {
-            String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
-            JSONObject jsonObject = new JSONObject(content);
+        JSONArray mapRefs = jsonObject.getJSONArray("maps");
+        JSONArray npcRefs = jsonObject.getJSONArray("npcs");
+        JSONArray itemRefs = jsonObject.getJSONArray("items");
 
-            JSONArray mapRefs = jsonObject.getJSONArray("maps");
-            JSONArray npcRefs = jsonObject.getJSONArray("npcs");
-            JSONArray itemRefs = jsonObject.getJSONArray("items");
+        // Maps
+        for (int i = 0; i < mapRefs.length(); i++) {
+            JSONObject ref = mapRefs.getJSONObject(i);
 
-            // Maps
-            for (int i = 0; i < mapRefs.length(); i++) {
-                JSONObject mapRef = mapRefs.getJSONObject(i);
-                String mapName = mapRef.getString("name");
-                String mapFilePath = mapRef.getString("filepath");
+            Map map = new Map(ref.getString("name"),
+                    ref.getString("filepath"), player);
 
-                Map map = new Map(mapName, mapFilePath, player);
-                maps.add(map);
-            }
-
-            // Set current map
-            currentMap = this.maps.get(0);       // TODO Replace with MapController later
-
-            // NPCs
-            for (int i = 0; i < npcRefs.length(); i++) {
-                JSONObject ref = npcRefs.getJSONObject(i);
-
-                // Get parameters
-                String name = ref.getString("name");
-                int startx  = ref.getInt("startx");
-                int starty  = ref.getInt("starty");
-                char ch     = ref.getString("char").charAt(0);
-                String map  = ref.getString("map");
-                String itemName = ref.getString("item");
-
-                // Create NPC
-                NPC n = new NPC(startx, starty, ch);
-                n.setName(name);
-                n.setItem(findItemInJSONFile(itemRefs,itemName));
-                findMap(map).addEntity(n);
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            maps.add(map);
         }
 
+        // Set current map
+        currentMap = this.maps.get(0);       // TODO Replace with MapController later
 
+        // NPCs
+        for (int i = 0; i < npcRefs.length(); i++) {
+            JSONObject ref = npcRefs.getJSONObject(i);
 
+            // Get parameters
+            String name = ref.getString("name");
+            int startx = ref.getInt("startx");
+            int starty = ref.getInt("starty");
+            char ch = ref.getString("char").charAt(0);
+            String map = ref.getString("map");
+            String itemName = ref.getString("item");
 
+            // Create NPC
+            NPC n = new NPC(startx, starty, ch);
+            n.setName(name);
+            n.setItem(findItemInJSONFile(itemRefs, itemName));
+            findMap(map).addEntity(n);
+
+        }
 
         // Enemies
         enemy = new Enemy(4, 4, 'E', 5, 20);
@@ -169,7 +160,7 @@ public class Game {
                 fight(enemy);
             }
         }
-        // Check if the player can move to the next map
+        // Check if the player can move to the next map TODO Adapt to handle several maps
         if (currentMap.canMoveToNextMap()) {
             System.out.println("You've defeated all enemies on this map. Moving to the next map...");
             // Load the next map

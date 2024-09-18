@@ -6,14 +6,15 @@
   ],
 
   "npcs": [
-    {"name": "npc1", "startx": "4", "starty": "1", "char": "1", "map": "map1", "item": "weapon1"},
-    {"name": "npc2", "startx": "4", "starty": "2", "char": "2", "map": "map2", "item": "weapon2"}
+    {"name": "npc1", "filepath": "assets/npcs.json"},
+    {"name": "npc3", "filepath": "assets/npcs.json"},
+    {"name": "npc2", "filepath": "assets/npcs.json"}
   ],
 
   "items": [
-    {"name": "weapon1", "type": "weapon", "ap": 10},
-    {"name": "weapon2", "type": "weapon", "ap": 20},
-    {"name": "shield1", "type": "shield", "hp": 10},
-    {"name": "shield2", "type": "shield", "hp": 20}
+    {"name": "weapon1", "filepath": "assets/items.json"},
+    {"name": "weapon2", "filepath": "assets/items.json"},
+    {"name": "shield1", "filepath": "assets/items.json"},
+    {"name": "shield2", "filepath": "assets/items.json"}
   ]
 }
