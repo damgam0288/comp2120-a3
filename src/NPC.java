@@ -5,6 +5,7 @@ import java.util.Objects;
  * through conversation
  */
 public class NPC extends Entity {
+    private String name;
     private Item item;
     private String clue;
 
@@ -21,15 +22,21 @@ public class NPC extends Entity {
 
     public NPC(int startX, int startY, char symbol, String name, Item item) {
         super(startX, startY, symbol);
-    }
-
-    public NPC(int startX, int startY, char symbol, String clue) {
-        super(startX, startY, symbol);
+        this.name = name;
+        this.item = item;
     }
 
     /**
      * Getters and Setters
      */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setItem(Item item) {
         this.item = item;
     }

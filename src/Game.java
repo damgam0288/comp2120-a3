@@ -31,8 +31,11 @@ public class Game {
             String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
             JSONObject jsonObject = new JSONObject(content);
 
-            // Maps
             JSONArray mapRefs = jsonObject.getJSONArray("maps");
+            JSONArray npcRefs = jsonObject.getJSONArray("npcs");
+            JSONArray itemRefs = jsonObject.getJSONArray("items");
+
+            // Maps
             for (int i = 0; i < mapRefs.length(); i++) {
                 JSONObject mapRef = mapRefs.getJSONObject(i);
                 String mapName = mapRef.getString("name");
@@ -46,20 +49,23 @@ public class Game {
             currentMap = this.maps.get(0);       // TODO Replace with MapController later
 
             // NPCs
-            JSONArray npcRefs = jsonObject.getJSONArray("npcs");
-            JSONArray itemRefs = jsonObject.getJSONArray("items");
             for (int i = 0; i < npcRefs.length(); i++) {
-                String name = npcRefs.getJSONObject(i).getString("name");
-                int startx = npcRefs.getJSONObject(i).getInt("startx");
-                int starty = npcRefs.getJSONObject(i).getInt("starty");
-                char ch = npcRefs.getJSONObject(i).getString("char").charAt(0);
+                JSONObject ref = npcRefs.getJSONObject(i);
 
-                String itemName = npcRefs.getJSONObject(i).getString("item");
-                Item item = findItemInJSONFile(itemRefs,itemName);
+                // Get parameters
+                String name = ref.getString("name");
+                int startx  = ref.getInt("startx");
+                int starty  = ref.getInt("starty");
+                char ch     = ref.getString("char").charAt(0);
+                String map  = ref.getString("map");
+                String itemName = ref.getString("item");
 
-                NPC n = new NPC(startx, starty, ch, name, item);
-                n.setItem(item);
-                currentMap.addEntity(n);
+                // Create NPC
+                NPC n = new NPC(startx, starty, ch);
+                n.setName(name);
+                n.setItem(findItemInJSONFile(itemRefs,itemName));
+                findMap(map).addEntity(n);
+
             }
 
         } catch (Exception e) {
@@ -116,7 +122,23 @@ public class Game {
         return null;
     }
 
-    // Given a Item object, this method will add it to the given NPC
+    // Given a map name, this method will find the map object in the list of maps
+    // If it doesn't exist, it will return the first map, or null if nothing is available
+    private Map findMap(String targetMap) {
+
+        if (Objects.isNull(maps))
+            return null;
+
+        if (maps.isEmpty())
+            return null;
+
+        for(Map m : maps) {
+            if (m.getName().equalsIgnoreCase(targetMap))
+                return m;
+        }
+
+        return maps.get(0);
+    }
 
 
     // Handle player movement within the current map
