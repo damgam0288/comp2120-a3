@@ -14,8 +14,8 @@ public class NPCFileLoader {
     public static List<NPC> makeNPCsFromFile(String npcFilePath) throws IOException {
         List<NPC> npcs = new ArrayList<>();
 
-        // Read JSON file
         try {
+            // Read JSON file
             String content = new String(Files.readAllBytes(Paths.get(npcFilePath)));
             JSONObject jsonObject = new JSONObject(content);
             JSONArray npcArray = jsonObject.getJSONArray("npcs");
@@ -34,14 +34,6 @@ public class NPCFileLoader {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        List<NPC> npcs = NPCFileLoader.makeNPCsFromFile("assets/npcs.json");
-
-        for(NPC n : npcs) {
-            System.out.println(n.getX() + ", " + n.getY());
         }
     }
 }
