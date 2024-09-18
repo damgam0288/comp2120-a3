@@ -1,6 +1,19 @@
 {
-  "maps": [
+  "maps":
+  [
     {"name": "map1", "filepath": "assets/map1.json"},
     {"name": "map2", "filepath": "assets/map2.json"}
+  ],
+
+  "npcs": [
+    {"name": "npc1", "startx": "1", "starty": "1", "char": "N", "map": "map1", "item": "weapon1"},
+    {"name": "npc2", "startx": "1", "starty": "2", "char": "N", "map": "map2", "item": "weapon2"}
+  ],
+
+  "items": [
+    {"name": "weapon1", "ap": 10},
+    {"name": "weapon2", "ap": 20},
+    {"name": "health1", "hp": 10},
+    {"name": "health2", "hp": 20}
   ]
 }

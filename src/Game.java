@@ -1,10 +1,18 @@
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Game {
 
     private Map currentMap;
+    private List<Map> maps;
     private final Player player;
     private NPC npc;
     private Enemy enemy;
@@ -14,15 +22,20 @@ public class Game {
 
         player = new Player(1, 2, 'P',10,100);
 
-        currentMap = new Map("map1", "assets/map1.json", player);
+        // Load configuration from file
+        // Maps
+        maps = loadAllMaps("assets/game-config.json");
+        currentMap = new Map("map1", "assets/map1.json", player);       // TODO Replace with MapController
 
-        // Load entities from file
+        // Items
+
+        // NPCs
         for(NPC n : Objects.requireNonNull(NPCFileLoader.makeNPCsFromFile("assets/npcs.json"))) {
             n.setItem(new Weapon("weapon1",10));
             currentMap.addEntity(n);
         }
 
-        // Dummy entities:
+        // Enemies
         enemy = new Enemy(4, 4, 'E', 5, 20);
         currentMap.addEntity(enemy);
 
@@ -47,6 +60,35 @@ public class Game {
 
         scanner.close();
     }
+
+    // Load all game maps from configuration file
+    private List<Map> loadAllMaps(String filepath) {
+        List<Map> output = new ArrayList<>();
+
+        try {
+            // Read JSON file
+            String content = new String(Files.readAllBytes(Paths.get(filepath)));
+            JSONObject jsonObject = new JSONObject(content);
+
+            JSONArray mapRefs = jsonObject.getJSONArray("maps");
+
+            for (int i = 0; i < mapRefs.length(); i++) {
+                JSONObject ref = mapRefs.getJSONObject(i);
+                String mapName = ref.getString("name");
+                String mapFilePath = ref.getString("filepath");
+
+                Map map = new Map(mapName,mapFilePath,player);
+                output.add(map);
+            }
+
+            return output;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     // Handle player movement within the current map
     private void handleMovement(String move) {

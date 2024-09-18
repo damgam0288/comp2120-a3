@@ -18,11 +18,12 @@ public class NPCFileLoader {
             // Read JSON file
             String content = new String(Files.readAllBytes(Paths.get(npcFilePath)));
             JSONObject jsonObject = new JSONObject(content);
-            JSONArray npcArray = jsonObject.getJSONArray("npcs");
 
-            // Put data into NPCs
-            for (int i = 0; i < npcArray.length(); i++) {
-                JSONObject npcRef = npcArray.getJSONObject(i);
+            // NPC data
+            JSONArray npcBaseData = jsonObject.getJSONArray("npcs");
+
+            for (int i = 0; i < npcBaseData.length(); i++) {
+                JSONObject npcRef = npcBaseData.getJSONObject(i);
 
                 npcs.add(new NPC(npcRef.getInt("startx"),
                             npcRef.getInt("starty"),

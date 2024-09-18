@@ -5,7 +5,6 @@ import java.util.Objects;
  * through conversation
  */
 public class NPC extends Entity {
-    private boolean hasGivenItem = false;
     private Item item;
     private String clue;
 
@@ -17,6 +16,14 @@ public class NPC extends Entity {
      * @param symbol the character symbol representing the NPC on the map.
      */
     public NPC(int startX, int startY, char symbol) {
+        super(startX, startY, symbol);
+    }
+
+    public NPC(int startX, int startY, char symbol, Item item) {
+        super(startX, startY, symbol);
+    }
+
+    public NPC(int startX, int startY, char symbol, String clue) {
         super(startX, startY, symbol);
     }
 
