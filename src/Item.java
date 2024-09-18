@@ -1,13 +1,7 @@
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Objects;
 
 /**
- * Items can be held by Player or NPCs
+ * An abstract class that represents Items that can be held by Player or NPCs. This class
+ * can be extended further to make weapons, shields, health items etc.
  */
 
 public abstract class Item {
@@ -17,6 +11,7 @@ public abstract class Item {
     public Item(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
@@ -45,39 +40,4 @@ class Weapon extends Item {
         this.ap = ap;
     }
 
-}
-
-class ItemLoader {
-    /** Given a target item name and the file holding the data, this method will return
-     * an Item object with the written parameters */
-    public static Item loadItemFromFile(String target, String filepath) throws IOException {
-
-        // Read JSON file
-        String content = new String(Files.readAllBytes(Paths.get(filepath)));
-
-        // Search through all objects in the JSON file
-        JSONArray array = new JSONObject(content).getJSONArray("items");
-
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject ref = array.getJSONObject(i);
-
-            if (Objects.nonNull(ref)) {
-                String name = ref.getString("name");
-
-                // Found target
-                if (name.equalsIgnoreCase(target)) {
-                    // Make item based on type
-                    if (ref.getString("type").equalsIgnoreCase("weapon")) {
-                        return new Weapon(ref.getString("name"),
-                                          ref.getInt("ap"));
-                    }
-                    if (ref.getString("type").equalsIgnoreCase("shield")) {
-                        // TODO
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
 }

@@ -47,7 +47,7 @@ public class Game {
             for (int j = 0; j < npcRefs.length(); j++) {
                 JSONObject npcRef = npcRefs.getJSONObject(j);
 
-                NPC npc = NPCFileLoader.loadNPCFromFile(
+                NPC npc = NPCLoader.loadNPCFromFile(
                         npcRef.getString("name"),
                         npcRef.getString("filepath"));
 
