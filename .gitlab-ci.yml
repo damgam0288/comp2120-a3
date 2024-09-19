@@ -9,5 +9,4 @@ test_job:
     - merge_requests
     - branches
   tags:
-    - comp2120
     - comp2100
