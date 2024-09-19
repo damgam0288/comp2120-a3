@@ -1,7 +1,7 @@
 stages:
   - test
 
-test_job:
+unit_tests:
   stage: test
   script:
     - ./gradlew test
@@ -10,7 +10,7 @@ test_job:
       - build/reports/tests/test/index.html
     expire_in: 1 week
   only:
-    - merge_requests
-    - branches
+    - merge_requests      # Required since "branches" does not cover MRs
+    - branches            # Execute on GitPush to this branch
   tags:
     - comp2100
