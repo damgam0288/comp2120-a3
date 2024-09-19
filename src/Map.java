@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,7 +36,14 @@ public class Map {
         entities = new ArrayList<>();
         player = p;
 
-        MapFileLoader.loadMapWorldFromFile(filePath,this);
+        MapLoader.loadMapWorldFromFile(filePath,this);
+    }
+
+    public Map(String n, String filePath) throws Exception {
+        name = n;
+        entities = new ArrayList<>();
+
+        MapLoader.loadMapWorldFromFile(filePath,this);
     }
 
     /**
@@ -136,6 +141,14 @@ public class Map {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(List<Entity> entities) {
+        this.entities = entities;
     }
 
     /**

@@ -1,3 +1,5 @@
+import org.json.JSONObject;
+import org.json.JSONArray;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -17,8 +19,14 @@ public class MapController {
     public static MapController getInstance() {
         if (Objects.isNull(instance))
             instance = new MapController();
-
         return instance;
+    }
+
+    public Map currentMap() {
+        if (Objects.nonNull(maps)) {
+            return maps.peek();
+        }
+        return null;
     }
 
     public boolean nextMap() {
@@ -48,16 +56,21 @@ public class MapController {
         return -1;
     }
 
-    public Map currentMap() {
-        if (Objects.nonNull(maps)) {
-            return maps.peek();
+    public static LinkedList<Map> loadMapsFromJSONArray(JSONArray dataArray) throws Exception {
+        LinkedList<Map> allMaps = new LinkedList<>();
+
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject mapRef = dataArray.getJSONObject(i);
+            allMaps.add(
+                    new Map(mapRef.getString("name"),
+                            mapRef.getString("filepath"),
+                            new Player(1, 1, 'P', 10, 100)));
         }
-        return null;
+
+        return allMaps;
     }
 
-
-        /*
-
+/*
     public static void main(String[] args) {
         try {
             String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
@@ -74,17 +87,7 @@ public class MapController {
         }
     }
 
-    public static Queue<Map> loadMapsFromJSONArray(JSONArray dataArray) throws Exception {
-        for (int i = 0; i < dataArray.length(); i++) {
-            JSONObject mapRef = dataArray.getJSONObject(i);
-            allMaps.add(
-                    new Map(mapRef.getString("name"),
-                            mapRef.getString("filepath"),
-                            new Player(1, 1, 'P', 10, 100)));
-        }
 
-        return allMaps;
-    }
     */
 
 }

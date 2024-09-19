@@ -1,9 +1,17 @@
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
     private Map currentMap;
+    // TODO Change this to use the MapController.java
+    private List<Map> maps;
     private final Player player;
     private NPC npc;
     private Enemy enemy;
@@ -11,16 +19,50 @@ public class Game {
     // Game initiation
     public Game() throws Exception {
 
-        player = new Player(1, 2, 'P',10,100);
+        player = new Player(1, 2, 'P', 10, 100); // TODO move to JSON file
+        maps = new ArrayList<>();
 
-        currentMap = new Map("map1", "assets/map1.json", player);
+        // Load configuration file
+        String content =
+                new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
+        JSONObject jsonObject =
+                new JSONObject(content);
 
+        // Get all level data into an array
+        JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
-        // Dummy entities: can move this to a config file later
-        npc = new NPC(3, 3, 'N');
+        // For each level, load the map first
+        for (int i = 0; i < mapRefs.length(); i++) {
+            JSONObject mapRef = mapRefs.getJSONObject(i);
+
+            Map map = new Map(mapRef.getString("name"),
+                                mapRef.getString("filepath"));
+            maps.add(map);
+
+            // Then load NPCs
+            JSONArray npcRefs = mapRef.getJSONArray("npcs");
+
+            for (int j = 0; j < npcRefs.length(); j++) {
+                JSONObject npcRef = npcRefs.getJSONObject(j);
+
+                NPC npc = NPCLoader.loadObject(
+                        npcRef.getString("name"),
+                        npcRef.getString("filepath"));
+
+                // Add NPC to the map
+                map.addEntity(npc);
+            }
+        }
+
+        // Set current map
+        currentMap = this.maps.get(0);       // TODO Replace with MapController later
+
+        // Enemies
         enemy = new Enemy(4, 4, 'E', 5, 20);
         currentMap.addEntity(enemy);
-        currentMap.addEntity(npc);
+
+        // Finally add player
+        currentMap.setPlayer(player);
     }
 
     // Main game "loop" - handle user inputs through Scanner
@@ -71,7 +113,7 @@ public class Game {
                 fight(enemy);
             }
         }
-        // Check if the player can move to the next map
+        // Check if the player can move to the next map TODO Adapt to handle several maps
         if (currentMap.canMoveToNextMap()) {
             System.out.println("You've defeated all enemies on this map. Moving to the next map...");
             // Load the next map
@@ -148,14 +190,10 @@ public class Game {
      */
     private void handleNPCInteraction() {
         // Handle  NPCs / enemy interaction here
-            Entity collidingEntity = currentMap.getCollidingEntity();
-            if (collidingEntity instanceof NPC npc) {
-                npc.interact(player, currentMap.getMapNumber());
-            }
-
-        // Testing method only - TODO remove later
-        System.out.println("TEST: Who's player colliding: " + currentMap.getCollidingEntity());
-
+        Entity collidingEntity = currentMap.getCollidingEntity();
+        if (collidingEntity instanceof NPC npc) {
+            npc.interact(player, currentMap.getMapNumber());
+        }
     }
 
     public void handleNextMap() {
@@ -166,5 +204,6 @@ public class Game {
 
     public static void main(String[] args) throws Exception {
         new Game().start();
+
     }
 }
