@@ -12,7 +12,7 @@ import java.nio.file.NoSuchFileException;
  */
 public class ObjectLoaderTest {
 
-    private static String npcJsonFilePath = "tests/resources/npcfile-right-values.json";
+    private static String npcJsonFilePath = "tests/resources/test-npcs.json";
     private static String itemsJsonFilePath = "tests/resources/test-items.json";
 
     // Abstract Loader testing

@@ -4,6 +4,10 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Reads JSON files to create objects like NPCs, items etc. This is an abstract class
+ * only that holds common functionality that goes into loading aforementioned objects
+ */
 abstract class AbstractLoader {
 
     public static JSONObject findObject
@@ -33,8 +37,16 @@ abstract class AbstractLoader {
     }
 }
 
+/**
+ * A custom version of the Abstract Loader to find an NPC in a JSON file
+ */
 class NPCLoader extends AbstractLoader {
 
+    /**
+     * Returns a newly created NPC object given the target-string and Json file.
+     * Return JSONExceptions if the any keys are missing/malformed.
+     * Return NoSuchFieldException if the specified NPC cannot be found.
+     */
     public static NPC loadObject(String target, String filepath) throws Exception {
 
         JSONObject jsonObject = findObject(target, "npcs",
@@ -54,14 +66,18 @@ class NPCLoader extends AbstractLoader {
         return npc;
 
     }
-
-    public static void main(String[] args) throws Exception {
-        NPCLoader.loadObject("npc4","tests/resources/npcfile-right-values.json");
-
-    }
 }
 
+/**
+ * A custom version of the Abstract Loader to find an Item in a JSON file
+ */
 class ItemLoader extends AbstractLoader {
+
+    /**
+     * Returns a newly created Item object given the target-string and Json file.
+     * Will return JSONExceptions if the KEY-string cannot be found,
+     * or a NoSuchFieldException if the specified item cannot be found.
+     */
     public static Item loadObject(String target, String filepath) throws Exception {
         JSONObject itemRef = findObject(target, "items", "name", filepath);
 
