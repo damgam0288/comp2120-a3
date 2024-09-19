@@ -1,12 +1,11 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-abstract class AbstractObjectLoader {
+abstract class AbstractLoader {
 
     public static JSONObject findJsonObjectInFile
             (String targetString, String arrayKeyword, String keyString, String filepath)
@@ -27,13 +26,15 @@ abstract class AbstractObjectLoader {
                 return object;
             }
         }
+
+        // Missing object in a JSON configuration file means game shouldn't run
         throw new NoSuchFieldException("Could not find " + targetString +
                 " in the JSON reference:" +
                 filepath + "/" + arrayKeyword + "/" + keyString);
     }
 }
 
-class NPCLoader extends AbstractObjectLoader {
+class NPCLoader extends AbstractLoader {
 
     public static NPC loadNPCFromFile(String target, String npcFilePath) throws Exception {
 
@@ -61,7 +62,7 @@ class NPCLoader extends AbstractObjectLoader {
     }
 }
 
-class ItemLoader extends AbstractObjectLoader {
+class ItemLoader extends AbstractLoader {
     public static Item loadItemFromFile(String target, String filepath) throws Exception {
         JSONObject itemRef = findJsonObjectInFile(target, "items", "name", filepath);
 

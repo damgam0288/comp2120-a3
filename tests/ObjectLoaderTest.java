@@ -1,54 +1,86 @@
 import org.json.JSONException;
-import org.junit.Before;
-import org.junit.Test;
-import java.io.IOException;
-import java.nio.file.NoSuchFileException;
-
 import static org.junit.Assert.*;
+import org.junit.Test;
+
+import java.nio.file.NoSuchFileException;
 
 /**
  * This test class tests all loaders e.g. for NPCs, Items etc. to ensure JSON files are
- * read correctly, and any illegal/missing parameters are dealt with
+ * read correctly, and any illegal/missing parameters are dealt with.
+ * Expected reasons for test failure include typos in the filepath, a JSON file with
+ * the wrong KEY parameter and/or missing VALUE parameter
  */
 public class ObjectLoaderTest {
 
-    private NPCLoader npcLoader;
-    private ItemLoader itemLoader;
+    private static String npcJsonFilePath = "tests/resources/npcfile-right-values.json";
 
-    @Before
-    public void setup() {
-        npcLoader = new NPCLoader();
-        itemLoader = new ItemLoader();
-    }
-
+    // Abstract Loader testing
     @Test(expected = NoSuchFileException.class, timeout=1000)
     public void abstractLoaderNoFileException() throws Exception {
-        AbstractObjectLoader.findJsonObjectInFile
+        AbstractLoader.findJsonObjectInFile
                 ("npc1","npcs","name",
-                        "resources/file-doesnt-exist.json");
+                        "file-doesnt-exist.json");
     }
 
     @Test(expected = JSONException.class, timeout=1000)
     public void abstractLoaderNoMatchingArrayString() throws Exception {
-        AbstractObjectLoader.findJsonObjectInFile
+        AbstractLoader.findJsonObjectInFile
                 ("npc1","array-doesnt-exist","name",
-                        "tests/resources/test-npcs.json");
+                        npcJsonFilePath);
     }
 
     @Test(expected = JSONException.class, timeout=1000)
     public void abstractLoaderBadKeyString() throws Exception {
-        AbstractObjectLoader.findJsonObjectInFile
+        AbstractLoader.findJsonObjectInFile
                 ("npc1","npcs","bad-keystring",
-                        "tests/resources/test-npcs.json");
+                        npcJsonFilePath);
     }
 
     @Test(expected = NoSuchFieldException.class, timeout=1000)
     public void abstractLoaderNoMatchingTargetString() throws Exception {
-        AbstractObjectLoader.findJsonObjectInFile
+        AbstractLoader.findJsonObjectInFile
                 ("bad-target","npcs","name",
-                        "tests/resources/test-npcs.json");
+                        npcJsonFilePath);
     }
 
-    // TODO: Test
+    // NPC Loader testing
+    @Test(timeout=1000)
+    public void npcLoaderReturnsCorrectNPC() throws Exception {
+        NPC npc = NPCLoader.loadNPCFromFile("npc1",npcJsonFilePath);
+
+        assertNotNull(npc.getName());
+        assertNotNull(npc.getX());
+        assertNotNull(npc.getY());
+        assertNotNull(npc.getSymbol());
+
+        assertEquals("npc1",npc.getName());
+        assertEquals(4,npc.getX());
+        assertEquals(1,npc.getY());
+        assertEquals('1',npc.getSymbol());
+    }
+
+    @Test(timeout=1000)
+    public void npcWrongKeysInJsonFile() throws Exception {
+        // Bad array key
+        // Bad name key
+        // Bad start x/y key
+        // Bad item key
+    }
+
+    @Test(timeout=1000)
+    public void npcWrongValuesInJsonFile() throws Exception {
+        // Corrupt name value
+        // Corrupt start x/y value
+        // Corrupt item value
+    }
+    @Test(timeout=1000)
+    public void npcLoaderNoFileException() throws Exception {
+
+    }
+
+
+
+    // Item Loader testing
+
 
 }
