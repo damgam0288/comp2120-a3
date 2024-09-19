@@ -1,16 +1,10 @@
 stages:
-  - prevent-merge
-  - build
   - test
 
-# Job to prevent merging from 'experimental' to other branches
-block_merge_from_experimental:
-  stage: prevent-merge
+test_job:
+  stage: test
   script:
-    - echo "Merge attempts from 'experimental' are not allowed."
-    - exit 1
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "experimental"'
-      when: never
-    - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "experimental"'
-      when: always
+    - ./gradlew test
+  only:
+    - merge_requests
+    - branches

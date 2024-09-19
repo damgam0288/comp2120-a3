@@ -16,6 +16,10 @@ application {
     mainClass.set('Game')
 }
 
+test {
+    useJUnitPlatform()
+}
+
 sourceSets {
     main {
         java {
