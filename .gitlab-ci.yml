@@ -5,6 +5,10 @@ test_job:
   stage: test
   script:
     - ./gradlew test
+  artifacts:
+    paths:
+      - build/reports/tests/test/index.html
+    expire_in: 1 week
   only:
     - merge_requests
     - branches
