@@ -8,3 +8,6 @@ test_job:
   only:
     - merge_requests
     - branches
+  tags:
+    - comp2120
+    - comp2100
