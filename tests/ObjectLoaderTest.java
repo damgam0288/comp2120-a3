@@ -5,8 +5,7 @@ import org.junit.Test;
 import java.nio.file.NoSuchFileException;
 
 /**
- * This test class tests all loaders e.g. for NPCs, Items etc. to ensure JSON files are
- * read correctly, and any illegal/missing parameters are dealt with.
+ * This test class tests all loaders e.g. for NPCs, Items etc.
  * Expected reasons for test failure include typos in the filepath, a JSON file with
  * the wrong KEY parameter and/or missing VALUE parameter
  */
