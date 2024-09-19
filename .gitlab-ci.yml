@@ -4,7 +4,6 @@ stages:
 test_job:
   stage: test
   script:
-    - chmod +x ./gradlew
     - ./gradlew test
   only:
     - merge_requests
