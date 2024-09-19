@@ -1,7 +1,0 @@
-{
-  "bad-array-key": [
-    {"name": "npc1", "startx": "4", "starty": "1", "char": "1", "map": "map1", "item": "weapon1"},
-    {"name": "npc3", "startx": "4", "starty": "3", "char": "3", "map": "map1", "item": "weapon2"},
-    {"name": "npc2", "startx": "4", "starty": "2", "char": "2", "map": "map2", "item": "weapon2"}
-  ]
-}

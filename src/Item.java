@@ -24,11 +24,12 @@ public abstract class Item {
 
 class Weapon extends Item {
 
-    private String name;
     private int ap;     // Attack points provided by this weapon
+    private ItemType type;
 
     public Weapon(String name, int ap) {
         super(name);
+        this.type = ItemType.WEAPON;
         this.ap = ap;
     }
 
@@ -40,4 +41,12 @@ class Weapon extends Item {
         this.ap = ap;
     }
 
+    public ItemType getType() {
+        return type;
+    }
+}
+
+enum ItemType {
+    WEAPON,
+    SHIELD
 }

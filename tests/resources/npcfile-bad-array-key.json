@@ -1,0 +1,5 @@
+{
+  "bad-array": [
+    {"name": "npc1", "startx": "4", "starty": "1", "char": "1", "map": "map1", "item": "weapon1"}
+  ]
+}
