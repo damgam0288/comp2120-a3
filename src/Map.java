@@ -270,6 +270,10 @@ public class Map {
                 e1.getY() == e2.getY());
     }
 
+    /**
+     * Helper method to check the given entity (likely when adding entity to the map)
+     * is overlapping with another existing entity.
+     */
     private boolean entitiesOverlap(Entity entity) {
         if (entities.isEmpty())
             return false;
