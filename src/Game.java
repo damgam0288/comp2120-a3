@@ -19,27 +19,28 @@ public class Game {
     // Game initiation
     public Game() throws Exception {
 
+        // ** Player **
         player = new Player(1, 2, 'P', 10, 100); // TODO move to JSON file
-        maps = new ArrayList<>();
 
-        // Load configuration file
+        // ** All game configuration data **
         String content =
                 new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
         JSONObject jsonObject =
                 new JSONObject(content);
 
-        // Get all level data into an array
-        JSONArray mapRefs = jsonObject.getJSONArray("levels");
+        JSONArray mapRefs = jsonObject.getJSONArray("levels");      // All level data
+        maps = new ArrayList<>();
 
-        // For each level, load the map first
         for (int i = 0; i < mapRefs.length(); i++) {
             JSONObject mapRef = mapRefs.getJSONObject(i);
 
-            Map map = new Map(mapRef.getString("name"),
-                                mapRef.getString("filepath"));
+            // ** World map for each level **
+            Map map = new Map(mapRef.getString("name"),     // TODO Improve JSON key structure later
+                    mapRef.getString("filepath"),
+                    player);
             maps.add(map);
 
-            // Then load NPCs
+            // ** NPCs for each level **
             JSONArray npcRefs = mapRef.getJSONArray("npcs");
 
             for (int j = 0; j < npcRefs.length(); j++) {
@@ -49,20 +50,19 @@ public class Game {
                         npcRef.getString("name"),
                         npcRef.getString("filepath"));
 
-                // Add NPC to the map
                 map.addEntity(npc);
             }
+
+            // ** Enemies for each level **
+            // TODO
         }
 
         // Set current map
         currentMap = this.maps.get(0);       // TODO Replace with MapController later
 
         // Enemies
-        enemy = new Enemy(4, 4, 'E', 5, 20);
+        enemy = new Enemy(4, 4, 'E', 5, 20);        // TODO Put into JSON file later
         currentMap.addEntity(enemy);
-
-        // Finally add player
-        currentMap.setPlayer(player);
     }
 
     // Main game "loop" - handle user inputs through Scanner

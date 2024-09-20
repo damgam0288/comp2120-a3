@@ -26,9 +26,15 @@ public class Map {
      * @param filePath - path to json file containing world
      * @throws IOException - in case cannot find json file
      */
-    public Map(String n, String filePath) throws Exception {
+    public Map(String n, String filePath, Player p) throws Exception {
+        // Player cannot be null
+        if (Objects.isNull(p)) {
+            throw new IllegalArgumentException("Player cannot be null");
+        }
+
         name = n;
         entities = new ArrayList<>();
+        player = p;
 
         MapLoader.loadMapWorldFromFile(filePath,this);
     }
