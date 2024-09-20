@@ -173,6 +173,9 @@ public class Map {
         if (!isValidPosition(e.getX(), e.getY()))
             throw new IllegalArgumentException("Map.addEntity: Illegal start position");
 
+        if (entitiesOverlap(e))
+            throw new IllegalArgumentException("Map.addEntity: Entities cannot overlap");
+
         entities.add(e);
         return true;
     }
@@ -267,6 +270,17 @@ public class Map {
                 e1.getY() == e2.getY());
     }
 
+    private boolean entitiesOverlap(Entity entity) {
+        if (entities.isEmpty())
+            return false;
+
+        for(Entity e : entities) {
+            if (isColliding(e,entity))
+                return true;
+        }
+
+        return false;
+    }
     public String getMapNumber() {
         return name;  // Placeholder for map number, adjust if necessary
     }
