@@ -1,0 +1,9 @@
+{
+  "levels":
+  [
+    {"name": "map1", "filepath": "assets/map1.json",
+      "npcs": [{"name": "npc1", "filepath": "assets/npcs.json"},
+               {"name": "npc2", "filepath": "assets/npcs.json"}]}
+  ]
+}
+
