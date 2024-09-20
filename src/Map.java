@@ -27,7 +27,7 @@ public class Map {
      * @throws IOException - in case cannot find json file
      */
     public Map(String n, String filePath, Player p) throws Exception {
-        // Player cannot be null
+        // Player != null to check position once here, instead of in .draw()
         if (Objects.isNull(p)) {
             throw new IllegalArgumentException("Player cannot be null");
         }
@@ -167,11 +167,14 @@ public class Map {
      * NOTE: does NOT re-draw the game world to the terminal
      */
     public boolean addEntity(Entity e) {
-        if (!entities.contains(e)) {
-            entities.add(e);
-            return true;
-        }
-        return false;
+        if (entities.contains(e))
+            return false;
+
+        if (!isValidPosition(e.getX(), e.getY()))
+            throw new IllegalArgumentException("Map.addEntity: Illegal start position");
+
+        entities.add(e);
+        return true;
     }
 
     /**
