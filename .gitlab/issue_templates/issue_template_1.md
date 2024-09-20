@@ -5,7 +5,7 @@
 *Optional: state any assumptions about the development environment*
  
 ### Acceptance Criteria
-- [ ] List the problems that this issue aims to fix
+- [ ] List the effects that would result after solving this issue
 
 ### Related Issues
-*Hashtag any related issues here, or in the "Linked Items" below*
+*Optional: Hashtag any related issues here, or in the "Linked Items" below*
