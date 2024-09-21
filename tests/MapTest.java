@@ -7,106 +7,118 @@ import static org.junit.Assert.*;
 public class MapTest {
 
     private Player player;
-    private Map map;
-    private String entityFileOutOfBounds = "tests/resources/test-entity-bad-parameters.json";
+    private Map map1;
+    private Map map2;
+    private String entityJsonBadParameters = "tests/resources/test-entity-bad-parameters.json";
 
     @Before
     public void setup() throws Exception {
-        player = new Player(1,1,'P', 10, 100);
-        map = new Map("test-map-2","tests/resources/test-map-2.json",player);
+        player = new Player(1, 1, 'P', 10, 100);
+        map1 = new Map("test-map-1", "tests/resources/test-map-1.json", player);
+        map2 = new Map("test-map-2", "tests/resources/test-map-2.json", player);
     }
 
     @Test
     public void testDrawPlainMap() {
         // Row 0 and 4
         for (int x = 0; x <= 9; x++) {
-            assertEquals(map.getGridTile(x, 0), '#');
-            assertEquals(map.getGridTile(x, 4), '#');
+            assertEquals(map2.getGridTile(x, 0), '#');
+            assertEquals(map2.getGridTile(x, 4), '#');
         }
 
         // All other rows in between
         for (int x = 1; x <= 8; x++) {
             for (int y = 1; y <= 3; y++) {
-                assertEquals(map.getGridTile(x, y), '.');
+                assertEquals(map2.getGridTile(x, y), '.');
             }
         }
     }
 
     @Test
     public void testSetGridTile() {
-        assertEquals(map.getGridTile(2,2),'.');
-        map.setGridTile(2,2,'D');
-        assertEquals(map.getGridTile(2,2),'D');
+        assertEquals(map2.getGridTile(2, 2), '.');
+        map2.setGridTile(2, 2, 'D');
+        assertEquals(map2.getGridTile(2, 2), 'D');
     }
 
     @Test
     public void testDrawWithPlayer() {
-        map.draw();
-        assertEquals(map.getGridTile(1,1),'P');
+        map2.draw();
+        assertEquals(map2.getGridTile(1, 1), 'P');
     }
 
     @Test
     public void testMovePlayerDrawMap() {
-        player.move(3,1,map);
-        map.draw();
-        assertNotEquals(map.getGridTile(1,1),'P');
-        assertEquals(map.getGridTile(4,2),'P');
+        player.move(3, 1, map2);
+        map2.draw();
+        assertNotEquals(map2.getGridTile(1, 1), 'P');
+        assertEquals(map2.getGridTile(4, 2), 'P');
     }
 
     @Test
     public void testAddRemoveEntity() {
-        NPC npcThree = new NPC(5,1,'3');
-        assertTrue(map.addEntity(npcThree));
-        assertFalse(map.addEntity(npcThree));
+        NPC npcThree = new NPC(5, 1, '3');
+        assertTrue(map2.addEntity(npcThree));
+        assertFalse(map2.addEntity(npcThree));
 
-        assertTrue(map.removeEntity(npcThree));
-        assertFalse(map.removeEntity(npcThree));
+        assertTrue(map2.removeEntity(npcThree));
+        assertFalse(map2.removeEntity(npcThree));
     }
 
     @Test
     public void testDrawEntity() {
-        NPC npcOne = new NPC(2,1,'1');
-        NPC npcTwo = new NPC(3,1,'2');
+        NPC npcOne = new NPC(2, 1, '1');
+        NPC npcTwo = new NPC(3, 1, '2');
 
-        map.addEntity(npcOne);
-        map.addEntity(npcTwo);
-        map.draw();
+        map2.addEntity(npcOne);
+        map2.addEntity(npcTwo);
+        map2.draw();
 
-        assertEquals(map.getGridTile(2,1),'1');
-        assertEquals(map.getGridTile(3,1),'2');
+        assertEquals(map2.getGridTile(2, 1), '1');
+        assertEquals(map2.getGridTile(3, 1), '2');
     }
 
     @Test
     public void testMoveEntity() {
-        NPC npcFour = new NPC(1,3,'4');
-        map.addEntity(npcFour);
-        npcFour.move(1,0,map);
-        map.draw();
+        NPC npcFour = new NPC(1, 3, '4');
+        map2.addEntity(npcFour);
+        npcFour.move(1, 0, map2);
+        map2.draw();
 
-        assertEquals(map.getGridTile(2,3),'4');
+        assertEquals(map2.getGridTile(2, 3), '4');
     }
 
     @Test(expected = IOException.class)
     public void testFileDoesNotExistThrowsException() throws Exception {
-        Map map1 = new Map("non-existent-map","resources/non-existent-file.json",player);
+        Map map = new Map("non-existent-map", "resources/non-existent-file.json", player);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullPlayerThrowsException() throws Exception {
-        Map map1 = new Map("non-existent-map","resources/non-existent-file.json",null);
+        Map map = new Map("non-existent-map", "resources/non-existent-file.json", null);
     }
 
     @Test(timeout = 1000, expected = IllegalArgumentException.class)
-    public void entityXYIllegal() throws Exception {
-        Map map1 = new Map("map1","tests/resources/test-map-1.json",player);
-
-        NPC npc1 = NPCLoader.loadObject("npc1",entityFileOutOfBounds);
+    public void entityIllegalX() throws Exception {
+        NPC npc1 = NPCLoader.loadObject("npc1", entityJsonBadParameters);
         map1.addEntity(npc1);
-
-        NPC npc2 = NPCLoader.loadObject("npc2",entityFileOutOfBounds);
-        map1.addEntity(npc2);
-
     }
 
+    @Test(timeout = 1000, expected = IllegalArgumentException.class)
+    public void entityIllegalY() throws Exception {
+        NPC npc2 = NPCLoader.loadObject("npc2", entityJsonBadParameters);
+        map1.addEntity(npc2);
+    }
 
+    @Test(timeout = 1000, expected = IllegalArgumentException.class)
+    public void entityOutOfBoundsX() throws Exception {
+        NPC npc3 = NPCLoader.loadObject("npc3", entityJsonBadParameters);
+        map1.addEntity(npc3);
+    }
+
+    @Test(timeout = 1000, expected = IllegalArgumentException.class)
+    public void entityOutOfBoundsY() throws Exception {
+        NPC npc4 = NPCLoader.loadObject("npc4", entityJsonBadParameters);
+        map1.addEntity(npc4);
+    }
 }
