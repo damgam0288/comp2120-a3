@@ -8,6 +8,7 @@ public class MapTest {
 
     private Player player;
     private Map map;
+    private String entityFileOutOfBounds = "tests/resources/test-entity-bad-parameters.json";
 
     @Before
     public void setup() throws Exception {
@@ -95,6 +96,17 @@ public class MapTest {
         Map map1 = new Map("non-existent-map","resources/non-existent-file.json",null);
     }
 
-    // TODO later - test show/hide level exit door
+    @Test(timeout = 1000, expected = IllegalArgumentException.class)
+    public void entityXYIllegal() throws Exception {
+        Map map1 = new Map("map1","tests/resources/test-map-1.json",player);
+
+        NPC npc1 = NPCLoader.loadObject("npc1",entityFileOutOfBounds);
+        map1.addEntity(npc1);
+
+        NPC npc2 = NPCLoader.loadObject("npc2",entityFileOutOfBounds);
+        map1.addEntity(npc2);
+
+    }
+
 
 }
