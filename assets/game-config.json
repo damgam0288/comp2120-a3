@@ -1,9 +1,45 @@
 {
-  "levels":
-  [
-    {"name": "map1", "filepath": "assets/map1.json",
-      "npcs": [{"name": "npc1", "filepath": "assets/npcs.json"},
-               {"name": "npc2", "filepath": "assets/npcs.json"}]}
+  "levels": [
+    {
+      "name": "map1",
+      "filepath": "assets/map1.json",
+      "npcs": [
+        {"name": "npc1", "filepath": "assets/npcs.json"},
+        {"name": "npc3", "filepath": "assets/npcs.json"}
+      ],
+      "player": "assets/player.json",
+      "enemies": [
+        {
+          "startx": 7,
+          "starty": 3,
+          "char": "E",
+          "ap": 5,
+          "hp": 10
+        },
+        {
+          "startx": 9,
+          "starty": 3,
+          "char": "E",
+          "ap": 6,
+          "hp": 8
+        }
+      ]
+    },
+    {
+      "name": "map2",
+      "filepath": "assets/map2.json",
+      "npcs": [
+        {"name": "npc3", "filepath": "assets/npcs.json"}
+      ],
+      "enemies": [
+        {
+          "startx": 10,
+          "starty": 7,
+          "char": "E",
+          "ap": 7,
+          "hp": 12
+        }
+      ]
+    }
   ]
 }
-

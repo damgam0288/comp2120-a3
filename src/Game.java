@@ -13,62 +13,64 @@ public class Game {
     // TODO Change this to use the MapController.java
     private List<Map> maps;
     private final Player player;
-    private NPC npc;
-    private Enemy enemy;
 
     // Game initiation
     public Game() throws Exception {
 
-        player = new Player(1, 2, 'P', 10, 100); // TODO move to JSON file
         maps = new ArrayList<>();
 
         // Load configuration file
-        String content =
-                new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
-        JSONObject jsonObject =
-                new JSONObject(content);
+        String playerJsonContent = new String(Files.readAllBytes(Paths.get("assets/player.json")));
+        JSONObject playerJson = new JSONObject(playerJsonContent);
+        player = new Player(playerJson.getInt("startX"), playerJson.getInt("startY"),
+                playerJson.getString("symbol").charAt(0),
+                playerJson.getInt("ap"), playerJson.getInt("hp"));
 
-        // Get all level data into an array
+        maps = new ArrayList<>();
+        String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
+        JSONObject jsonObject = new JSONObject(content);
         JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
-        // For each level, load the map first
         for (int i = 0; i < mapRefs.length(); i++) {
             JSONObject mapRef = mapRefs.getJSONObject(i);
-
-            Map map = new Map(mapRef.getString("name"),
-                                mapRef.getString("filepath"));
+            Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player);
             maps.add(map);
-
-            // Then load NPCs
-            JSONArray npcRefs = mapRef.getJSONArray("npcs");
-
-            for (int j = 0; j < npcRefs.length(); j++) {
-                JSONObject npcRef = npcRefs.getJSONObject(j);
-
-                NPC npc = NPCLoader.loadObject(
-                        npcRef.getString("name"),
-                        npcRef.getString("filepath"));
-
-                // Add NPC to the map
-                map.addEntity(npc);
-            }
+            loadEntities(map, mapRef);
         }
 
         // Set current map
         currentMap = this.maps.get(0);       // TODO Replace with MapController later
+    }
+    private void loadEntities(Map map, JSONObject mapRef) throws Exception {
+        // load NPCs
+        JSONArray npcRefs = mapRef.getJSONArray("npcs");
+        for (int j = 0; j < npcRefs.length(); j++) {
+            JSONObject npcRef = npcRefs.getJSONObject(j);
+            NPC npc = NPCLoader.loadObject(npcRef.getString("name"), npcRef.getString("filepath"));
+            map.addEntity(npc);
+        }
 
-        // Enemies
-        enemy = new Enemy(4, 4, 'E', 5, 20);
-        currentMap.addEntity(enemy);
+        // load enemies
+        JSONArray enemyRefs = mapRef.getJSONArray("enemies");
+        for (int j = 0; j < enemyRefs.length(); j++) {
+            JSONObject enemyData = enemyRefs.getJSONObject(j);
+            Enemy enemy = new Enemy(
+                    enemyData.getInt("startx"),
+                    enemyData.getInt("starty"),
+                    enemyData.getString("char").charAt(0),
+                    enemyData.getInt("ap"),
+                    enemyData.getInt("hp")
+            );
 
-        // Finally add player
-        currentMap.setPlayer(player);
+            map.addEntity(enemy);
+            System.out.println("Loaded enemy at (" + enemy.getX() + ", " + enemy.getY() + ")");
+        }
     }
 
     // Main game "loop" - handle user inputs through Scanner
     public void start() {
         currentMap.draw();
-        
+
         Scanner scanner = new Scanner(System.in);
         String input;
         do {
@@ -93,6 +95,14 @@ public class Game {
             case "a" -> player.move(-1, 0, currentMap);
             case "d" -> player.move(1, 0, currentMap);
         }
+        if (currentMap.canMoveToNextMap()) {
+            System.out.println("You've reached the exit! Moving to the next map...");
+            handleNextMap();
+        }
+        if (currentMap.isVictory()) {
+            System.out.println("Congratulations! You've won the game!");
+            System.exit(0);
+        }
     }
 
     /**
@@ -112,28 +122,6 @@ public class Game {
             if (action.equalsIgnoreCase("f")) {
                 fight(enemy);
             }
-        }
-        // Check if the player can move to the next map TODO Adapt to handle several maps
-        if (currentMap.canMoveToNextMap()) {
-            System.out.println("You've defeated all enemies on this map. Moving to the next map...");
-            // Load the next map
-            try {
-                currentMap = new Map("map2", "assets/map2.json", player);
-                player.setPosition(1, 2);
-                npc = new NPC(3, 3, 'N');
-                enemy = new Enemy(3, 5, 'E', 10, 30);
-                currentMap.addEntity(enemy);
-                currentMap.addEntity(npc);
-
-            } catch (Exception e) {
-                System.out.println("Error loading next map: " + e.getMessage());
-                System.exit(1);
-            }
-        }
-        // Check if the player has won the game
-        if (currentMap.isVictory()) {
-            System.out.println("Congratulations! You've won the game!");
-            System.exit(0); // End the game
         }
     }
 
@@ -200,6 +188,18 @@ public class Game {
         // TODO - if (!isVictory) this method should load the next map using the game-config file
         //  Use the map number fields to track which map to move into
         //  Use a separate mapLoader class to do the work of loading the map
+        try {
+            int currentMapIndex = maps.indexOf(currentMap);
+            if (currentMapIndex + 1 < maps.size()) {
+                currentMap = maps.get(currentMapIndex + 1);
+                player.setPosition(1, 1); // player position on the new map
+            } else {
+                System.out.println("No more maps available.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error loading next map: " + e.getMessage());
+            System.exit(1);
+        }
     }
 
     public static void main(String[] args) throws Exception {
