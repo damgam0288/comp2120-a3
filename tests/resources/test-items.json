@@ -1,0 +1,8 @@
+{
+  "items": [
+    {"name": "weapon1", "type": "weapon", "ap": 10},
+    {"name": "weapon2", "type": "weapon", "ap": 20},
+    {"name": "shield1", "type": "shield", "hp": 10},
+    {"name": "shield2", "type": "shield", "hp": 20}
+  ]
+}

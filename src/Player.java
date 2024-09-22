@@ -2,6 +2,7 @@
 public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
+    private Item item;      // TODO Replace this with proper inventory
 
     private Item equippedItem;
 
@@ -81,6 +82,14 @@ public class Player extends Entity {
         getInventory().removeItem(item);
     }
 
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void receiveItem(Item item) {
+        this.item = item;
+    }
 
     /**
      * Attacks the enemy by reducing its HP based on the player's AP.

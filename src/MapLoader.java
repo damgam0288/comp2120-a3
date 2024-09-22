@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class MapFileLoader {
+public class MapLoader {
 
     public static void loadMapWorldFromFile(String mapFilePath, Map map) throws IOException {
 
@@ -32,5 +32,7 @@ public class MapFileLoader {
             }
         }
     }
+
+
 
 }
