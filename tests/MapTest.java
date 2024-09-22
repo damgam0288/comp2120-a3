@@ -100,25 +100,28 @@ public class MapTest {
 
     @Test(timeout = 1000, expected = IllegalArgumentException.class)
     public void entityIllegalX() throws Exception {
-        NPC npc1 = NPCLoader.loadObject("npc1", entityJsonBadParameters);
-        map1.addEntity(npc1);
+        map1.addEntity(NPCLoader.loadObject("npc1", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = IllegalArgumentException.class)
     public void entityIllegalY() throws Exception {
-        NPC npc2 = NPCLoader.loadObject("npc2", entityJsonBadParameters);
-        map1.addEntity(npc2);
+        map1.addEntity(NPCLoader.loadObject("npc2", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = IllegalArgumentException.class)
     public void entityOutOfBoundsX() throws Exception {
-        NPC npc3 = NPCLoader.loadObject("npc3", entityJsonBadParameters);
-        map1.addEntity(npc3);
+        map1.addEntity(NPCLoader.loadObject("npc3", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = IllegalArgumentException.class)
     public void entityOutOfBoundsY() throws Exception {
-        NPC npc4 = NPCLoader.loadObject("npc4", entityJsonBadParameters);
-        map1.addEntity(npc4);
+        map1.addEntity(NPCLoader.loadObject("npc4", entityJsonBadParameters));
     }
+
+    // entity overlapping with another entity (except player)
+
+
+
+
+
 }
