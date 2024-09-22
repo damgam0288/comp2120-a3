@@ -27,24 +27,16 @@ public class Game {
 
     // Game initiation
     public Game() throws Exception {
-        player = new Player(1, 2, 'P', 10, 100);
-        player.initInventory(); // Initialize inventory with items
-        currentMap = new Map("map1", "assets/map1.json", player);
-        npc = new NPC(3, 3, 'N');
-        enemy = new Enemy(4, 4, 'E', 5, 20);
-        currentMap.addEntity(enemy);
-        currentMap.addEntity(npc);
-        scanner = new Scanner(System.in); // Initialize scanner here
 
-        maps = new ArrayList<>();
-
-        // Load configuration file
+        // Create Player
         String playerJsonContent = new String(Files.readAllBytes(Paths.get("assets/player.json")));
         JSONObject playerJson = new JSONObject(playerJsonContent);
         player = new Player(playerJson.getInt("startX"), playerJson.getInt("startY"),
                 playerJson.getString("symbol").charAt(0),
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
+        player.initInventory();
 
+        // Load configuration file
         maps = new ArrayList<>();
         String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
         JSONObject jsonObject = new JSONObject(content);
@@ -60,6 +52,8 @@ public class Game {
         // Set current map
         currentMap = this.maps.get(0);       // TODO Replace with MapController later
     }
+
+
     private void loadEntities(Map map, JSONObject mapRef) throws Exception {
         // load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
@@ -88,7 +82,10 @@ public class Game {
 
     public void start() {
         currentMap.draw();
+
+        scanner = new Scanner(System.in);
         String input;
+
         do {
             System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, I for Inventory, P to pause, Q to quit): ");
             input = scanner.nextLine();
@@ -110,12 +107,6 @@ public class Game {
 
         scanner.close(); // Close scanner at the end
     }
-
-
-    public static void main(String[] args) throws Exception {
-        new Game().start();
-    }
-
 
     /**
      * Opens the player's inventory, allowing them to view and interact with their items.
