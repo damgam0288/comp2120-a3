@@ -5,10 +5,18 @@ import java.util.Scanner;
 public class Game {
 
     private Map currentMap;
+    private Map pausedState;
     private final Player player;
     private Scanner scanner;
     private NPC npc;
     private Enemy enemy;
+
+    public enum GameState {
+        RUNNING, PAUSED
+    }
+
+    private GameState currentState = GameState.RUNNING;
+
     // Game initiation
     public Game() throws Exception {
         player = new Player(1, 2, 'P', 10, 100);
@@ -26,9 +34,12 @@ public class Game {
 
         String input;
         do {
-            System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, I for Inventory, Q to quit): ");
+            System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, I for Inventory, P to pause, Q to quit): ");
             input = scanner.nextLine();
 
+            if (input.equalsIgnoreCase("p")){
+                handlePaused();
+            }
             if (input.equalsIgnoreCase("i")) {
                 openInventory();
             } else {
@@ -43,6 +54,12 @@ public class Game {
 
         scanner.close(); // Close scanner at the end
     }
+
+
+    public static void main(String[] args) throws Exception {
+        new Game().start();
+    }
+
 
     /**
      * Opens the player's inventory, allowing them to view and interact with their items.
@@ -117,9 +134,54 @@ public class Game {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        new Game().start();
+
+    /**
+     * Handles the game's pause functionality.
+     *
+     * This method checks if the game is currently in the RUNNING state. If so, it pauses the game by
+     * switching the game state to PAUSED and displays a pause menu. While the game is paused,
+     * it enters a loop waiting for user input to either resume the game or quit.
+     *
+     * - When the user presses 'P', the game resumes by switching the game state back to RUNNING.
+     * - When the user presses 'Q', the game quits by exiting the application.
+     * - Any other input is considered invalid and the pause menu is re-displayed.
+     *
+     * The method ensures that no game actions can be taken while the game is paused.
+     *
+     */
+    public void handlePaused() {
+        if (currentState == GameState.RUNNING) {
+            currentState = GameState.PAUSED;
+            System.out.println("#######################");
+            System.out.println("#                     #");
+            System.out.println("#     GAME PAUSED     #");
+            System.out.println("# Press 'P' to resume #");
+            System.out.println("# Press 'Q' to quit   #");
+            System.out.println("#                     #");
+            System.out.println("#######################");
+
+            // Loop to wait for input to resume or quit
+            boolean paused = true;
+            while (paused) {
+                String input = scanner.nextLine().trim().toLowerCase();
+                switch (input) {
+                    case "p":
+                        paused = false;
+                        currentState = GameState.RUNNING;
+                        System.out.println("Game resumed.");
+                        break;
+                    case "q":
+                        System.out.println("Quitting the game...");
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid input. Press 'P' to resume or 'Q' to quit.");
+                }
+            }
+        }
     }
+
+
 
     // Handle player movement within the current map
     private void handleMovement(String move) {
