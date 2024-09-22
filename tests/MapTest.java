@@ -1,3 +1,4 @@
+import exceptions.InvalidEntityPlacementException;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
@@ -55,8 +56,8 @@ public class MapTest {
         assertEquals(map2.getGridTile(4, 2), 'P');
     }
 
-    @Test
-    public void testAddRemoveEntity() {
+    @Test(timeout = 1000)
+    public void testAddRemoveEntity() throws Exception {
         NPC npcThree = new NPC(5, 1, '3');
         assertTrue(map2.addEntity(npcThree));
         assertFalse(map2.addEntity(npcThree));
@@ -65,8 +66,8 @@ public class MapTest {
         assertFalse(map2.removeEntity(npcThree));
     }
 
-    @Test
-    public void testDrawEntity() {
+    @Test(timeout = 1000)
+    public void testDrawEntity() throws Exception {
         NPC npcOne = new NPC(2, 1, '1');
         NPC npcTwo = new NPC(3, 1, '2');
 
@@ -78,8 +79,8 @@ public class MapTest {
         assertEquals(map2.getGridTile(3, 1), '2');
     }
 
-    @Test
-    public void testMoveEntity() {
+    @Test(timeout = 1000)
+    public void testMoveEntity() throws Exception {
         NPC npcFour = new NPC(1, 3, '4');
         map2.addEntity(npcFour);
         npcFour.move(1, 0, map2);
@@ -98,22 +99,22 @@ public class MapTest {
         Map map = new Map("non-existent-map", "resources/non-existent-file.json", null);
     }
 
-    @Test(timeout = 1000, expected = IllegalArgumentException.class)
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
     public void entityIllegalX() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc1", entityJsonBadParameters));
     }
 
-    @Test(timeout = 1000, expected = IllegalArgumentException.class)
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
     public void entityIllegalY() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc2", entityJsonBadParameters));
     }
 
-    @Test(timeout = 1000, expected = IllegalArgumentException.class)
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
     public void entityOutOfBoundsX() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc3", entityJsonBadParameters));
     }
 
-    @Test(timeout = 1000, expected = IllegalArgumentException.class)
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
     public void entityOutOfBoundsY() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc4", entityJsonBadParameters));
     }

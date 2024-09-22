@@ -1,3 +1,5 @@
+import exceptions.InvalidEntityPlacementException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -166,15 +168,15 @@ public class Map {
      * Adds (non-duplicate) entity to the list of entities on this map
      * NOTE: does NOT re-draw the game world to the terminal
      */
-    public boolean addEntity(Entity e) {
+    public boolean addEntity(Entity e) throws Exception {
         if (entities.contains(e))
             return false;
 
         if (!isValidPosition(e.getX(), e.getY()))
-            throw new IllegalArgumentException("Map.addEntity: Illegal start position");
+            throw new InvalidEntityPlacementException("Map.addEntity: Bad start position");
 
         if (entitiesOverlap(e))
-            throw new IllegalArgumentException("Map.addEntity: Entities cannot overlap");
+            throw new InvalidEntityPlacementException("Map.addEntity: Entities cannot overlap");
 
         entities.add(e);
         return true;
