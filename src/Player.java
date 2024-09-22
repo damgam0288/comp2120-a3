@@ -3,6 +3,11 @@ public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
 
+    private Item equippedItem;
+
+    private Inventory inventory; // Inventory attribute
+
+
     /**
      * Constructor
      * @param startX the starting x-coordinate of the player.
@@ -15,6 +20,7 @@ public class Player extends Entity {
         super(startX, startY, symbol);
         this.ap = ap;
         this.hp = hp;
+        this.inventory = new Inventory(); // Initialize inventory here
     }
 
     // Getter and setter for AP and HP
@@ -66,6 +72,16 @@ public class Player extends Entity {
         setY(y);
     }
 
+    public void equipItem(Item item){
+        equippedItem = item;
+    }
+
+    public void useHealthPotion(Item item){
+        hp += item.getValue();
+        getInventory().removeItem(item);
+    }
+
+
     /**
      * Attacks the enemy by reducing its HP based on the player's AP.
      * Displays the player's HP, AP, and the enemy's updated HP after the attack.
@@ -76,5 +92,30 @@ public class Player extends Entity {
         enemy.setHP(enemy.getHP() - ap);
         System.out.println("Your Health Points (HP): " + hp + ", Your Attack Points (AP): " + ap);
         System.out.println("You attacked the enemy. Enemy HP is now: " + enemy.getHP());
+    }
+
+    /**
+     * Initializes the player's inventory with a set of predefined items.
+     * This method is typically called during game setup to populate the
+     * inventory with starter items. Additional items can be added manually
+     * or loaded from an external source.
+     *
+     * Currently adds the following example items:
+     * - Health Potion
+     * - Sword
+     */
+    public void initInventory() {
+        inventory.addItem(new Item("Health Potion", 20));
+        inventory.addItem(new Item("Sword", 10));
+    }
+
+    /**
+     * Retrieves the player's inventory.
+     *
+     * @return The player's inventory object, which contains the list of items
+     *         the player currently possesses and methods for interacting with them.
+     */
+    public Inventory getInventory() {
+        return inventory;
     }
 }

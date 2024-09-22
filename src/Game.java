@@ -1,46 +1,124 @@
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
     private Map currentMap;
     private final Player player;
+    private Scanner scanner;
     private NPC npc;
     private Enemy enemy;
-
     // Game initiation
     public Game() throws Exception {
-
-        player = new Player(1, 2, 'P',10,100);
-
+        player = new Player(1, 2, 'P', 10, 100);
+        player.initInventory(); // Initialize inventory with items
         currentMap = new Map("map1", "assets/map1.json", player);
-
-
-        // Dummy entities: can move this to a config file later
         npc = new NPC(3, 3, 'N');
         enemy = new Enemy(4, 4, 'E', 5, 20);
         currentMap.addEntity(enemy);
         currentMap.addEntity(npc);
+        scanner = new Scanner(System.in); // Initialize scanner here
     }
 
-    // Main game "loop" - handle user inputs through Scanner
     public void start() {
         currentMap.draw();
-        
-        Scanner scanner = new Scanner(System.in);
+
         String input;
         do {
-            System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, Q to quit): ");
+            System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, I for Inventory, Q to quit): ");
             input = scanner.nextLine();
-            handleMovement(input);      // Handle player movement
-            handleNPCInteraction();     // Handle interaction with NPCs
-            handleEnemicInteraction();
+
+            if (input.equalsIgnoreCase("i")) {
+                openInventory();
+            } else {
+                handleMovement(input);
+                handleNPCInteraction();
+                handleEnemicInteraction();
+            }
 
             currentMap.draw();
             printCurrentMap();
         } while (!input.equalsIgnoreCase("q"));
 
-        scanner.close();
+        scanner.close(); // Close scanner at the end
+    }
+
+    /**
+     * Opens the player's inventory, allowing them to view and interact with their items.
+     * This method displays the list of items in the player's inventory and provides
+     * options to use, equip, or drop items. The player can also exit the inventory.
+     *
+     * While the inventory is open:
+     * - The player can select an item by its number to interact with it.
+     * - Options for interacting include using the item, equipping it, or dropping it.
+     * - If the inventory is empty, a message is displayed, and the method exits.
+     *
+     * The method continues to run in a loop until the player chooses to exit
+     * the inventory by selecting option 0 or 4.
+     */
+    private void openInventory() {
+        boolean inventoryOpen = true;
+
+        while (inventoryOpen) {
+            List<Item> items = player.getInventory().getItems();
+            if (items.isEmpty()) {
+                System.out.println("Your inventory is empty.");
+                return;
+            }
+
+            System.out.println("Inventory:");
+            for (int i = 0; i < items.size(); i++) {
+                System.out.println((i + 1) + ") " + items.get(i).getName());
+            }
+
+            System.out.println("Select an item number to interact with, or 0 to exit:");
+            int itemIndex;
+            try {
+                itemIndex = Integer.parseInt(scanner.nextLine()) - 1;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                continue;
+            }
+
+            if (itemIndex == -1) {
+                inventoryOpen = false;
+                continue;
+            }
+
+            if (itemIndex < 0 || itemIndex >= items.size()) {
+                System.out.println("Invalid item number. Try again.");
+                continue;
+            }
+
+            Item selectedItem = items.get(itemIndex);
+
+            System.out.println("Selected Item: " + selectedItem.getName());
+            System.out.println("Choose an option: 1) Use Item  2) Equip Item  3) Drop Item  4) Exit Inventory");
+            String action = scanner.nextLine();
+
+            switch (action) {
+                case "1":
+                    player.getInventory().useItem(player, itemIndex);
+                    break;
+                case "2":
+                    player.getInventory().equipItem(player, itemIndex);
+                    break;
+                case "3":
+                    player.getInventory().removeItem(selectedItem);
+                    System.out.println("Dropped " + selectedItem.getName());
+                    break;
+                case "4":
+                    inventoryOpen = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        new Game().start();
     }
 
     // Handle player movement within the current map
@@ -61,12 +139,10 @@ public class Game {
      */
     private void handleEnemicInteraction() {
         Entity collidingEntity = currentMap.getCollidingEntity();
-        // If the colliding entity is an enemy, offer the player a chance to fight
         if (collidingEntity instanceof Enemy enemy) {
             System.out.println("You've encountered an enemy!");
             System.out.println("Press 'F' to fight, or move away.");
-            Scanner scanner = new Scanner(System.in);
-            String action = scanner.nextLine();
+            String action = scanner.nextLine(); // Use class-level scanner
             if (action.equalsIgnoreCase("f")) {
                 fight(enemy);
             }
@@ -104,26 +180,20 @@ public class Game {
      * @param enemy The enemy the player is fighting
      */
     private void fight(Enemy enemy) {
-        Scanner scanner = new Scanner(System.in);
         while (player.getHP() > 0 && enemy.getHP() > 0) {
-            // Player attacks the enemy
             player.attack(enemy);
-            // Check if the enemy is defeated
             if (enemy.getHP() <= 0) {
                 System.out.println("You defeated the enemy!");
                 currentMap.removeEntity(enemy);
                 return;
             }
-            // Enemy attacks the player
             enemy.attack(player);
-            // Check if the player is defeated
             if (player.getHP() <= 0) {
                 System.out.println("You were defeated...");
                 return;
             }
-            // Prompt the player to continue fighting or move away
             System.out.println("Press 'F' to fight, or move away.");
-            String action = scanner.nextLine();
+            String action = scanner.nextLine(); // Use class-level scanner
             if (action.equalsIgnoreCase("f")) {
                 continue; // Continue fighting
             } else {
@@ -148,10 +218,10 @@ public class Game {
      */
     private void handleNPCInteraction() {
         // Handle  NPCs / enemy interaction here
-            Entity collidingEntity = currentMap.getCollidingEntity();
-            if (collidingEntity instanceof NPC npc) {
-                npc.interact(player, currentMap.getMapNumber());
-            }
+        Entity collidingEntity = currentMap.getCollidingEntity();
+        if (collidingEntity instanceof NPC npc) {
+            npc.interact(player, currentMap.getMapNumber());
+        }
 
         // Testing method only - TODO remove later
         System.out.println("TEST: Who's player colliding: " + currentMap.getCollidingEntity());
@@ -164,7 +234,4 @@ public class Game {
         //  Use a separate mapLoader class to do the work of loading the map
     }
 
-    public static void main(String[] args) throws Exception {
-        new Game().start();
-    }
 }
