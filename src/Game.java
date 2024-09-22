@@ -13,7 +13,6 @@ public class Game {
 
     private Map currentMap;
     private Map pausedState;
-    // TODO Change this to use the MapController.java
     private List<Map> maps;
     private final Player player;
     private Scanner scanner;
