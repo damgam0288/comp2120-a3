@@ -89,6 +89,7 @@ public class MapTest {
         assertEquals(map2.getGridTile(2, 3), '4');
     }
 
+    // ** Wrong/missing files **
     @Test(expected = IOException.class)
     public void testFileDoesNotExistThrowsException() throws Exception {
         Map map = new Map("non-existent-map", "resources/non-existent-file.json", player);
@@ -99,6 +100,7 @@ public class MapTest {
         Map map = new Map("non-existent-map", "resources/non-existent-file.json", null);
     }
 
+    // ** Entity out of bounds **
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
     public void entityIllegalX() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc1", entityJsonBadParameters));
@@ -119,10 +121,33 @@ public class MapTest {
         map1.addEntity(NPCLoader.loadObject("npc4", entityJsonBadParameters));
     }
 
-    // entity overlapping with another entity (except player)
+    // ** Entity placed on an obstacle **
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
+    public void entityOnLeftWall() throws Exception {
+        map1.addEntity(NPCLoader.loadObject("npc5", entityJsonBadParameters));
+    }
 
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
+    public void entityOnRightWall() throws Exception {
+        map1.addEntity(NPCLoader.loadObject("npc6", entityJsonBadParameters));
+    }
 
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
+    public void entityOnTopWall() throws Exception {
+        map1.addEntity(NPCLoader.loadObject("npc7", entityJsonBadParameters));
+    }
 
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
+    public void entityOnBottomWall() throws Exception {
+        map1.addEntity(NPCLoader.loadObject("npc8", entityJsonBadParameters));
+    }
+
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
+    public void entityOnCentreObstacle() throws Exception {
+        map1.addEntity(NPCLoader.loadObject("npc9", entityJsonBadParameters));
+    }
+
+    // ** Overlapping entities **
 
 
 }

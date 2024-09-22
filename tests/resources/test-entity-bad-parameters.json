@@ -1,12 +1,16 @@
 {
   "npcs": [
-    {"name": "npc1", "startx": -1, "starty": 1, "char": "1", "item": "weapon1"},
-    {"name": "npc2", "startx": 4, "starty": -1, "char": "2", "item": "weapon2"},
+    {"name": "npc1", "startx": 0, "starty": 1, "char": "1", "item": "weapon1"},
+    {"name": "npc2", "startx": 4, "starty": 0, "char": "2", "item": "weapon2"},
 
-    {"name": "npc3", "startx": 100, "starty": 3, "char": "3", "item": "weapon2"},
-    {"name": "npc4", "startx": 4, "starty": 100, "char": "4", "item": "weapon2"},
+    {"name": "npc3", "startx": 22, "starty": 3, "char": "3", "item": "weapon2"},
+    {"name": "npc4", "startx": 4, "starty": 8, "char": "4", "item": "weapon2"},
 
     {"name": "npc5", "startx": 0, "starty": 4, "char": "4", "item": "weapon2"},
-    {"name": "npc6", "startx": 10, "starty": 0, "char": "4", "item": "weapon2"}
+    {"name": "npc6", "startx": 22, "starty": 4, "char": "4", "item": "weapon2"},
+    {"name": "npc7", "startx": 0, "starty": 4, "char": "4", "item": "weapon2"},
+    {"name": "npc8", "startx": 10, "starty": 0, "char": "4", "item": "weapon2"},
+    {"name": "npc9", "startx": 10, "starty": 2, "char": "4", "item": "weapon2"}
+
   ]
 }
