@@ -1,3 +1,5 @@
+import exceptions.InvalidEntityPlacementException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class Map {
      * @throws IOException - in case cannot find json file
      */
     public Map(String n, String filePath, Player p) throws Exception {
-        // Player cannot be null
+        // Player != null to check position once here, instead of in .draw()
         if (Objects.isNull(p)) {
             throw new IllegalArgumentException("Player cannot be null");
         }
@@ -35,13 +37,6 @@ public class Map {
         name = n;
         entities = new ArrayList<>();
         player = p;
-
-        MapLoader.loadMapWorldFromFile(filePath,this);
-    }
-
-    public Map(String n, String filePath) throws Exception {
-        name = n;
-        entities = new ArrayList<>();
 
         MapLoader.loadMapWorldFromFile(filePath,this);
     }
@@ -173,12 +168,18 @@ public class Map {
      * Adds (non-duplicate) entity to the list of entities on this map
      * NOTE: does NOT re-draw the game world to the terminal
      */
-    public boolean addEntity(Entity e) {
-        if (!entities.contains(e)) {
-            entities.add(e);
-            return true;
-        }
-        return false;
+    public boolean addEntity(Entity e) throws Exception {
+        if (entities.contains(e))
+            return false;
+
+        if (!isValidPosition(e.getX(), e.getY()))
+            throw new InvalidEntityPlacementException("Map.addEntity: Bad start position");
+
+        if (entitiesOverlap(e))
+            throw new InvalidEntityPlacementException("Map.addEntity: Entities cannot overlap");
+
+        entities.add(e);
+        return true;
     }
 
     /**
@@ -269,6 +270,22 @@ public class Map {
     private boolean isColliding(Entity e1, Entity e2) {
         return (e1.getX() == e2.getX() &&
                 e1.getY() == e2.getY());
+    }
+
+    /**
+     * Helper method to check the given entity (likely when adding entity to the map)
+     * is overlapping with another existing entity.
+     */
+    private boolean entitiesOverlap(Entity entity) {
+        if (entities.isEmpty())
+            return false;
+
+        for(Entity e : entities) {
+            if (isColliding(e,entity))
+                return true;
+        }
+
+        return false;
     }
 
     public String getMapNumber() {
