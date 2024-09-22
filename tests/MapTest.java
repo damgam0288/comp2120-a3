@@ -148,6 +148,10 @@ public class MapTest {
     }
 
     // ** Overlapping entities **
-
+    @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
+    public void entitiesOverlapping() throws Exception {
+        map1.addEntity(NPCLoader.loadObject("npc10", entityJsonBadParameters));
+        map1.addEntity(NPCLoader.loadObject("npc11", entityJsonBadParameters));
+    }
 
 }
