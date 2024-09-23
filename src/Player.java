@@ -2,7 +2,8 @@
 public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
-    private Item item;      // TODO Replace this with proper inventory
+    private Inventory inventory;
+    private Item equippedItem;
 
     /**
      * Constructor
@@ -16,9 +17,8 @@ public class Player extends Entity {
         super(startX, startY, symbol);
         this.ap = ap;
         this.hp = hp;
+        this.inventory = new Inventory();
     }
-
-    // Getter and setter for AP and HP
 
     /**
      * Retrieves the player's attack points (AP).
@@ -67,12 +67,21 @@ public class Player extends Entity {
         setY(y);
     }
 
-    public Item getItem() {
-        return item;
+    public void equipItem(Item item){
+        this.equippedItem = item;
+    }
+
+    // TODO do we need a method to unequip item here instead of inventory?
+
+    // TODO do we need a method to retrieve equipped item here instead of inventory?
+
+    public void useHealthPotion(Item item){
+        hp += item.getValue();      // TODO consider adding a max-health and increase hp up to that number?
+        getInventory().removeItem(item);
     }
 
     public void receiveItem(Item item) {
-        this.item = item;
+        // TODO replace this using inventory instead
     }
 
     /**
@@ -85,5 +94,30 @@ public class Player extends Entity {
         enemy.setHP(enemy.getHP() - ap);
         System.out.println("Your Health Points (HP): " + hp + ", Your Attack Points (AP): " + ap);
         System.out.println("You attacked the enemy. Enemy HP is now: " + enemy.getHP());
+    }
+
+    /**
+     * Initializes the player's inventory with a set of predefined items.
+     * This method is typically called during game setup to populate the
+     * inventory with starter items. Additional items can be added manually
+     * or loaded from an external source.
+     *
+     * Currently adds the following example items:
+     * - Health Potion
+     * - Sword
+     */
+    public void initInventory() {
+        inventory.addItem(new HealthPotion("Health Potion", 20));
+        inventory.addItem(new Weapon("Sword", 10));
+    }
+
+    /**
+     * Retrieves the player's inventory.
+     *
+     * @return The player's inventory object, which contains the list of items
+     *         the player currently possesses and methods for interacting with them.
+     */
+    public Inventory getInventory() {
+        return inventory;
     }
 }

@@ -73,7 +73,9 @@ public class ObjectLoaderTest {
 
         assertEquals("weapon1",weapon1.getName());
         assertEquals(ItemType.WEAPON, weapon1.getType());
-        assertEquals(10, weapon1.getAp());
+        assertEquals(10, weapon1.getValue());
+
+        // TODO Requires more tests to test different types of items
     }
 
     @Test(timeout=1000, expected = NoSuchFieldException.class)
