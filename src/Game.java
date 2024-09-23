@@ -11,17 +11,16 @@ import java.util.Scanner;
 
 public class Game {
 
+    private static final int MAX_ENEMIES_PER_LEVEL = 3;
+    private static final int MAX_NPCs_PER_LEVEL = 3;
+
     private Map currentMap;
-    private Map pausedState;        // TODO 2
     private List<Map> maps;
     private final Player player;
-    private Scanner scanner;
 
-    public enum GameState {
-        RUNNING, PAUSED
-    }
-
+    private Map pausedState;        // TODO 2
     private GameState currentState = GameState.RUNNING;
+    private Scanner scanner;
 
     // Game initiation
     public Game() throws Exception {
@@ -60,7 +59,7 @@ public class Game {
         // load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
 
-        if (npcRefs.length()>3)       // Apply max limit per level
+        if (npcRefs.length()>MAX_NPCs_PER_LEVEL)       // Apply max limit per level
             throw new TooManyEntitiesException("Too many NPCs loaded into map");
 
         for (int j = 0; j < npcRefs.length(); j++) {
@@ -72,7 +71,7 @@ public class Game {
         // load enemies
         JSONArray enemyRefs = mapRef.getJSONArray("enemies");
 
-        if (enemyRefs.length()>3)       // Apply max limit  per level
+        if (enemyRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit  per level
             throw new TooManyEntitiesException("Too many enemies loaded into map");
 
         for (int j = 0; j < enemyRefs.length(); j++) {
@@ -89,6 +88,7 @@ public class Game {
         }
     }
 
+    // Game 'loop'
     public void start() {
         currentMap.draw();
 
@@ -345,5 +345,9 @@ public class Game {
     public static void main(String[] args) throws Exception {
         new Game().start();
 
+    }
+
+    enum GameState {
+        RUNNING, PAUSED
     }
 }
