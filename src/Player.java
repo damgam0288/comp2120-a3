@@ -75,16 +75,13 @@ public class Player extends Entity {
         this.equippedItem = item;
     }
 
-    // TODO unequip item too? and method to retrieve equipped item?
+    // TODO do we need a method to unequip item too?
+
+    // TODO do we need a method to retrieve equipped item?
 
     public void useHealthPotion(Item item){
         hp += item.getValue();      // TODO consider adding a max-health and increase hp up to that number?
         getInventory().removeItem(item);
-    }
-
-
-    public Item getItem() {
-        return item;
     }
 
     public void receiveItem(Item item) {
