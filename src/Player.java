@@ -2,11 +2,11 @@
 public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
-    private Item item;      // TODO Replace this with proper inventory
+    private Item item;      // TODO 3 replace this with proper inventory
 
     private Item equippedItem;
 
-    private Inventory inventory; // Inventory attribute
+    private Inventory inventory;
 
 
     /**
@@ -21,10 +21,8 @@ public class Player extends Entity {
         super(startX, startY, symbol);
         this.ap = ap;
         this.hp = hp;
-        this.inventory = new Inventory(); // Initialize inventory here
+        this.inventory = new Inventory();
     }
-
-    // Getter and setter for AP and HP
 
     /**
      * Retrieves the player's attack points (AP).
@@ -74,11 +72,13 @@ public class Player extends Entity {
     }
 
     public void equipItem(Item item){
-        equippedItem = item;
+        this.equippedItem = item;
     }
 
+    // TODO unequip item too? and method to retrieve equipped item?
+
     public void useHealthPotion(Item item){
-        hp += item.getValue();
+        hp += item.getValue();      // TODO consider adding a max-health and increase hp up to that number?
         getInventory().removeItem(item);
     }
 
