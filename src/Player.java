@@ -2,12 +2,8 @@
 public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
-    private Item item;      // TODO 3 replace this with proper inventory
-
-    private Item equippedItem;
-
     private Inventory inventory;
-
+    private Item equippedItem;
 
     /**
      * Constructor
@@ -75,9 +71,9 @@ public class Player extends Entity {
         this.equippedItem = item;
     }
 
-    // TODO do we need a method to unequip item too?
+    // TODO do we need a method to unequip item here instead of inventory?
 
-    // TODO do we need a method to retrieve equipped item?
+    // TODO do we need a method to retrieve equipped item here instead of inventory?
 
     public void useHealthPotion(Item item){
         hp += item.getValue();      // TODO consider adding a max-health and increase hp up to that number?
@@ -85,7 +81,7 @@ public class Player extends Entity {
     }
 
     public void receiveItem(Item item) {
-        this.item = item;
+        // TODO replace this using inventory instead
     }
 
     /**
@@ -111,8 +107,8 @@ public class Player extends Entity {
      * - Sword
      */
     public void initInventory() {
-        inventory.addItem(new Item("Health Potion", 20));
-        inventory.addItem(new Item("Sword", 10));
+        inventory.addItem(new HealthPotion("Health Potion", 20));
+        inventory.addItem(new Weapon("Sword", 10));
     }
 
     /**

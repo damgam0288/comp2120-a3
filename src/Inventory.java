@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Inventory {
     private List<Item> items;
 
@@ -74,8 +75,8 @@ public class Inventory {
         }
         Item item = items.get(itemIndex);
 
-        switch (item.getName()) {
-            case "Sword":
+        switch (item.getType()) {
+            case ItemType.WEAPON:
                 player.equipItem(item);
                 System.out.println("Equipped item: " + item.getName());
                 break;

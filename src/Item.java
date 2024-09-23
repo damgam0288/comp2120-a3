@@ -3,17 +3,18 @@
  * can be extended further to make weapons, shields, health items etc.
  */
 
-public class Item {
+public abstract class Item {
 
     String name = "";
-    private int value;
-
+    private int value;      // This can be AP or HP for the specific item classes (below)
+    private ItemType type;
     /**
      * Creates item given a name.
      * @param name must be unique because it is used as an identifier when loading from a JSON file
      */
-    public Item(String name) {
+    public Item(String name, ItemType type) {
         this.name = name;
+        this.type = type;
     }
 
     /**
@@ -23,8 +24,9 @@ public class Item {
      *              e.g. For a sword value represents its attacking power,
      *              for a health potion value represents the amount of health it  will regain.
      */
-    public Item(String name, int value) {
+    public Item(String name, ItemType type, int value) {
         this.name = name;
+        this.type = type;
         this.value = value;
     }
 
@@ -36,36 +38,33 @@ public class Item {
     public String getName() {
         return name;
     }
-}
-
-/**
- * A specific type of
- */
-class Weapon extends Item {
-
-    private int ap;     // Attack points provided by this weapon
-    private ItemType type;
-
-    public Weapon(String name, int ap) {
-        super(name);
-        this.type = ItemType.WEAPON;
-        this.ap = ap;
-    }
-
-    public int getAp() {
-        return ap;
-    }
-
-    public void setAp(int ap) {
-        this.ap = ap;
-    }
 
     public ItemType getType() {
         return type;
     }
 }
 
+/**
+ * A specific type of Item used to attack opponents
+ */
+class Weapon extends Item {
+    public Weapon(String name, int ap) {
+        super(name, ItemType.WEAPON, ap);
+    }
+}
+
+/**
+ * A specific type of Item used to attack opponents
+ */
+class HealthPotion extends Item {
+    public HealthPotion(String name, int hp) {
+        super(name, ItemType.HEALTHPOTION, hp);
+    }
+}
+
+
 enum ItemType {
     WEAPON,
-    SHIELD
+    SHIELD,
+    HEALTHPOTION
 }
