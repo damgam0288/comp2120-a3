@@ -5,17 +5,9 @@
 
 public abstract class Item {
 
-    String name = "";
+    String name;
     private int value;      // This can be AP or HP for the specific item classes (below)
     private ItemType type;
-    /**
-     * Creates item given a name.
-     * @param name must be unique because it is used as an identifier when loading from a JSON file
-     */
-    public Item(String name, ItemType type) {
-        this.name = name;
-        this.type = type;
-    }
 
     /**
      * Creates item given name and value.
@@ -62,7 +54,10 @@ class HealthPotion extends Item {
     }
 }
 
-
+/**
+ * Types of items that the Player can have in inventory.
+ * This is useful for knowing which items can be equipped vs used e.g. a weapon vs health potion
+ */
 enum ItemType {
     WEAPON,
     SHIELD,

@@ -50,13 +50,8 @@ public class Inventory {
                 break;
             default:
                 System.out.println("can't use item: " + item.getName());
-
-
         }
-
-
     }
-
 
     /**
      * Equips an item from the player's inventory based on the provided index.
@@ -76,14 +71,12 @@ public class Inventory {
         Item item = items.get(itemIndex);
 
         switch (item.getType()) {
-            case ItemType.WEAPON:
+            case WEAPON:
                 player.equipItem(item);
                 System.out.println("Equipped item: " + item.getName());
                 break;
             default:
-                System.out.println("can't equip item: " + item.getName());
-
-
+                System.out.println("Can't equip item: " + item.getName());
         }
     }
 }
