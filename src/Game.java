@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -6,18 +5,15 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
     private Map currentMap;
-    private Map pausedState;
+    private Map pausedState;        // TODO 2
     private List<Map> maps;
     private final Player player;
     private Scanner scanner;
-    private NPC npc;
-    private Enemy enemy;
 
     public enum GameState {
         RUNNING, PAUSED
@@ -36,24 +32,28 @@ public class Game {
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
         player.initInventory();
 
-        // Load configuration file
+        // Load maps
         maps = new ArrayList<>();
         String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
         JSONObject jsonObject = new JSONObject(content);
         JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
+        // TODO 1 Refactor this and the associated JSON files to receive enemies/npc data
+        //  directly from the game-config.json file
         for (int i = 0; i < mapRefs.length(); i++) {
             JSONObject mapRef = mapRefs.getJSONObject(i);
             Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player);
             maps.add(map);
-            loadEntities(map, mapRef);
+
+            // Load enemies and NPCs
+            loadEntities(map, mapRef);      // TODO 1
         }
 
         // Set current map
-        currentMap = this.maps.get(0);       // TODO Replace with MapController later
+        currentMap = this.maps.get(0);       // TODO 2 Replace with MapController later
     }
 
-
+    // TODO 1
     private void loadEntities(Map map, JSONObject mapRef) throws Exception {
         // load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
@@ -76,7 +76,6 @@ public class Game {
             );
 
             map.addEntity(enemy);
-            System.out.println("Loaded enemy at (" + enemy.getX() + ", " + enemy.getY() + ")");
         }
     }
 
@@ -87,9 +86,10 @@ public class Game {
         String input;
 
         do {
-            System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, I for Inventory, P to pause, Q to quit): ");
+            System.out.println("ENTER W for Up, S for Down, A for Left, D for Right, I for Inventory, P to pause, Q to quit: ");
             input = scanner.nextLine();
 
+            // TODO 2 replace with a state field?
             if (input.equalsIgnoreCase("p")){
                 handlePaused();
             }
@@ -98,14 +98,14 @@ public class Game {
             } else {
                 handleMovement(input);
                 handleNPCInteraction();
-                handleEnemicInteraction();
+                handleEnemyInteraction();
             }
 
             currentMap.draw();
             printCurrentMap();
         } while (!input.equalsIgnoreCase("q"));
 
-        scanner.close(); // Close scanner at the end
+        scanner.close();
     }
 
     /**
@@ -228,8 +228,6 @@ public class Game {
         }
     }
 
-
-
     // Handle player movement within the current map
     private void handleMovement(String move) {
         switch (move.toLowerCase()) {
@@ -254,12 +252,12 @@ public class Game {
      * After all enemies on the map are defeated, the player can proceed to the next map.
      * Also checks if the player has won the game.
      */
-    private void handleEnemicInteraction() {
+    private void handleEnemyInteraction() {
         Entity collidingEntity = currentMap.getCollidingEntity();
         if (collidingEntity instanceof Enemy enemy) {
             System.out.println("You've encountered an enemy!");
             System.out.println("Press 'F' to fight, or move away.");
-            String action = scanner.nextLine(); // Use class-level scanner
+            String action = scanner.nextLine();
             if (action.equalsIgnoreCase("f")) {
                 fight(enemy);
             }
@@ -320,9 +318,6 @@ public class Game {
     }
 
     public void handleNextMap() {
-        // TODO - if (!isVictory) this method should load the next map using the game-config file
-        //  Use the map number fields to track which map to move into
-        //  Use a separate mapLoader class to do the work of loading the map
         try {
             int currentMapIndex = maps.indexOf(currentMap);
             if (currentMapIndex + 1 < maps.size()) {

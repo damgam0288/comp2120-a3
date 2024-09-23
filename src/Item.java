@@ -3,7 +3,7 @@
  * can be extended further to make weapons, shields, health items etc.
  */
 
-public abstract class Item {
+public class Item {
 
     String name = "";
     private int value;
@@ -39,7 +39,7 @@ public abstract class Item {
 }
 
 /**
- * A specific type of Item used by the player to increase attack points which kills enemies easier
+ * A specific type of
  */
 class Weapon extends Item {
 
