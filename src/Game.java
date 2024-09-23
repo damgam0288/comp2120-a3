@@ -1,4 +1,6 @@
 import java.util.List;
+
+import exceptions.TooManyEntitiesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -57,6 +59,10 @@ public class Game {
     private void loadEntities(Map map, JSONObject mapRef) throws Exception {
         // load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
+
+        if (npcRefs.length()>3)       // Apply max limit per level
+            throw new TooManyEntitiesException("Too many NPCs loaded into map");
+
         for (int j = 0; j < npcRefs.length(); j++) {
             JSONObject npcRef = npcRefs.getJSONObject(j);
             NPC npc = NPCLoader.loadObject(npcRef.getString("name"), npcRef.getString("filepath"));
@@ -65,6 +71,10 @@ public class Game {
 
         // load enemies
         JSONArray enemyRefs = mapRef.getJSONArray("enemies");
+
+        if (enemyRefs.length()>3)       // Apply max limit  per level
+            throw new TooManyEntitiesException("Too many enemies loaded into map");
+
         for (int j = 0; j < enemyRefs.length(); j++) {
             JSONObject enemyData = enemyRefs.getJSONObject(j);
             Enemy enemy = new Enemy(
