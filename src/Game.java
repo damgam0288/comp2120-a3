@@ -1,46 +1,59 @@
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
     private Map currentMap;
-    // TODO Change this to use the MapController.java
+    private Map pausedState;        // TODO 2
     private List<Map> maps;
     private final Player player;
+    private Scanner scanner;
+
+    public enum GameState {
+        RUNNING, PAUSED
+    }
+
+    private GameState currentState = GameState.RUNNING;
 
     // Game initiation
     public Game() throws Exception {
 
-        maps = new ArrayList<>();
-
-        // Load configuration file
+        // Create Player
         String playerJsonContent = new String(Files.readAllBytes(Paths.get("assets/player.json")));
         JSONObject playerJson = new JSONObject(playerJsonContent);
         player = new Player(playerJson.getInt("startX"), playerJson.getInt("startY"),
                 playerJson.getString("symbol").charAt(0),
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
+        player.initInventory();
 
+        // Load maps
         maps = new ArrayList<>();
         String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
         JSONObject jsonObject = new JSONObject(content);
         JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
+        // TODO 1 Refactor this and the associated JSON files to receive enemies/npc data
+        //  directly from the game-config.json file
         for (int i = 0; i < mapRefs.length(); i++) {
             JSONObject mapRef = mapRefs.getJSONObject(i);
             Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player);
             maps.add(map);
-            loadEntities(map, mapRef);
+
+            // Load enemies and NPCs
+            loadEntities(map, mapRef);      // TODO 1
         }
 
         // Set current map
-        currentMap = this.maps.get(0);       // TODO Replace with MapController later
+        currentMap = this.maps.get(0);       // TODO 2 Replace with MapController later
     }
+
+    // TODO 1
     private void loadEntities(Map map, JSONObject mapRef) throws Exception {
         // load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
@@ -63,28 +76,156 @@ public class Game {
             );
 
             map.addEntity(enemy);
-            System.out.println("Loaded enemy at (" + enemy.getX() + ", " + enemy.getY() + ")");
         }
     }
 
-    // Main game "loop" - handle user inputs through Scanner
     public void start() {
         currentMap.draw();
 
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         String input;
+
         do {
-            System.out.println("Enter move (W for Up, S for Down, A for Left, D for Right, Q to quit): ");
+            System.out.println("ENTER W for Up, S for Down, A for Left, D for Right, I for Inventory, P to pause, Q to quit: ");
             input = scanner.nextLine();
-            handleMovement(input);      // Handle player movement
-            handleNPCInteraction();     // Handle interaction with NPCs
-            handleEnemicInteraction();
+
+            // TODO 2 replace with a state field?
+            if (input.equalsIgnoreCase("p")){
+                handlePaused();
+            }
+            if (input.equalsIgnoreCase("i")) {
+                openInventory();
+            } else {
+                handleMovement(input);
+                handleNPCInteraction();
+                handleEnemyInteraction();
+            }
 
             currentMap.draw();
             printCurrentMap();
         } while (!input.equalsIgnoreCase("q"));
 
         scanner.close();
+    }
+
+    /**
+     * Opens the player's inventory, allowing them to view and interact with their items.
+     * This method displays the list of items in the player's inventory and provides
+     * options to use, equip, or drop items. The player can also exit the inventory.
+     *
+     * While the inventory is open:
+     * - The player can select an item by its number to interact with it.
+     * - Options for interacting include using the item, equipping it, or dropping it.
+     * - If the inventory is empty, a message is displayed, and the method exits.
+     *
+     * The method continues to run in a loop until the player chooses to exit
+     * the inventory by selecting option 0 or 4.
+     */
+    private void openInventory() {
+        boolean inventoryOpen = true;
+
+        while (inventoryOpen) {
+            List<Item> items = player.getInventory().getItems();
+            if (items.isEmpty()) {
+                System.out.println("Your inventory is empty.");
+                return;
+            }
+
+            System.out.println("Inventory:");
+            for (int i = 0; i < items.size(); i++) {
+                System.out.println((i + 1) + ") " + items.get(i).getName());
+            }
+
+            System.out.println("Select an item number to interact with, or 0 to exit:");
+            int itemIndex;
+            try {
+                itemIndex = Integer.parseInt(scanner.nextLine()) - 1;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                continue;
+            }
+
+            if (itemIndex == -1) {
+                inventoryOpen = false;
+                continue;
+            }
+
+            if (itemIndex < 0 || itemIndex >= items.size()) {
+                System.out.println("Invalid item number. Try again.");
+                continue;
+            }
+
+            Item selectedItem = items.get(itemIndex);
+
+            System.out.println("Selected Item: " + selectedItem.getName());
+            System.out.println("Choose an option: 1) Use Item  2) Equip Item  3) Drop Item  4) Exit Inventory");
+            String action = scanner.nextLine();
+
+            switch (action) {
+                case "1":
+                    player.getInventory().useItem(player, itemIndex);
+                    break;
+                case "2":
+                    player.getInventory().equipItem(player, itemIndex);
+                    break;
+                case "3":
+                    player.getInventory().removeItem(selectedItem);
+                    System.out.println("Dropped " + selectedItem.getName());
+                    break;
+                case "4":
+                    inventoryOpen = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+    }
+
+
+    /**
+     * Handles the game's pause functionality.
+     *
+     * This method checks if the game is currently in the RUNNING state. If so, it pauses the game by
+     * switching the game state to PAUSED and displays a pause menu. While the game is paused,
+     * it enters a loop waiting for user input to either resume the game or quit.
+     *
+     * - When the user presses 'P', the game resumes by switching the game state back to RUNNING.
+     * - When the user presses 'Q', the game quits by exiting the application.
+     * - Any other input is considered invalid and the pause menu is re-displayed.
+     *
+     * The method ensures that no game actions can be taken while the game is paused.
+     *
+     */
+    public void handlePaused() {
+        if (currentState == GameState.RUNNING) {
+            currentState = GameState.PAUSED;
+            System.out.println("#######################");
+            System.out.println("#                     #");
+            System.out.println("#     GAME PAUSED     #");
+            System.out.println("# Press 'P' to resume #");
+            System.out.println("# Press 'Q' to quit   #");
+            System.out.println("#                     #");
+            System.out.println("#######################");
+
+            // Loop to wait for input to resume or quit
+            boolean paused = true;
+            while (paused) {
+                String input = scanner.nextLine().trim().toLowerCase();
+                switch (input) {
+                    case "p":
+                        paused = false;
+                        currentState = GameState.RUNNING;
+                        System.out.println("Game resumed.");
+                        break;
+                    case "q":
+                        System.out.println("Quitting the game...");
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid input. Press 'P' to resume or 'Q' to quit.");
+                }
+            }
+        }
     }
 
     // Handle player movement within the current map
@@ -111,13 +252,11 @@ public class Game {
      * After all enemies on the map are defeated, the player can proceed to the next map.
      * Also checks if the player has won the game.
      */
-    private void handleEnemicInteraction() {
+    private void handleEnemyInteraction() {
         Entity collidingEntity = currentMap.getCollidingEntity();
-        // If the colliding entity is an enemy, offer the player a chance to fight
         if (collidingEntity instanceof Enemy enemy) {
             System.out.println("You've encountered an enemy!");
             System.out.println("Press 'F' to fight, or move away.");
-            Scanner scanner = new Scanner(System.in);
             String action = scanner.nextLine();
             if (action.equalsIgnoreCase("f")) {
                 fight(enemy);
@@ -134,26 +273,20 @@ public class Game {
      * @param enemy The enemy the player is fighting
      */
     private void fight(Enemy enemy) {
-        Scanner scanner = new Scanner(System.in);
         while (player.getHP() > 0 && enemy.getHP() > 0) {
-            // Player attacks the enemy
             player.attack(enemy);
-            // Check if the enemy is defeated
             if (enemy.getHP() <= 0) {
                 System.out.println("You defeated the enemy!");
                 currentMap.removeEntity(enemy);
                 return;
             }
-            // Enemy attacks the player
             enemy.attack(player);
-            // Check if the player is defeated
             if (player.getHP() <= 0) {
                 System.out.println("You were defeated...");
                 return;
             }
-            // Prompt the player to continue fighting or move away
             System.out.println("Press 'F' to fight, or move away.");
-            String action = scanner.nextLine();
+            String action = scanner.nextLine(); // Use class-level scanner
             if (action.equalsIgnoreCase("f")) {
                 continue; // Continue fighting
             } else {
@@ -185,9 +318,6 @@ public class Game {
     }
 
     public void handleNextMap() {
-        // TODO - if (!isVictory) this method should load the next map using the game-config file
-        //  Use the map number fields to track which map to move into
-        //  Use a separate mapLoader class to do the work of loading the map
         try {
             int currentMapIndex = maps.indexOf(currentMap);
             if (currentMapIndex + 1 < maps.size()) {
