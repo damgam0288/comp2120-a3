@@ -1,44 +1,30 @@
 {
+  "player": {
+    "startx": 1,
+    "starty": 1,
+    "symbol": "P",
+    "ap": 10,
+    "hp": 100
+  },
   "levels": [
     {
       "name": "map1",
       "filepath": "assets/map1.json",
       "npcs": [
-        {"name": "npc1", "filepath": "assets/npcs.json"},
-        {"name": "npc3", "filepath": "assets/npcs.json"}
+        { "name": "npc1", "startx": 4, "starty": 1, "char": "1", "item": "weapon1" }
       ],
-      "player": "assets/player.json",
       "enemies": [
-        {
-          "startx": 7,
-          "starty": 3,
-          "char": "E",
-          "ap": 5,
-          "hp": 10
-        },
-        {
-          "startx": 9,
-          "starty": 3,
-          "char": "E",
-          "ap": 6,
-          "hp": 8
-        }
+        { "startx": 7, "starty": 3, "char": "E", "ap": 5, "hp": 10 }
       ]
     },
     {
       "name": "map2",
       "filepath": "assets/map2.json",
       "npcs": [
-        {"name": "npc3", "filepath": "assets/npcs.json"}
+        { "name": "npc3", "startx": 5, "starty": 5, "char": "3", "item": "weapon3" }
       ],
       "enemies": [
-        {
-          "startx": 10,
-          "starty": 7,
-          "char": "E",
-          "ap": 7,
-          "hp": 12
-        }
+        { "startx": 10, "starty": 7, "char": "E", "ap": 7, "hp": 12 }
       ]
     }
   ]
