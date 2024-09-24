@@ -76,7 +76,7 @@ public class Game {
 
         for (int j = 0; j < npcRefs.length(); j++) {
             JSONObject npcData = npcRefs.getJSONObject(j);
-            System.out.println(npcData);
+
             NPC npc = new NPC(
                     npcData.getInt("startx"),
                     npcData.getInt("starty"),
