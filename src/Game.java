@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Game {
@@ -23,9 +24,16 @@ public class Game {
     private Scanner scanner;
 
     // Game initiation
-    public Game() throws Exception {
+    public Game(String pathToConfig) throws Exception {
 
-        // Create Player
+        // Check config file
+        if (Objects.isNull(pathToConfig))
+            throw new IllegalArgumentException("Game Config cannot be null");
+
+        if (pathToConfig.isEmpty())
+            throw new IllegalArgumentException("Game Config cannot be empty");
+
+        // Create Player TODO: put this into game config too
         String playerJsonContent = new String(Files.readAllBytes(Paths.get("assets/player.json")));
         JSONObject playerJson = new JSONObject(playerJsonContent);
         player = new Player(playerJson.getInt("startX"), playerJson.getInt("startY"),
@@ -35,7 +43,7 @@ public class Game {
 
         // Load maps
         maps = new ArrayList<>();
-        String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
+        String content = new String(Files.readAllBytes(Paths.get(pathToConfig)));
         JSONObject jsonObject = new JSONObject(content);
         JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
@@ -342,11 +350,16 @@ public class Game {
         }
     }
 
+    /**
+     * Main execution point for Game.java
+     * @param args args[0] must be the path to main game configuration file
+     * @throws Exception from Game constructor
+     */
     public static void main(String[] args) throws Exception {
-        new Game().start();
-
+        new Game(args[0]).start();
     }
 
+    // For pausing/unpausing game feature
     enum GameState {
         RUNNING, PAUSED
     }
