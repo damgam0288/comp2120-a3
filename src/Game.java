@@ -26,26 +26,26 @@ public class Game {
     // Game initiation
     public Game(String pathToConfig) throws Exception {
 
-        // Check config file
+        // Load game config
         if (Objects.isNull(pathToConfig))
             throw new IllegalArgumentException("Game Config cannot be null");
 
         if (pathToConfig.isEmpty())
             throw new IllegalArgumentException("Game Config cannot be empty");
 
-        // Create Player TODO: put this into game config too
-        String playerJsonContent = new String(Files.readAllBytes(Paths.get("assets/player.json")));
-        JSONObject playerJson = new JSONObject(playerJsonContent);
+        String gameConfigContent = new String(Files.readAllBytes(Paths.get(pathToConfig)));
+        JSONObject gameConfigJson = new JSONObject(gameConfigContent);
+
+        // Player
+        JSONObject playerJson = gameConfigJson.getJSONObject("player");
         player = new Player(playerJson.getInt("startX"), playerJson.getInt("startY"),
                 playerJson.getString("symbol").charAt(0),
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
         player.initInventory();
 
-        // Load maps
+        // Maps
         maps = new ArrayList<>();
-        String content = new String(Files.readAllBytes(Paths.get(pathToConfig)));
-        JSONObject jsonObject = new JSONObject(content);
-        JSONArray mapRefs = jsonObject.getJSONArray("levels");
+        JSONArray mapRefs = gameConfigJson.getJSONArray("levels");
 
         // TODO 1 Refactor this and the associated JSON files to receive enemies/npc data
         //  directly from the game-config.json file
@@ -58,7 +58,7 @@ public class Game {
             loadEntities(map, mapRef);      // TODO 1
         }
 
-        // Set current map
+        // Current map
         currentMap = this.maps.get(0);       // TODO 2 Replace with MapController later
     }
 
@@ -356,7 +356,11 @@ public class Game {
      * @throws Exception from Game constructor
      */
     public static void main(String[] args) throws Exception {
-        new Game(args[0]).start();
+
+        if (Objects.nonNull(args) && args.length>0)
+            new Game(args[0]).start();
+        else
+            new Game("assets/game-config.json").start();
     }
 
     // For pausing/unpausing game feature
