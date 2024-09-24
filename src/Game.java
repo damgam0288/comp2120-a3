@@ -68,7 +68,7 @@ public class Game {
         // Load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
 
-        if (npcRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit  per level
+        if (npcRefs.length()>MAX_NPCs_PER_LEVEL)       // Apply max limit  per level
             throw new TooManyEntitiesException("Too many npcs loaded into map");
 
         for (int j = 0; j < npcRefs.length(); j++) {
@@ -253,21 +253,12 @@ public class Game {
         }
     }
 
-    // Handle player movement within the current map
     private void handleMovement(String move) {
         switch (move.toLowerCase()) {
             case "w" -> player.move(0, -1, currentMap);
             case "s" -> player.move(0, 1, currentMap);
             case "a" -> player.move(-1, 0, currentMap);
             case "d" -> player.move(1, 0, currentMap);
-        }
-        if (currentMap.canMoveToNextMap()) {
-            System.out.println("You've reached the exit! Moving to the next map...");
-            handleNextMap();
-        }
-        if (currentMap.isVictory()) {
-            System.out.println("Congratulations! You've won the game!");
-            System.exit(0);
         }
     }
 
@@ -303,20 +294,30 @@ public class Game {
             if (enemy.getHP() <= 0) {
                 System.out.println("You defeated the enemy!");
                 currentMap.removeEntity(enemy);
+
+                if (currentMap.allEnemiesDefeated()) {
+                    System.out.println("Moving to the next map...");
+                    handleNextMap();
+                }
+
                 return;
             }
+
             enemy.attack(player);
             if (player.getHP() <= 0) {
                 System.out.println("You were defeated...");
                 return;
             }
+
             System.out.println("Press 'F' to fight, or move away.");
-            String action = scanner.nextLine(); // Use class-level scanner
+
+            String action = scanner.nextLine();
+
             if (action.equalsIgnoreCase("f")) {
-                continue; // Continue fighting
+                continue; // Continue fighting  TODO Dead code?
             } else {
                 System.out.println("You chose to move away.");
-                handleMovement(action); // Call handleMovement to process the move
+                handleMovement(action);
                 return;
             }
         }
@@ -335,7 +336,6 @@ public class Game {
      * When the player collides with an NPC, the NPC interacts with the player.
      */
     private void handleNPCInteraction() {
-        // Handle  NPCs / enemy interaction here
         Entity collidingEntity = currentMap.getCollidingEntity();
         if (collidingEntity instanceof NPC npc) {
             npc.interact(player, currentMap.getMapNumber());
@@ -349,7 +349,8 @@ public class Game {
                 currentMap = maps.get(currentMapIndex + 1);
                 player.setPosition(1, 1); // player position on the new map
             } else {
-                System.out.println("No more maps available.");
+                System.out.println("No more maps available."); // TODO handle end-of-game-screen here
+                System.exit(1);
             }
         } catch (Exception e) {
             System.out.println("Error loading next map: " + e.getMessage());
