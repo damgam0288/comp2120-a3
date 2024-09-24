@@ -81,10 +81,6 @@ public class Game {
                     npcData.getString("name"),
                     npcData.getString("item"));
 
-            // Load Item into NPC
-
-
-
             map.addEntity(npc);
         }
 
