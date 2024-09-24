@@ -62,7 +62,7 @@ class NPCLoader extends AbstractLoader {
 
         // Add item data to NPC
         String itemRef = jsonObject.getString("item");
-        Item item = ItemLoader.loadObject(itemRef, "assets/items.json");
+        Item item = ItemLoader.loadObject(itemRef);
         npc.setItem(item);
 
         return npc;
@@ -80,8 +80,8 @@ class ItemLoader extends AbstractLoader {
      * Will return JSONExceptions if the KEY-string cannot be found,
      * or a NoSuchFieldException if the specified item cannot be found.
      */
-    public static Item loadObject(String target, String filepath) throws Exception {
-        JSONObject itemRef = findObject(target, "items", "name", filepath);
+    public static Item loadObject(String target) throws Exception {
+        JSONObject itemRef = findObject(target, "items", "name", "assets/items.json");
 
         // Weapons
         if (itemRef.getString("type").equalsIgnoreCase("weapon")) {
@@ -96,7 +96,7 @@ class ItemLoader extends AbstractLoader {
 
         // Missing object in a JSON file means game shouldn't run
         throw new NoSuchFieldException("Could not find " + target +
-                " in the given reference: " + filepath);
+                " in the given reference: " + itemRef);
     }
 }
 

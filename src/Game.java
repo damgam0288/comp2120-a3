@@ -78,7 +78,8 @@ public class Game {
                     npcData.getInt("startx"),
                     npcData.getInt("starty"),
                     npcData.getString("char").charAt(0),
-                    npcData.getString("name"));
+                    npcData.getString("name"),
+                    npcData.getString("item"));
 
             map.addEntity(npc);
         }
@@ -86,7 +87,7 @@ public class Game {
         // Load Enemies
         JSONArray enemyRefs = mapRef.getJSONArray("enemies");
 
-        if (enemyRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit  per level
+        if (enemyRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit per level
             throw new TooManyEntitiesException("Too many enemies loaded into map");
 
         for (int j = 0; j < enemyRefs.length(); j++) {

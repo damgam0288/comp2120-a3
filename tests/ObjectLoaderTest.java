@@ -67,7 +67,7 @@ public class ObjectLoaderTest {
     // Item Loader testing
     @Test(timeout=1000)
     public void itemLoaderReturnsCorrectItem() throws Exception {
-        Weapon weapon1 = (Weapon) ItemLoader.loadObject("weapon1",itemsJsonFilePath);
+        Weapon weapon1 = (Weapon) ItemLoader.loadObject("weapon1");
 
         assertNotNull(weapon1.getName());
 
@@ -80,7 +80,7 @@ public class ObjectLoaderTest {
 
     @Test(timeout=1000, expected = NoSuchFieldException.class)
     public void itemLoaderItemNotFound() throws Exception {
-        ItemLoader.loadObject("item-doesnt-exist",itemsJsonFilePath);
+        ItemLoader.loadObject("item-doesnt-exist");
     }
 
 }
