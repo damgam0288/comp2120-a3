@@ -64,8 +64,16 @@ public class Enemy extends Entity {
      * @param player the player being attacked by the enemy.
      */
     public void attack(Player player) {
-        player.setHP(player.getHP() - ap);
+        player.getAttacked(this);
         System.out.println("Enemy's Health Points (HP): " + hp + ", Enemy's Attack Points (AP): " + ap);
         System.out.println("Enemy attacked you! Your HP is now: " + player.getHP());
+    }
+
+    /**
+     * Calculates damage taken from the Player after an attack
+     */
+    public void getAttacked(Player player) {
+        int newHp = hp - player.getAP();
+        hp = Math.max(newHp, 0);
     }
 }
