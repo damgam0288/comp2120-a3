@@ -3,7 +3,7 @@
     "startx": 1,
     "starty": 1,
     "symbol": "P",
-    "ap": 10,
+    "ap": 15,
     "hp": 100
   },
   "levels": [
@@ -14,7 +14,7 @@
         { "name": "npc1", "startx": 4, "starty": 1, "char": "1", "item": "weapon1" }
       ],
       "enemies": [
-        { "startx": 2, "starty": 1, "char": "E", "ap": 50, "hp": 10 }
+        { "startx": 2, "starty": 1, "char": "E", "ap": 5, "hp": 20 }
       ]
     }
   ]
