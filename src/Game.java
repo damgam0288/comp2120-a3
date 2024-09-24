@@ -43,7 +43,7 @@ public class Game {
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
         player.initInventory();
 
-        // Maps
+        // Levels, NPCs, enemies
         maps = new ArrayList<>();
         JSONArray mapRefs = gameConfigJson.getJSONArray("levels");
 
@@ -51,9 +51,6 @@ public class Game {
             JSONObject mapRef = mapRefs.getJSONObject(i);
             Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player);
             maps.add(map);
-
-            System.out.println(mapRef);
-            // Load enemies and NPCs
             loadEntities(map, mapRef);
         }
 
