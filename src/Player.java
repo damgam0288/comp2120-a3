@@ -81,7 +81,7 @@ public class Player extends Entity {
     }
 
     public void receiveItem(Item item) {
-        // TODO replace this using inventory instead
+        inventory.addItem(item);
     }
 
     /**
