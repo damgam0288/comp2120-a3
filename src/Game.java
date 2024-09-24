@@ -1,30 +1,39 @@
 import java.util.List;
+
+import exceptions.TooManyEntitiesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Game {
 
+    private static final int MAX_ENEMIES_PER_LEVEL = 3;
+    private static final int MAX_NPCs_PER_LEVEL = 3;
+
     private Map currentMap;
-    private Map pausedState;        // TODO 2
     private List<Map> maps;
     private final Player player;
+
+    private Map pausedState;        // TODO 2
+    private GameState currentState = GameState.RUNNING;
     private Scanner scanner;
 
-    public enum GameState {
-        RUNNING, PAUSED
-    }
-
-    private GameState currentState = GameState.RUNNING;
-
     // Game initiation
-    public Game() throws Exception {
+    public Game(String pathToConfig) throws Exception {
 
-        // Create Player
+        // Check config file
+        if (Objects.isNull(pathToConfig))
+            throw new IllegalArgumentException("Game Config cannot be null");
+
+        if (pathToConfig.isEmpty())
+            throw new IllegalArgumentException("Game Config cannot be empty");
+
+        // Create Player TODO: put this into game config too
         String playerJsonContent = new String(Files.readAllBytes(Paths.get("assets/player.json")));
         JSONObject playerJson = new JSONObject(playerJsonContent);
         player = new Player(playerJson.getInt("startX"), playerJson.getInt("startY"),
@@ -34,7 +43,7 @@ public class Game {
 
         // Load maps
         maps = new ArrayList<>();
-        String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
+        String content = new String(Files.readAllBytes(Paths.get(pathToConfig)));
         JSONObject jsonObject = new JSONObject(content);
         JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
@@ -57,6 +66,10 @@ public class Game {
     private void loadEntities(Map map, JSONObject mapRef) throws Exception {
         // load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
+
+        if (npcRefs.length()>MAX_NPCs_PER_LEVEL)       // Apply max limit per level
+            throw new TooManyEntitiesException("Too many NPCs loaded into map");
+
         for (int j = 0; j < npcRefs.length(); j++) {
             JSONObject npcRef = npcRefs.getJSONObject(j);
             NPC npc = NPCLoader.loadObject(npcRef.getString("name"), npcRef.getString("filepath"));
@@ -65,6 +78,10 @@ public class Game {
 
         // load enemies
         JSONArray enemyRefs = mapRef.getJSONArray("enemies");
+
+        if (enemyRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit  per level
+            throw new TooManyEntitiesException("Too many enemies loaded into map");
+
         for (int j = 0; j < enemyRefs.length(); j++) {
             JSONObject enemyData = enemyRefs.getJSONObject(j);
             Enemy enemy = new Enemy(
@@ -79,6 +96,7 @@ public class Game {
         }
     }
 
+    // Game 'loop'
     public void start() {
         currentMap.draw();
 
@@ -332,8 +350,17 @@ public class Game {
         }
     }
 
+    /**
+     * Main execution point for Game.java
+     * @param args args[0] must be the path to main game configuration file
+     * @throws Exception from Game constructor
+     */
     public static void main(String[] args) throws Exception {
-        new Game().start();
+        new Game(args[0]).start();
+    }
 
+    // For pausing/unpausing game feature
+    enum GameState {
+        RUNNING, PAUSED
     }
 }
