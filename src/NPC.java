@@ -13,7 +13,6 @@ import java.util.Objects;
 public class NPC extends Entity {
     private String name = null;
     private Item item = null;
-    private String clue = null;
 
     /**
      * Constructor for the NPC class.
@@ -29,6 +28,16 @@ public class NPC extends Entity {
     public NPC(int startX, int startY, char symbol, String name) {
         super(startX, startY, symbol);
         this.name = name;
+    }
+
+    public NPC(int startX, int startY, char symbol, String name, String itemName) {
+        super(startX, startY, symbol);
+        this.name = name;
+        try {
+            this.item = ItemLoader.loadObject(itemName);
+        } catch (Exception e) {
+            this.item = null;
+        }
     }
 
     /**
