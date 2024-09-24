@@ -1,95 +1,70 @@
 import java.util.List;
-
-import exceptions.TooManyEntitiesException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Game {
 
-    private static final int MAX_ENEMIES_PER_LEVEL = 3;
-    private static final int MAX_NPCs_PER_LEVEL = 3;
-
     private Map currentMap;
+    private Map pausedState;        // TODO 2
     private List<Map> maps;
     private final Player player;
-
-    private Map pausedState;        // TODO 2
-    private GameState currentState = GameState.RUNNING;
     private Scanner scanner;
 
+    public enum GameState {
+        RUNNING, PAUSED
+    }
+
+    private GameState currentState = GameState.RUNNING;
+
     // Game initiation
-    public Game(String pathToConfig) throws Exception {
+    public Game() throws Exception {
 
-        // Load game config
-        if (Objects.isNull(pathToConfig))
-            throw new IllegalArgumentException("Game Config cannot be null");
-
-        if (pathToConfig.isEmpty())
-            throw new IllegalArgumentException("Game Config cannot be empty");
-
-        String gameConfigContent = new String(Files.readAllBytes(Paths.get(pathToConfig)));
-        JSONObject gameConfigJson = new JSONObject(gameConfigContent);
-
-        // Player
-        JSONObject playerJson = gameConfigJson.getJSONObject("player");
-        player = new Player(playerJson.getInt("startx"), playerJson.getInt("starty"),
+        // Create Player
+        String playerJsonContent = new String(Files.readAllBytes(Paths.get("assets/player.json")));
+        JSONObject playerJson = new JSONObject(playerJsonContent);
+        player = new Player(playerJson.getInt("startX"), playerJson.getInt("startY"),
                 playerJson.getString("symbol").charAt(0),
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
         player.initInventory();
 
-        // Levels, NPCs, enemies
+        // Load maps
         maps = new ArrayList<>();
-        JSONArray mapRefs = gameConfigJson.getJSONArray("levels");
+        String content = new String(Files.readAllBytes(Paths.get("assets/game-config.json")));
+        JSONObject jsonObject = new JSONObject(content);
+        JSONArray mapRefs = jsonObject.getJSONArray("levels");
 
+        // TODO 1 Refactor this and the associated JSON files to receive enemies/npc data
+        //  directly from the game-config.json file
         for (int i = 0; i < mapRefs.length(); i++) {
             JSONObject mapRef = mapRefs.getJSONObject(i);
             Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player);
             maps.add(map);
-            loadEntities(map, mapRef);
+
+            // Load enemies and NPCs
+            loadEntities(map, mapRef);      // TODO 1
         }
 
-        // Current map
+        // Set current map
         currentMap = this.maps.get(0);       // TODO 2 Replace with MapController later
     }
 
-    /**
-     * Helper method to load all NPCs, enemies etc. into each Game Level
-     * @param map the map into which we want to put associated entities
-     * @param mapRef JSON object taken from the main config file containing the current level's data
-     * @throws Exception if JSON refs are not found
-     */
+    // TODO 1
     private void loadEntities(Map map, JSONObject mapRef) throws Exception {
-        // Load NPCs
+        // load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
-
-        if (npcRefs.length()>MAX_NPCs_PER_LEVEL)       // Apply max limit  per level
-            throw new TooManyEntitiesException("Too many npcs loaded into map");
-
         for (int j = 0; j < npcRefs.length(); j++) {
-            JSONObject npcData = npcRefs.getJSONObject(j);
-
-            NPC npc = new NPC(
-                    npcData.getInt("startx"),
-                    npcData.getInt("starty"),
-                    npcData.getString("char").charAt(0),
-                    npcData.getString("name"),
-                    npcData.getString("item"));
-
+            JSONObject npcRef = npcRefs.getJSONObject(j);
+            NPC npc = NPCLoader.loadObject(npcRef.getString("name"), npcRef.getString("filepath"));
             map.addEntity(npc);
         }
 
-        // Load Enemies
+        // load enemies
         JSONArray enemyRefs = mapRef.getJSONArray("enemies");
-
-        if (enemyRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit per level
-            throw new TooManyEntitiesException("Too many enemies loaded into map");
-
         for (int j = 0; j < enemyRefs.length(); j++) {
             JSONObject enemyData = enemyRefs.getJSONObject(j);
             Enemy enemy = new Enemy(
@@ -104,7 +79,6 @@ public class Game {
         }
     }
 
-    // Game 'loop'
     public void start() {
         currentMap.draw();
 
@@ -189,10 +163,10 @@ public class Game {
 
             switch (action) {
                 case "1":
-                    player.getInventory().useItem(player, itemIndex);
+                    player.useItem(itemIndex);
                     break;
                 case "2":
-                    player.getInventory().equipItem(player, itemIndex);
+                    player.equipItem(itemIndex);
                     break;
                 case "3":
                     player.getInventory().removeItem(selectedItem);
@@ -254,12 +228,21 @@ public class Game {
         }
     }
 
+    // Handle player movement within the current map
     private void handleMovement(String move) {
         switch (move.toLowerCase()) {
             case "w" -> player.move(0, -1, currentMap);
             case "s" -> player.move(0, 1, currentMap);
             case "a" -> player.move(-1, 0, currentMap);
             case "d" -> player.move(1, 0, currentMap);
+        }
+        if (currentMap.canMoveToNextMap()) {
+            System.out.println("You've reached the exit! Moving to the next map...");
+            handleNextMap();
+        }
+        if (currentMap.isVictory()) {
+            System.out.println("Congratulations! You've won the game!");
+            System.exit(0);
         }
     }
 
@@ -292,35 +275,23 @@ public class Game {
     private void fight(Enemy enemy) {
         while (player.getHP() > 0 && enemy.getHP() > 0) {
             player.attack(enemy);
-
-            // Enemy dies
             if (enemy.getHP() <= 0) {
                 System.out.println("You defeated the enemy!");
                 currentMap.removeEntity(enemy);
-
-                if (currentMap.allEnemiesDefeated()) {
-                    handleNextMap();
-                }
                 return;
             }
-
             enemy.attack(player);
-
-            // Player dies
             if (player.getHP() <= 0) {
-                showScreen(GameState.DEFEAT);
-                System.exit(0);
+                System.out.println("You were defeated...");
+                return;
             }
-
             System.out.println("Press 'F' to fight, or move away.");
-
-            String action = scanner.nextLine();
-
+            String action = scanner.nextLine(); // Use class-level scanner
             if (action.equalsIgnoreCase("f")) {
-                continue; // Continue fighting  TODO Dead code?
+                continue; // Continue fighting
             } else {
                 System.out.println("You chose to move away.");
-                handleMovement(action);
+                handleMovement(action); // Call handleMovement to process the move
                 return;
             }
         }
@@ -339,6 +310,7 @@ public class Game {
      * When the player collides with an NPC, the NPC interacts with the player.
      */
     private void handleNPCInteraction() {
+        // Handle  NPCs / enemy interaction here
         Entity collidingEntity = currentMap.getCollidingEntity();
         if (collidingEntity instanceof NPC npc) {
             npc.interact(player, currentMap.getMapNumber());
@@ -349,12 +321,10 @@ public class Game {
         try {
             int currentMapIndex = maps.indexOf(currentMap);
             if (currentMapIndex + 1 < maps.size()) {
-                System.out.println("Moving to the next map...");
                 currentMap = maps.get(currentMapIndex + 1);
                 player.setPosition(1, 1); // player position on the new map
             } else {
-                showScreen(GameState.VICTORY);
-                System.exit(0);
+                System.out.println("No more maps available.");
             }
         } catch (Exception e) {
             System.out.println("Error loading next map: " + e.getMessage());
@@ -362,47 +332,8 @@ public class Game {
         }
     }
 
-    private void showScreen(GameState state) {
-        String filepath = "";
-
-        if (state==GameState.VICTORY) {
-            filepath = "assets/victoryScreen.json";
-        } else if (state==GameState.DEFEAT) {
-            filepath = "assets/defeatScreen.json";
-        }
-
-        try {
-            List<String> screen = ScreenLoader.jsonContentToStringList(filepath);
-            for(String line : screen) {
-                System.out.println(line);
-            }
-        }
-        catch (Exception e) {
-            System.out.println("Could not load screen" + e);
-        }
-
-    }
-
-
-
-
-    /**
-     * Main execution point for Game.java
-     * @param args args[0] must be the path to main game configuration file
-     * @throws Exception from Game constructor
-     */
     public static void main(String[] args) throws Exception {
+        new Game().start();
 
-        if (Objects.nonNull(args) && args.length>0)
-            new Game(args[0]).start();
-        else
-            new Game("assets/game-config.json").start();
     }
-
-    // For pausing/unpausing and completion/defeat of the game
-    enum GameState {
-        RUNNING, PAUSED, DEFEAT, VICTORY
-    }
-
-
 }
