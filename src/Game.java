@@ -291,22 +291,24 @@ public class Game {
     private void fight(Enemy enemy) {
         while (player.getHP() > 0 && enemy.getHP() > 0) {
             player.attack(enemy);
+
+            // Enemy dies
             if (enemy.getHP() <= 0) {
                 System.out.println("You defeated the enemy!");
                 currentMap.removeEntity(enemy);
 
                 if (currentMap.allEnemiesDefeated()) {
-                    System.out.println("Moving to the next map...");
                     handleNextMap();
                 }
-
                 return;
             }
 
             enemy.attack(player);
+
+            // Player dies
             if (player.getHP() <= 0) {
-                System.out.println("You were defeated...");
-                return;
+                showScreen(GameState.DEFEAT);
+                System.exit(0);
             }
 
             System.out.println("Press 'F' to fight, or move away.");
@@ -346,17 +348,42 @@ public class Game {
         try {
             int currentMapIndex = maps.indexOf(currentMap);
             if (currentMapIndex + 1 < maps.size()) {
+                System.out.println("Moving to the next map...");
                 currentMap = maps.get(currentMapIndex + 1);
                 player.setPosition(1, 1); // player position on the new map
             } else {
-                System.out.println("No more maps available."); // TODO handle end-of-game-screen here
-                System.exit(1);
+                showScreen(GameState.VICTORY);
+                System.exit(0);
             }
         } catch (Exception e) {
             System.out.println("Error loading next map: " + e.getMessage());
             System.exit(1);
         }
     }
+
+    private void showScreen(GameState state) {
+        String filepath = "";
+
+        if (state==GameState.VICTORY) {
+            filepath = "assets/victoryScreen.json";
+        } else if (state==GameState.DEFEAT) {
+            filepath = "assets/defeatScreen.json";
+        }
+
+        try {
+            List<String> screen = ScreenLoader.jsonContentToStringList(filepath);
+            for(String line : screen) {
+                System.out.println(line);
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Could not load screen" + e);
+        }
+
+    }
+
+
+
 
     /**
      * Main execution point for Game.java
@@ -371,8 +398,10 @@ public class Game {
             new Game("assets/game-config.json").start();
     }
 
-    // For pausing/unpausing game feature
+    // For pausing/unpausing and completion/defeat of the game
     enum GameState {
-        RUNNING, PAUSED
+        RUNNING, PAUSED, DEFEAT, VICTORY
     }
+
+
 }

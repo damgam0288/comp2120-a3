@@ -1,8 +1,10 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * Reads JSON files to create objects like NPCs, items etc. This is an abstract class
@@ -97,3 +99,21 @@ class ItemLoader extends AbstractLoader {
                 " in the given reference: " + filepath);
     }
 }
+
+class ScreenLoader {
+
+    public static List<String> jsonContentToStringList(String filepath) throws IOException {
+
+        // Read JSON file
+        List<String> lines = Files.readAllLines(Paths.get(filepath));
+        lines = lines.stream()
+                .map(line -> line.replaceAll("[\\[\\],\"]", "").trim())
+                .filter(line -> !line.trim().isEmpty())
+                .toList();
+
+        return lines;
+    }
+
+}
+
+
