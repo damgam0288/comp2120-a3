@@ -38,7 +38,7 @@ public class Game {
 
         // Player
         JSONObject playerJson = gameConfigJson.getJSONObject("player");
-        player = new Player(playerJson.getInt("startX"), playerJson.getInt("startY"),
+        player = new Player(playerJson.getInt("startx"), playerJson.getInt("starty"),
                 playerJson.getString("symbol").charAt(0),
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
         player.initInventory();
@@ -47,36 +47,46 @@ public class Game {
         maps = new ArrayList<>();
         JSONArray mapRefs = gameConfigJson.getJSONArray("levels");
 
-        // TODO 1 Refactor this and the associated JSON files to receive enemies/npc data
-        //  directly from the game-config.json file
         for (int i = 0; i < mapRefs.length(); i++) {
             JSONObject mapRef = mapRefs.getJSONObject(i);
             Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player);
             maps.add(map);
 
+            System.out.println(mapRef);
             // Load enemies and NPCs
-            loadEntities(map, mapRef);      // TODO 1
+            loadEntities(map, mapRef);
         }
 
         // Current map
         currentMap = this.maps.get(0);       // TODO 2 Replace with MapController later
     }
 
-    // TODO 1
+    /**
+     * Helper method to load all NPCs, enemies etc. into each Game Level
+     * @param map the map into which we want to put associated entities
+     * @param mapRef JSON object taken from the main config file containing the current level's data
+     * @throws Exception if JSON refs are not found
+     */
     private void loadEntities(Map map, JSONObject mapRef) throws Exception {
-        // load NPCs
+        // Load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
 
-        if (npcRefs.length()>MAX_NPCs_PER_LEVEL)       // Apply max limit per level
-            throw new TooManyEntitiesException("Too many NPCs loaded into map");
+        if (npcRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit  per level
+            throw new TooManyEntitiesException("Too many npcs loaded into map");
 
         for (int j = 0; j < npcRefs.length(); j++) {
-            JSONObject npcRef = npcRefs.getJSONObject(j);
-            NPC npc = NPCLoader.loadObject(npcRef.getString("name"), npcRef.getString("filepath"));
+            JSONObject npcData = npcRefs.getJSONObject(j);
+            System.out.println(npcData);
+            NPC npc = new NPC(
+                    npcData.getInt("startx"),
+                    npcData.getInt("starty"),
+                    npcData.getString("char").charAt(0),
+                    npcData.getString("name"));
+
             map.addEntity(npc);
         }
 
-        // load enemies
+        // Load Enemies
         JSONArray enemyRefs = mapRef.getJSONArray("enemies");
 
         if (enemyRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit  per level
