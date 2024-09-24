@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="GameLoadingTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-09-24T04:50:02" hostname="DESKTOP-1TV7L6O" time="0.036">
+  <properties/>
+  <testcase name="tooManyNpcs" classname="GameLoadingTest" time="0.036"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

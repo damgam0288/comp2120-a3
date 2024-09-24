@@ -56,6 +56,7 @@ public class Player extends Entity {
         this.hp = hp;
     }
 
+
     /**
      * Updates the player's position on the map by setting the x and y coordinates.
      *
@@ -81,7 +82,7 @@ public class Player extends Entity {
     }
 
     public void receiveItem(Item item) {
-        // TODO replace this using inventory instead
+        inventory.addItem(item);
     }
 
     /**
@@ -91,10 +92,19 @@ public class Player extends Entity {
      * @param enemy the enemy being attacked by the player.
      */
     public void attack(Enemy enemy) {
-        enemy.setHP(enemy.getHP() - ap);
+        enemy.getAttacked(this);
         System.out.println("Your Health Points (HP): " + hp + ", Your Attack Points (AP): " + ap);
         System.out.println("You attacked the enemy. Enemy HP is now: " + enemy.getHP());
     }
+
+    /**
+     * Calculates damage taken from the given Enemy after an attack
+     */
+    public void getAttacked(Enemy enemy) {
+        int newHp = hp - enemy.getAP();     // todo consider applying damage resistance?
+        hp = Math.max(newHp, 0);
+    }
+
 
     /**
      * Initializes the player's inventory with a set of predefined items.

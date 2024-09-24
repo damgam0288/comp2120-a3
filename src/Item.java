@@ -37,7 +37,7 @@ public abstract class Item {
 }
 
 /**
- * A specific type of Item used to attack opponents
+ * An equippable Item that increases Player's attack points
  */
 class Weapon extends Item {
     public Weapon(String name, int ap) {
@@ -46,7 +46,7 @@ class Weapon extends Item {
 }
 
 /**
- * A specific type of Item used to attack opponents
+ * A consumable used to health player
  */
 class HealthPotion extends Item {
     public HealthPotion(String name, int hp) {
