@@ -12,7 +12,7 @@ public class MapCollisionTest {
 
     @Before
     public void setup() throws Exception {
-        player = new Player(2,2,'P', 10, 100);
+        player = new Player(2,2,'P', 10, 100,1);
 
         testMap = new Map("test-map-1","tests/resources/test-map-1.json",player);
 
@@ -47,7 +47,7 @@ public class MapCollisionTest {
 
     @Test
     public void testCollisionWithNoEntities() throws Exception {
-        player = new Player(2,2,'P', 10, 100);
+        player = new Player(2,2,'P', 10, 100,1);
         testMap = new Map("test-map-1","tests/resources/test-map-1.json",player);
 
         assertNull(testMap.getCollidingEntity());

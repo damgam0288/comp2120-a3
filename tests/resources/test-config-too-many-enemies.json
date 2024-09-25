@@ -4,7 +4,8 @@
     "starty": 1,
     "symbol": "P",
     "ap": 10,
-    "hp": 100
+    "hp": 100,
+    "level": 1
   },
   "levels": [
     {
