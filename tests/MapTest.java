@@ -41,34 +41,6 @@ public class MapTest {
         }
     }
 
-    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void veryWideMapThrowsError() throws Exception {
-        Map map = new Map("wide map", "tests/resources/very-wide-map.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
-    }
-
-    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void veryTallMapThrowsError() throws Exception {
-        Map map = new Map("tall map", "tests/resources/very-tall-map.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
-    }
-
-    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void veryNarrowMapThrowsError() throws Exception {
-        Map map = new Map("narrow map", "tests/resources/very-narrow-map.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
-    }
-
-    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void veryShortMapThrowsError() throws Exception {
-        Map map = new Map("short map", "tests/resources/very-short-map.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
-    }
-
     // ** Map.java methods **
     @Test
     public void testSetGridTile() {
@@ -139,7 +111,7 @@ public class MapTest {
                 GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
-    // ** Entity out of bounds **
+    // ** Entity placement tests **
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
     public void entityIllegalX() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc1", entityJsonBadParameters));
@@ -160,7 +132,6 @@ public class MapTest {
         map1.addEntity(NPCLoader.loadObject("npc4", entityJsonBadParameters));
     }
 
-    // ** Entity placed on an obstacle **
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
     public void entityOnLeftWall() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc5", entityJsonBadParameters));
@@ -191,6 +162,35 @@ public class MapTest {
     public void entitiesOverlapping() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc10", entityJsonBadParameters));
         map1.addEntity(NPCLoader.loadObject("npc11", entityJsonBadParameters));
+    }
+
+    // ** Map size testing **
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryWideMapThrowsError() throws Exception {
+        Map map = new Map("wide map", "tests/resources/very-wide-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryTallMapThrowsError() throws Exception {
+        Map map = new Map("tall map", "tests/resources/very-tall-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryNarrowMapThrowsError() throws Exception {
+        Map map = new Map("narrow map", "tests/resources/very-narrow-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryShortMapThrowsError() throws Exception {
+        Map map = new Map("short map", "tests/resources/very-short-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
 }

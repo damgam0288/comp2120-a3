@@ -12,6 +12,8 @@ public class PlayerTest {
         player = new Player(1,1,'P',10,100,1);
     }
 
+    
+
     @Test(timeout = 1000)
     public void returnCorrectItemsEquipped() {
         Weapon weapon = new Weapon("weapon1",25);
