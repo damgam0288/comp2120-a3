@@ -30,7 +30,7 @@ public class MapTest {
         // Row 0 and 4
         for (int x = 0; x <= 9; x++) {
             assertEquals(map2.getGridTile(x, 0), '#');
-            assertEquals(map2.getGridTile(x, 4), '#');
+            assertEquals(map2.getGridTile(x, 5), '#');
         }
 
         // All other rows in between
@@ -42,13 +42,34 @@ public class MapTest {
     }
 
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void largeMapThrowsError() throws Exception {
-        Map map = new Map("large map", "tests/resources/very-large-map.json", player,
+    public void veryWideMapThrowsError() throws Exception {
+        Map map = new Map("wide map", "tests/resources/very-wide-map.json", player,
                 GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
                 GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryTallMapThrowsError() throws Exception {
+        Map map = new Map("tall map", "tests/resources/very-tall-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
 
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryNarrowMapThrowsError() throws Exception {
+        Map map = new Map("narrow map", "tests/resources/very-narrow-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryShortMapThrowsError() throws Exception {
+        Map map = new Map("short map", "tests/resources/very-short-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    // ** Map.java methods **
     @Test
     public void testSetGridTile() {
         assertEquals(map2.getGridTile(2, 2), '.');
