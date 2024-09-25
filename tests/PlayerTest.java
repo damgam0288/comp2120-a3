@@ -12,15 +12,34 @@ public class PlayerTest {
         player = new Player(1,1,'P',10,100,1);
     }
 
-    // A newly created player should have empty inventory
+    // todo Test adding/removing items from inventory
 
-    // Test adding/removing items from inventory
+    @Test(timeout = 1000)
+    public void healthPotionHealsCorrectly() {
+        player.getInventory().addItem(new HealthPotion("health", 10));
+        player.getInventory().addItem(new HealthPotion("health", 10));
 
-    // Test adding health potion, using it incrase health correclty
+        // Hurt player
+        player.setHP(90);
+        assertEquals(90, player.getHP());
 
-    // Test using health potion reaches maximum hp
+        // Heal player
+        player.useItem(0);
+        assertEquals(100,player.getHP());
+    }
 
+    @Test(timeout = 1000)
+    public void healthPotionDoesntGoAboveMaxHP() {
+        player.getInventory().addItem(new HealthPotion("health", 10));
+        player.getInventory().addItem(new HealthPotion("health", 10));
 
+        // "over" heal player
+        player.useItem(0);
+        player.useItem(0);
+        assertEquals(100,player.getHP());
+    }
+
+    // Todo check shield affects damage points correctly
 
     @Test(timeout = 1000)
     public void returnCorrectItemsEquipped() {
