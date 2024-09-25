@@ -42,7 +42,7 @@ public class Game {
         JSONObject playerJson = gameConfigJson.getJSONObject("player");
         player = new Player(playerJson.getInt("startx"), playerJson.getInt("starty"),
                 playerJson.getString("symbol").charAt(0),
-                playerJson.getInt("ap"), playerJson.getInt("hp"));
+                playerJson.getInt("ap"),playerJson.getInt("hp"), playerJson.getInt("level"));
         player.initInventory();
 
 
@@ -118,6 +118,7 @@ public class Game {
         String input;
 
         do {
+            System.out.println("Player HP: " + player.getHP() + ", AP: " + player.getAP() + ", Level: " + player.getLevel());
             System.out.println("ENTER W for Up, S for Down, A for Left, D for Right, I for Inventory, P to pause, Q to quit: ");
             input = scanner.nextLine();
 
@@ -328,7 +329,6 @@ public class Game {
 
             // Enemy dies
             if (enemy.getHP() <= 0) {
-                System.out.println("You defeated the enemy!");
                 currentMap.removeEntity(enemy);
                 enemies.remove(enemy);
                 checkPlayerLevelAndUpgradeEnemies();

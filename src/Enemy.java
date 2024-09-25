@@ -80,6 +80,6 @@ public class Enemy extends Entity {
     public void levelUp(){
         hp += 10;
         ap += 5;
-        System.out.println("Enemies level up!"+"Enemies current hp:"+ hp + "Enemies current ap:"+ ap);
+        System.out.println("Enemies level up!"+"Enemies current hp:"+ hp + "   ap:"+ ap);
     }
 }

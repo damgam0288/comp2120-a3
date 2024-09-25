@@ -22,13 +22,13 @@ public class Player extends Entity {
      * @param ap     the player's initial attack points.
      * @param hp     the player's initial health points.
      */
-    public Player(int startX, int startY, char symbol, int ap, int hp) {
+    public Player(int startX, int startY, char symbol, int ap, int hp, int level) {
         super(startX, startY, symbol);
         this.ap = ap;
         this.hp = hp;
         this.inventory = new Inventory();
         this.equippedItems = new HashMap<>();
-        this.level = 1; // Initial level
+        this.level = level; // Initial level
         this.enemiesDefeated = 0;
 
     }
