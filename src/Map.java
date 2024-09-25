@@ -28,7 +28,9 @@ public class Map {
      * @param filePath - path to json file containing world
      * @throws IOException - in case cannot find json file
      */
-    public Map(String n, String filePath, Player p) throws Exception {
+    public Map(String n, String filePath, Player p,
+                    int minWidth, int minHeight,
+                    int maxWidth, int maxHeight) throws Exception {
         // Player != null to check position once here, instead of in .draw()
         if (Objects.isNull(p)) {
             throw new IllegalArgumentException("Player cannot be null");
@@ -38,7 +40,8 @@ public class Map {
         entities = new ArrayList<>();
         player = p;
 
-        MapLoader.loadMapWorldFromFile(filePath,this);
+        MapLoader.loadMapWorldFromFile(filePath, this,
+                minWidth, minHeight, maxWidth, maxHeight);
     }
 
     /**

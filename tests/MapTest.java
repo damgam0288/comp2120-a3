@@ -1,6 +1,8 @@
 import exceptions.InvalidEntityPlacementException;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.naming.SizeLimitExceededException;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
@@ -15,8 +17,12 @@ public class MapTest {
     @Before
     public void setup() throws Exception {
         player = new Player(1, 1, 'P', 10, 100);
-        map1 = new Map("test-map-1", "tests/resources/test-map-1.json", player);
-        map2 = new Map("test-map-2", "tests/resources/test-map-2.json", player);
+        map1 = new Map("test-map-1","tests/resources/test-map-1.json",player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+        map2 = new Map("test-map-2", "tests/resources/test-map-2.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
     @Test
@@ -34,6 +40,14 @@ public class MapTest {
             }
         }
     }
+
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void largeMapThrowsError() throws Exception {
+        Map map = new Map("large map", "tests/resources/very-large-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
 
     @Test
     public void testSetGridTile() {
@@ -92,12 +106,16 @@ public class MapTest {
     // ** Wrong/missing files **
     @Test(expected = IOException.class)
     public void testFileDoesNotExistThrowsException() throws Exception {
-        Map map = new Map("non-existent-map", "resources/non-existent-file.json", player);
+        Map map = new Map("non-existent-map", "resources/non-existent-file.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullPlayerThrowsException() throws Exception {
-        Map map = new Map("non-existent-map", "resources/non-existent-file.json", null);
+        Map map = new Map("non-existent-map", "resources/non-existent-file.json", null,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
     // ** Entity out of bounds **
