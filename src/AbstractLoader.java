@@ -91,7 +91,9 @@ class ItemLoader extends AbstractLoader {
 
         // Shields
         if (itemRef.getString("type").equalsIgnoreCase("shield")) {
-            // TODO
+            return new Shield(itemRef.getString("name"),
+                    itemRef.getInt("hp"));
+
         }
 
         // Missing object in a JSON file means game shouldn't run

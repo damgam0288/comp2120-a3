@@ -43,6 +43,7 @@ public class Game {
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
         player.initInventory();
 
+
         // Levels, NPCs, enemies
         maps = new ArrayList<>();
         JSONArray mapRefs = gameConfigJson.getJSONArray("levels");
@@ -151,7 +152,26 @@ public class Game {
         boolean inventoryOpen = true;
 
         while (inventoryOpen) {
-            List<Item> items = player.getInventory().getUnequippedItems();
+            // Get the player's equipped items
+            List<Item> equippedItems = player.getEquippedItems();
+
+            // Display equipped items
+
+            if (equippedItems.isEmpty()) {
+//                System.out.println("No items are currently equipped.");
+            } else {
+                System.out.println("Equipped Items:");
+                for (int i = 0; i < equippedItems.size(); i++) {
+                    String points;
+                    if (equippedItems.get(i).getType() == ItemType.WEAPON) {
+                        points = "AP";
+                    } else {
+                        points = "HP";
+                    }
+                    System.out.println(equippedItems.get(i).getName() + " +" + equippedItems.get(i).getValue() + points + "");
+                }
+            }
+            List<Item> items = player.getInventory().getItems();
             if (items.isEmpty()) {
                 System.out.println("Your inventory is empty.");
                 return;
