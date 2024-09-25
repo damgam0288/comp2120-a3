@@ -151,7 +151,7 @@ public class Game {
         boolean inventoryOpen = true;
 
         while (inventoryOpen) {
-            List<Item> items = player.getInventory().getItems();
+            List<Item> items = player.getInventory().getUnequippedItems();
             if (items.isEmpty()) {
                 System.out.println("Your inventory is empty.");
                 return;
@@ -382,9 +382,6 @@ public class Game {
         }
 
     }
-
-
-
 
     /**
      * Main execution point for Game.java

@@ -1,10 +1,11 @@
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /** Player class is a specific type of Entity */
 public class Player extends Entity {
-    private int ap;  // Attack Power
-    private int hp;  // Health Points
+    private int ap;
+    private int hp;             // Health Points
     private Inventory inventory;
     private Item equippedItem;
     private HashMap<ItemType, Item> equippedItems;
@@ -33,7 +34,25 @@ public class Player extends Entity {
      * @return the player's current attack points.
      */
     public int getAP() {
-        return ap;
+        return ap + itemAP();
+    }
+
+    /**
+     * Helper method to calculate added AP from all the WEAPONS in inventory
+     */
+    private int itemAP() {
+        List<Item> equipped = this.inventory.getEquippedItems();
+        int itemAP = 0;
+
+        if (Objects.isNull(equipped))
+            return 0;
+
+        for(Item item : equipped) {
+            if (item.getType().equals(ItemType.WEAPON))
+                itemAP += item.getValue();
+        }
+
+        return itemAP;
     }
 
     /**
@@ -92,7 +111,7 @@ public class Player extends Entity {
      */
     public void attack(Enemy enemy) {
         enemy.getAttacked(this);
-        System.out.println("Your Health Points (HP): " + hp + ", Your Attack Points (AP): " + ap);
+        System.out.println("Your Health Points (HP): " + getHP() + ", Your Attack Points (AP): " + getAP());
         System.out.println("You attacked the enemy. Enemy HP is now: " + enemy.getHP());
     }
 
@@ -103,7 +122,6 @@ public class Player extends Entity {
         int newHp = hp - enemy.getAP();     // todo consider applying damage resistance?
         hp = Math.max(newHp, 0);
     }
-
 
     /**
      * Initializes the player's inventory with a set of predefined items.
@@ -140,7 +158,7 @@ public class Player extends Entity {
      *                  If the index is out of bounds, an error message is displayed, and no item is equipped.
      */
     public void equipItem(int itemIndex) {
-        List<Item> items = inventory.getItems();
+        List<Item> items = inventory.getUnequippedItems();
 
         // Validate item index
         if (itemIndex < 0 || itemIndex >= items.size()) {
@@ -166,7 +184,7 @@ public class Player extends Entity {
                 item.setEquipped(true); // Assuming setEquipped(true) marks the item as equipped
                 System.out.println("Equipped item: " + item.getName());
                 if (item.getType() == ItemType.WEAPON) {
-                    System.out.println("AP increased by: " + item.getValue());
+                    System.out.println("Base AP: " + ap + " Weapon AP: " + item.getValue());
                 }
                 else if (item.getType() == itemType.SHIELD) {
                     System.out.println("HP increased by: " + item.getValue());
@@ -210,7 +228,7 @@ public class Player extends Entity {
      *                  Must be within the range of the inventory list.
      */
     public void useItem(int itemIndex) {
-        List<Item> items = inventory.getItems();
+        List<Item> items = inventory.getUnequippedItems();
 
         if (itemIndex < 0 || itemIndex >= items.size()) {
             System.out.println("Invalid item index.");
