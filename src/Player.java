@@ -6,8 +6,9 @@ import java.util.List;
 public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
+
+    private int dp; // Defence Points
     private Inventory inventory;
-    private Item equippedItem;
     private HashMap<ItemType, Item> equippedItems;
 
     /**
@@ -53,6 +54,24 @@ public class Player extends Entity {
      */
     public void setAP(int ap) {
         this.ap = ap;
+    }
+
+    /**
+     * Sets the player's defence points (DP).
+     *
+     * @param dp the new defence points to set for the player.
+     */
+    public void setDP(int dp){
+        this.dp = dp;
+    }
+
+    /**
+     * Retrieves the player's defence points (DP).
+     *
+     * @return the player's current defence points.
+     */
+    public int getDp() {
+        return dp;
     }
 
     /**
@@ -159,7 +178,7 @@ public class Player extends Entity {
 
                 // If there's already an item of this type equipped, unequip it first
                 if (equippedItems.containsKey(itemType)) {
-                    unequipItem(itemType);
+                    unequipItem(item);
                 }
 
                 // Equip the new item
@@ -168,9 +187,11 @@ public class Player extends Entity {
                 System.out.println("Equipped item: " + item.getName());
                 if (item.getType() == ItemType.WEAPON) {
                     System.out.println("AP increased by: " + item.getValue());
+                    ap += item.getValue();
                 }
                 else if (item.getType() == itemType.SHIELD) {
                     System.out.println("HP increased by: " + item.getValue());
+                    dp += item.getValue();
                 }
                 break;
 
@@ -186,14 +207,20 @@ public class Player extends Entity {
      * If such an item is found, it will be removed from the equipped items list and marked as unequipped.
      * If no item of the specified type is equipped, a message is displayed indicating this.
      *
-     * @param itemType The type of item to unequip (e.g., WEAPON, SHIELD).
+     * @param item The item to unequip (e.g., WEAPON, SHIELD).
      *                 The itemType must correspond to a type of item that can be equipped by the player.
      */
-    public void unequipItem(ItemType itemType) {
+    public void unequipItem(Item item) {
+        ItemType itemType = item.getType();
         if (equippedItems.containsKey(itemType)) {
             Item unequippedItem = equippedItems.remove(itemType);
-            unequippedItem.setEquipped(false); // Assuming setEquipped(false) marks the item as unequipped
+            unequippedItem.setEquipped(false);
             System.out.println("Unequipped item: " + unequippedItem.getName());
+            if (itemType == ItemType.SHIELD){
+                dp -= item.getValue();
+            } else if ( itemType == ItemType.WEAPON){
+                hp -= item.getValue();
+            }
         }
         else {
             System.out.println("No item of type " + itemType + " is currently equipped.");
