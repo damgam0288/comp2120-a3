@@ -56,19 +56,19 @@ public class MapController {
         return -1;
     }
 
-    public static LinkedList<Map> loadMapsFromJSONArray(JSONArray dataArray) throws Exception {
-        LinkedList<Map> allMaps = new LinkedList<>();
-
-        for (int i = 0; i < dataArray.length(); i++) {
-            JSONObject mapRef = dataArray.getJSONObject(i);
-            allMaps.add(
-                    new Map(mapRef.getString("name"),
-                            mapRef.getString("filepath"),
-                            new Player(1, 1, 'P', 10, 100)));
-        }
-
-        return allMaps;
-    }
+//    public static LinkedList<Map> loadMapsFromJSONArray(JSONArray dataArray) throws Exception {
+//        LinkedList<Map> allMaps = new LinkedList<>();
+//
+//        for (int i = 0; i < dataArray.length(); i++) {
+//            JSONObject mapRef = dataArray.getJSONObject(i);
+//            allMaps.add(
+//                    new Map(mapRef.getString("name"),
+//                            mapRef.getString("filepath"),
+//                            new Player(1, 1, 'P', 10, 100)));
+//        }
+//
+//        return allMaps;
+//    }
 
 /*
     public static void main(String[] args) {
