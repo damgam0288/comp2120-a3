@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -228,4 +229,15 @@ public class Player extends Entity {
                 System.out.println("can't use item: " + item.getName());
         }
     }
+
+    /**
+     * Retrieves the list of items that are currently equipped by the player.
+     * This method returns a list of items that are equipped, including weapons and shields.
+     *
+     * @return a list of equipped items.
+     */
+    public List<Item> getEquippedItems() {
+        return new ArrayList<>(equippedItems.values());
+    }
+
 }

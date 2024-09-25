@@ -151,6 +151,19 @@ public class Game {
         boolean inventoryOpen = true;
 
         while (inventoryOpen) {
+            // Get the player's equipped items
+            List<Item> equippedItems = player.getEquippedItems();
+
+            // Display equipped items
+
+            if (equippedItems.isEmpty()) {
+//                System.out.println("No items are currently equipped.");
+            } else {
+                System.out.println("Equipped Items:");
+                for (int i = 0; i < equippedItems.size(); i++) {
+                    System.out.println(equippedItems.get(i).getName());
+                }
+            }
             List<Item> items = player.getInventory().getItems();
             if (items.isEmpty()) {
                 System.out.println("Your inventory is empty.");
