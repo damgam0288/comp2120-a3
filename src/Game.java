@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.*;
 
 import exceptions.TooManyEntitiesException;
 import org.json.JSONArray;
@@ -6,9 +6,6 @@ import org.json.JSONObject;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class Game {
 
@@ -28,13 +25,16 @@ public class Game {
 
         // Load game config
         if (Objects.isNull(pathToConfig))
-            throw new IllegalArgumentException("Game Config cannot be null");
+            throw new IllegalArgumentException("Game.java pathToConfig cannot be null");
 
         if (pathToConfig.isEmpty())
-            throw new IllegalArgumentException("Game Config cannot be empty");
+            throw new IllegalArgumentException("Game.java pathToConfig is empty");
 
         String gameConfigContent = new String(Files.readAllBytes(Paths.get(pathToConfig)));
         JSONObject gameConfigJson = new JSONObject(gameConfigContent);
+
+        if (gameConfigJson.isEmpty())
+            throw new Exception("Game config file cannot be empty");
 
         // Player
         JSONObject playerJson = gameConfigJson.getJSONObject("player");
