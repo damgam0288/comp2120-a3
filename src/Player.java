@@ -9,6 +9,9 @@ public class Player extends Entity {
     private int hp;             // Health Points
     private Inventory inventory;
     private HashMap<ItemType, Item> equippedItems;
+    private int level; // Player level
+    private int enemiesDefeated; // Count of defeated enemies
+
 
     /**
      * Constructor
@@ -19,12 +22,14 @@ public class Player extends Entity {
      * @param ap     the player's initial attack points.
      * @param hp     the player's initial health points.
      */
-    public Player(int startX, int startY, char symbol, int ap, int hp) {
+    public Player(int startX, int startY, char symbol, int ap, int hp, int level) {
         super(startX, startY, symbol);
         this.ap = ap;
         this.hp = hp;
         this.inventory = new Inventory();
         this.equippedItems = new HashMap<>();
+        this.level = level; // Initial level
+        this.enemiesDefeated = 0;
 
     }
 
@@ -113,6 +118,19 @@ public class Player extends Entity {
         enemy.getAttacked(this);
         System.out.println("Your Health Points (HP): " + getHP() + ", Your Attack Points (AP): " + getAP());
         System.out.println("You attacked the enemy. Enemy HP is now: " + enemy.getHP());
+
+        if (enemy.getHP() <= 0) {
+            enemiesDefeated++;
+            System.out.println("You defeated an enemy!");
+
+            // Check if it's time to level up
+            int enemiesRequiredForNextLevel = (level + 1); // Level 1 requires 2 enemies, level 2 requires 3, and so on.
+
+            if (enemiesDefeated >= enemiesRequiredForNextLevel) {
+                levelUp();
+                enemiesDefeated = 0; // Reset defeated enemies count for the next level
+            }
+        }
     }
 
     /**
@@ -297,5 +315,19 @@ public class Player extends Entity {
         return equippedItems.get(ItemType.SHIELD);
     }
 
+    public int getLevel() {
+        return level;
+    }
 
+    public void levelUp() {
+        if (level < 5) { // Maximum level is 5
+            level++;
+            hp += 20; // Increase HP by 20
+            ap += 10; // Increase AP by 10
+            System.out.println("Congratulations! You've reached level " + level + "!");
+            System.out.println("Your new HP: " + hp + ", Your new AP: " + ap);
+        }else {
+            System.out.println("You have reached the maximum level!"); // Print message if level is already max
+        }
+    }
 }

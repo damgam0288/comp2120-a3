@@ -294,4 +294,14 @@ public class Map {
     public String getMapNumber() {
         return name;  // Placeholder for map number, adjust if necessary
     }
+
+    public List<Enemy> getEnemies(){
+        List<Enemy> enemies = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (entity instanceof Enemy) {
+                enemies.add((Enemy) entity);
+            }
+        }
+        return enemies;
+    }
 }
