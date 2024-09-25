@@ -1,6 +1,5 @@
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +13,7 @@ public class PlayerTest {
     }
 
     @Test(timeout = 1000)
-    public void equippedItemsReturnsCorrectItems() {
+    public void returnCorrectItemsEquipped() {
         Weapon weapon = new Weapon("weapon1",25);
         player.getInventory().addItem(weapon);
 
@@ -27,7 +26,7 @@ public class PlayerTest {
     }
 
     @Test(timeout = 1000)
-    public void itemApCalculatesAPCorrectly() {
+    public void returnCorrectAPWithAndWithoutWeapons() {
         // Without weapon
         assertEquals(10, player.getAP());
 
