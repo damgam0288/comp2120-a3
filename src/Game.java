@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 
 public class Game {
 
@@ -46,10 +47,13 @@ public class Game {
 
         // Levels, NPCs, enemies
         maps = new ArrayList<>();
-        JSONArray mapRefs = gameConfigJson.getJSONArray("levels");
+        JSONArray levels = gameConfigJson.getJSONArray("levels");
 
-        for (int i = 0; i < mapRefs.length(); i++) {
-            JSONObject mapRef = mapRefs.getJSONObject(i);
+        if (levels.isEmpty())
+            throw new Exception("Levels are missing");
+
+        for (int i = 0; i < levels.length(); i++) {
+            JSONObject mapRef = levels.getJSONObject(i);
             Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player);
             maps.add(map);
             loadEntities(map, mapRef);
