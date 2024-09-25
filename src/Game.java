@@ -189,10 +189,10 @@ public class Game {
 
             switch (action) {
                 case "1":
-                    player.getInventory().useItem(player, itemIndex);
+                    player.useItem(itemIndex);
                     break;
                 case "2":
-                    player.getInventory().equipItem(player, itemIndex);
+                    player.equipItem(itemIndex);
                     break;
                 case "3":
                     player.getInventory().removeItem(selectedItem);
