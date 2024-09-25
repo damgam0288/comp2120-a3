@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Player extends Entity {
     private int ap;
     private int hp;             // Health Points
+    private int maxHp;
     private Inventory inventory;
     private HashMap<ItemType, Item> equippedItems;
     private int level; // Player level
@@ -26,11 +27,11 @@ public class Player extends Entity {
         super(startX, startY, symbol);
         this.ap = ap;
         this.hp = hp;
+        this.maxHp = hp;
         this.inventory = new Inventory();
         this.equippedItems = new HashMap<>();
         this.level = level; // Initial level
         this.enemiesDefeated = 0;
-
     }
 
     /**
@@ -289,6 +290,7 @@ public class Player extends Entity {
             case HEALTHPOTION:
                 System.out.println("Used item: " + item.getName());
                 hp += item.getValue();
+                hp = Math.min(hp, maxHp);
                 System.out.println("HP increased by: " + item.getValue());
                 break;
             default:

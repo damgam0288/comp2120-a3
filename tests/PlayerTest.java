@@ -12,7 +12,15 @@ public class PlayerTest {
         player = new Player(1,1,'P',10,100,1);
     }
 
-    
+    // A newly created player should have empty inventory
+
+    // Test adding/removing items from inventory
+
+    // Test adding health potion, using it incrase health correclty
+
+    // Test using health potion reaches maximum hp
+
+
 
     @Test(timeout = 1000)
     public void returnCorrectItemsEquipped() {
