@@ -1,6 +1,8 @@
 import exceptions.InvalidEntityPlacementException;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.naming.SizeLimitExceededException;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
@@ -15,8 +17,12 @@ public class MapTest {
     @Before
     public void setup() throws Exception {
         player = new Player(1, 1, 'P', 10, 100);
-        map1 = new Map("test-map-1", "tests/resources/test-map-1.json", player);
-        map2 = new Map("test-map-2", "tests/resources/test-map-2.json", player);
+        map1 = new Map("test-map-1","tests/resources/test-map-1.json",player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+        map2 = new Map("test-map-2", "tests/resources/test-map-2.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
     @Test
@@ -24,7 +30,7 @@ public class MapTest {
         // Row 0 and 4
         for (int x = 0; x <= 9; x++) {
             assertEquals(map2.getGridTile(x, 0), '#');
-            assertEquals(map2.getGridTile(x, 4), '#');
+            assertEquals(map2.getGridTile(x, 5), '#');
         }
 
         // All other rows in between
@@ -35,6 +41,35 @@ public class MapTest {
         }
     }
 
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryWideMapThrowsError() throws Exception {
+        Map map = new Map("wide map", "tests/resources/very-wide-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryTallMapThrowsError() throws Exception {
+        Map map = new Map("tall map", "tests/resources/very-tall-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryNarrowMapThrowsError() throws Exception {
+        Map map = new Map("narrow map", "tests/resources/very-narrow-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    @Test(timeout = 1000, expected = SizeLimitExceededException.class)
+    public void veryShortMapThrowsError() throws Exception {
+        Map map = new Map("short map", "tests/resources/very-short-map.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+    }
+
+    // ** Map.java methods **
     @Test
     public void testSetGridTile() {
         assertEquals(map2.getGridTile(2, 2), '.');
@@ -92,12 +127,16 @@ public class MapTest {
     // ** Wrong/missing files **
     @Test(expected = IOException.class)
     public void testFileDoesNotExistThrowsException() throws Exception {
-        Map map = new Map("non-existent-map", "resources/non-existent-file.json", player);
+        Map map = new Map("non-existent-map", "resources/non-existent-file.json", player,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullPlayerThrowsException() throws Exception {
-        Map map = new Map("non-existent-map", "resources/non-existent-file.json", null);
+        Map map = new Map("non-existent-map", "resources/non-existent-file.json", null,
+                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
+                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
     }
 
     // ** Entity out of bounds **
