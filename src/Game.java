@@ -46,7 +46,7 @@ public class Game {
 
         // Levels, NPCs, enemies
         maps = new ArrayList<>();
-        JSONArray mapRefs = gameConfigJson.getJSONArray("levels");
+        JSONArray levels = gameConfigJson.getJSONArray("levels");
         enemies = new ArrayList<>();
 
         if (levels.isEmpty())
