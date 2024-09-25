@@ -22,7 +22,7 @@ public class Inventory {
     }
 
     // Get the list of items that are not equipped
-    public List<Item> getUnequippedItems() {
+    public List<Item> getItems() {
         List<Item> unequippedItems = new ArrayList<>();
         for (Item item : items) {
             if (!item.isEquipped()) {

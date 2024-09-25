@@ -171,6 +171,7 @@ public class Game {
                     System.out.println(equippedItems.get(i).getName() + " +" + equippedItems.get(i).getValue() + points + "");
                 }
             }
+
             List<Item> items = player.getInventory().getItems();
             if (items.isEmpty()) {
                 System.out.println("Your inventory is empty.");

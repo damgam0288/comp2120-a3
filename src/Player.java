@@ -184,7 +184,7 @@ public class Player extends Entity {
      *                  If the index is out of bounds, an error message is displayed, and no item is equipped.
      */
     public void equipItem(int itemIndex) {
-        List<Item> items = inventory.getUnequippedItems();
+        List<Item> items = inventory.getItems();
 
         // Validate item index
         if (itemIndex < 0 || itemIndex >= items.size()) {
@@ -259,7 +259,7 @@ public class Player extends Entity {
      *                  Must be within the range of the inventory list.
      */
     public void useItem(int itemIndex) {
-        List<Item> items = inventory.getUnequippedItems();
+        List<Item> items = inventory.getItems();
 
         if (itemIndex < 0 || itemIndex >= items.size()) {
             System.out.println("Invalid item index.");
