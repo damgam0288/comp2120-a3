@@ -19,6 +19,8 @@ public class Game {
     private Map pausedState;        // TODO 2
     private GameState currentState = GameState.RUNNING;
     private Scanner scanner;
+    private List<Enemy> enemies;
+    private int initialPlayerLevel = 1;
 
     // Game initiation
     public Game(String pathToConfig) throws Exception {
@@ -47,12 +49,14 @@ public class Game {
         // Levels, NPCs, enemies
         maps = new ArrayList<>();
         JSONArray mapRefs = gameConfigJson.getJSONArray("levels");
+        enemies = new ArrayList<>();
 
         for (int i = 0; i < mapRefs.length(); i++) {
             JSONObject mapRef = mapRefs.getJSONObject(i);
             Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player);
             maps.add(map);
             loadEntities(map, mapRef);
+            enemies.addAll(map.getEnemies());
         }
 
         // Current map
@@ -61,7 +65,8 @@ public class Game {
 
     /**
      * Helper method to load all NPCs, enemies etc. into each Game Level
-     * @param map the map into which we want to put associated entities
+     *
+     * @param map    the map into which we want to put associated entities
      * @param mapRef JSON object taken from the main config file containing the current level's data
      * @throws Exception if JSON refs are not found
      */
@@ -69,7 +74,7 @@ public class Game {
         // Load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
 
-        if (npcRefs.length()>MAX_NPCs_PER_LEVEL)       // Apply max limit  per level
+        if (npcRefs.length() > MAX_NPCs_PER_LEVEL)       // Apply max limit  per level
             throw new TooManyEntitiesException("Too many npcs loaded into map");
 
         for (int j = 0; j < npcRefs.length(); j++) {
@@ -88,7 +93,7 @@ public class Game {
         // Load Enemies
         JSONArray enemyRefs = mapRef.getJSONArray("enemies");
 
-        if (enemyRefs.length()>MAX_ENEMIES_PER_LEVEL)       // Apply max limit per level
+        if (enemyRefs.length() > MAX_ENEMIES_PER_LEVEL)       // Apply max limit per level
             throw new TooManyEntitiesException("Too many enemies loaded into map");
 
         for (int j = 0; j < enemyRefs.length(); j++) {
@@ -117,7 +122,7 @@ public class Game {
             input = scanner.nextLine();
 
             // TODO 2 replace with a state field?
-            if (input.equalsIgnoreCase("p")){
+            if (input.equalsIgnoreCase("p")) {
                 handlePaused();
             }
             if (input.equalsIgnoreCase("i")) {
@@ -139,12 +144,12 @@ public class Game {
      * Opens the player's inventory, allowing them to view and interact with their items.
      * This method displays the list of items in the player's inventory and provides
      * options to use, equip, or drop items. The player can also exit the inventory.
-     *
+     * <p>
      * While the inventory is open:
      * - The player can select an item by its number to interact with it.
      * - Options for interacting include using the item, equipping it, or dropping it.
      * - If the inventory is empty, a message is displayed, and the method exits.
-     *
+     * <p>
      * The method continues to run in a loop until the player chooses to exit
      * the inventory by selecting option 0 or 4.
      */
@@ -231,17 +236,16 @@ public class Game {
 
     /**
      * Handles the game's pause functionality.
-     *
+     * <p>
      * This method checks if the game is currently in the RUNNING state. If so, it pauses the game by
      * switching the game state to PAUSED and displays a pause menu. While the game is paused,
      * it enters a loop waiting for user input to either resume the game or quit.
-     *
+     * <p>
      * - When the user presses 'P', the game resumes by switching the game state back to RUNNING.
      * - When the user presses 'Q', the game quits by exiting the application.
      * - Any other input is considered invalid and the pause menu is re-displayed.
-     *
+     * <p>
      * The method ensures that no game actions can be taken while the game is paused.
-     *
      */
     public void handlePaused() {
         if (currentState == GameState.RUNNING) {
@@ -282,6 +286,14 @@ public class Game {
             case "a" -> player.move(-1, 0, currentMap);
             case "d" -> player.move(1, 0, currentMap);
         }
+        if (currentMap.canMoveToNextMap()) {
+            System.out.println("You've reached the exit! Moving to the next map...");
+            handleNextMap();
+        }
+        if (currentMap.isVictory()) {
+            System.out.println("Congratulations! You've won the game!");
+            System.exit(0);
+        }
     }
 
     /**
@@ -318,10 +330,8 @@ public class Game {
             if (enemy.getHP() <= 0) {
                 System.out.println("You defeated the enemy!");
                 currentMap.removeEntity(enemy);
-
-                if (currentMap.allEnemiesDefeated()) {
-                    handleNextMap();
-                }
+                enemies.remove(enemy);
+                checkPlayerLevelAndUpgradeEnemies();
                 return;
             }
 
@@ -344,6 +354,20 @@ public class Game {
                 handleMovement(action);
                 return;
             }
+        }
+    }
+
+    private void checkPlayerLevelAndUpgradeEnemies() {
+        int currentPlayerLevel = player.getLevel();
+        if (currentPlayerLevel > initialPlayerLevel) {
+            upgradeEnemies();
+            initialPlayerLevel = currentPlayerLevel;
+        }
+    }
+
+    private void upgradeEnemies() {
+        for (Enemy enemy : enemies) {
+            enemy.levelUp();
         }
     }
 
