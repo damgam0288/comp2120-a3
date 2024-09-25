@@ -6,7 +6,6 @@ import java.util.List;
 public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
-    private int dp; // Defence Points
     private Inventory inventory;
     private HashMap<ItemType, Item> equippedItems;
 
@@ -53,24 +52,6 @@ public class Player extends Entity {
      */
     public void setAP(int ap) {
         this.ap = ap;
-    }
-
-    /**
-     * Sets the player's defence points (DP).
-     *
-     * @param dp the new defence points to set for the player.
-     */
-    public void setDP(int dp){
-        this.dp = dp;
-    }
-
-    /**
-     * Retrieves the player's defence points (DP).
-     *
-     * @return the player's current defence points.
-     */
-    public int getDp() {
-        return dp;
     }
 
     /**
@@ -132,21 +113,21 @@ public class Player extends Entity {
             if (shieldValue >= totalDamage) {
                 // Shield absorbs all the damage
                 shield.setValue(shieldValue - totalDamage);
-                totalDamage = 0;
                 System.out.println("Shield absorbed the damage. Shield value left: " + shield.getValue());
             } else {
                 // Shield is destroyed, taking full damage
                 totalDamage -= shieldValue;
                 shield.setValue(0); // Set shield value to 0, it’s broken now
                 System.out.println("Shield is broken. Remaining damage: " + totalDamage);
+
+                // Apply remaining damage to player's health
+                int newHp = this.hp - totalDamage;
+                this.setHP(Math.max(newHp, 0));
+
+                System.out.println("Player took damage. New HP: " + this.hp);
+
             }
         }
-
-        // Apply remaining damage to player's health
-        int newHp = this.hp - totalDamage;
-        this.setHP(Math.max(newHp, 0));
-
-        System.out.println("Player took damage. New HP: " + this.hp);
     }
 
 
@@ -241,9 +222,8 @@ public class Player extends Entity {
             unequippedItem.setEquipped(false);
             System.out.println("Unequipped item: " + unequippedItem.getName());
             if (itemType == ItemType.SHIELD){
-                dp -= item.getValue();
             } else if ( itemType == ItemType.WEAPON){
-                hp -= item.getValue();
+                ap -= item.getValue();
             }
         }
         else {

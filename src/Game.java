@@ -42,7 +42,7 @@ public class Game {
                 playerJson.getString("symbol").charAt(0),
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
         player.initInventory();
-        player.setDP(0);
+
 
         // Levels, NPCs, enemies
         maps = new ArrayList<>();
@@ -166,7 +166,7 @@ public class Game {
                     if (equippedItems.get(i).getType() == ItemType.WEAPON) {
                         points = "AP";
                     } else {
-                        points = "DP";
+                        points = "HP";
                     }
                     System.out.println(equippedItems.get(i).getName() + " +" + equippedItems.get(i).getValue() + points + "");
                 }

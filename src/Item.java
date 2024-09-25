@@ -70,7 +70,7 @@ class HealthPotion extends Item {
 }
 
 /**
- * An equippable Item that increases Player's attack points
+ * An equippable Item that increases Player's health points
  */
 class Shield extends Item {
     public Shield(String name, int hp) {
