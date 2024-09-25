@@ -61,7 +61,7 @@ class Weapon extends Item {
 }
 
 /**
- * A consumable used to health player
+ * A consumable used to heal player by the given number of Health Points
  */
 class HealthPotion extends Item {
     public HealthPotion(String name, int hp) {
