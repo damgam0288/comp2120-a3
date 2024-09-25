@@ -76,4 +76,10 @@ public class Enemy extends Entity {
         int newHp = hp - player.getAP();
         hp = Math.max(newHp, 0);
     }
+
+    public void levelUp(){
+        hp += 10;
+        ap += 5;
+        System.out.println("Enemies level up!"+"Enemies current hp:"+ hp + "   ap:"+ ap);
+    }
 }

@@ -9,7 +9,7 @@ public class PlayerTest {
 
     @Before
     public void setup() {
-        player = new Player(1,1,'P',10,100);
+        player = new Player(1,1,'P',10,100,1);
     }
 
     @Test(timeout = 1000)
