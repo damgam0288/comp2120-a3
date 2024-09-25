@@ -8,6 +8,7 @@ public abstract class Item {
     String name;
     private int value;      // This can be AP or HP for the specific item classes (below)
     private ItemType type;
+    private boolean isEquipped = false;
 
     /**
      * Creates item given name and value.
@@ -33,6 +34,16 @@ public abstract class Item {
 
     public ItemType getType() {
         return type;
+    }
+
+    // Check if the item is equipped
+    public boolean isEquipped() {
+        return isEquipped;
+    }
+
+    // Set the equipped status
+    public void setEquipped(boolean isEquipped) {
+        this.isEquipped = isEquipped;
     }
 }
 
