@@ -1,9 +1,21 @@
 {
-  "levels":
-  [
-    {"name": "map1", "filepath": "assets/map1.json",
-      "npcs": [{"name": "npc1", "filepath": "assets/npcs.json"},
-               {"name": "npc2", "filepath": "assets/npcs.json"}]}
+  "player": {
+    "startx": 1,
+    "starty": 1,
+    "symbol": "P",
+    "ap": 15,
+    "hp": 100
+  },
+  "levels": [
+    {
+      "name": "map1",
+      "filepath": "assets/map1.json",
+      "npcs": [
+        { "name": "npc1", "startx": 4, "starty": 1, "char": "1", "item": "weapon1" }
+      ],
+      "enemies": [
+        { "startx": 2, "starty": 1, "char": "E", "ap": 5, "hp": 20 }
+      ]
+    }
   ]
 }
-
