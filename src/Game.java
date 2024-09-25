@@ -42,6 +42,7 @@ public class Game {
                 playerJson.getString("symbol").charAt(0),
                 playerJson.getInt("ap"), playerJson.getInt("hp"));
         player.initInventory();
+        player.setDP(0);
 
         // Levels, NPCs, enemies
         maps = new ArrayList<>();

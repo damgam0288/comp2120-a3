@@ -6,7 +6,6 @@ import java.util.List;
 public class Player extends Entity {
     private int ap;  // Attack Power
     private int hp;  // Health Points
-
     private int dp; // Defence Points
     private Inventory inventory;
     private HashMap<ItemType, Item> equippedItems;
@@ -117,11 +116,37 @@ public class Player extends Entity {
     }
 
     /**
-     * Calculates damage taken from the given Enemy after an attack
+     * Calculates damage taken from the Player after an attack.
+     * If the player has a shield equipped, the damage will be mitigated by the shield's value.
      */
     public void getAttacked(Enemy enemy) {
-        int newHp = hp - enemy.getAP();     // todo consider applying damage resistance?
-        hp = Math.max(newHp, 0);
+        Item shield = getEquippedShield();
+
+        // Total damage the player is going to take
+        int totalDamage = enemy.getAP();
+
+        if (shield != null) {
+            int shieldValue = shield.getValue();
+
+            // Calculate damage absorbed by the shield
+            if (shieldValue >= totalDamage) {
+                // Shield absorbs all the damage
+                shield.setValue(shieldValue - totalDamage);
+                totalDamage = 0;
+                System.out.println("Shield absorbed the damage. Shield value left: " + shield.getValue());
+            } else {
+                // Shield is destroyed, taking full damage
+                totalDamage -= shieldValue;
+                shield.setValue(0); // Set shield value to 0, it’s broken now
+                System.out.println("Shield is broken. Remaining damage: " + totalDamage);
+            }
+        }
+
+        // Apply remaining damage to player's health
+        int newHp = this.hp - totalDamage;
+        this.setHP(Math.max(newHp, 0));
+
+        System.out.println("Player took damage. New HP: " + this.hp);
     }
 
 
@@ -191,7 +216,6 @@ public class Player extends Entity {
                 }
                 else if (item.getType() == itemType.SHIELD) {
                     System.out.println("HP increased by: " + item.getValue());
-                    dp += item.getValue();
                 }
                 break;
 
@@ -266,5 +290,15 @@ public class Player extends Entity {
     public List<Item> getEquippedItems() {
         return new ArrayList<>(equippedItems.values());
     }
+
+    /**
+     * Retrieves the equipped shield for the player.
+     *
+     * @return the equipped shield item, or null if no shield is equipped.
+     */
+    public Item getEquippedShield() {
+        return equippedItems.get(ItemType.SHIELD);
+    }
+
 
 }

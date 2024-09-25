@@ -28,6 +28,10 @@ public abstract class Item {
         return value;
     }
 
+    public void setValue(int value){
+        this.value = value;
+    }
+
     public String getName() {
         return name;
     }
@@ -65,6 +69,14 @@ class HealthPotion extends Item {
     }
 }
 
+/**
+ * An equippable Item that increases Player's attack points
+ */
+class Shield extends Item {
+    public Shield(String name, int hp) {
+        super(name, ItemType.SHIELD, hp);
+    }
+}
 /**
  * Types of items that the Player can have in inventory.
  * This is useful for knowing which items can be equipped vs used e.g. a weapon vs health potion
