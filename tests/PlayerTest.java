@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class PlayerTest {
@@ -115,8 +117,6 @@ public class PlayerTest {
         assertEquals(85, player.getHP());
     }
 
-    // todo Test adding/removing items from inventory
-
     @Test(timeout = 1000)
     public void healthPotionHealsCorrectly() {
         player.getInventory().addItem(new HealthPotion("health", 10));
@@ -141,8 +141,6 @@ public class PlayerTest {
         player.useItem(0);
         assertEquals(100,player.getHP());
     }
-
-    // Todo check shield affects damage points correctly
 
     @Test(timeout = 1000)
     public void returnCorrectItemsEquipped() {
