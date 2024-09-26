@@ -38,6 +38,7 @@ public class Player extends Entity {
      *
      * @return the player's current attack points.
      */
+
     public int getAP() {
         return ap + itemAP();
     }
@@ -164,6 +165,12 @@ public class Player extends Entity {
                 System.out.println("Player took damage. New HP: " + this.hp);
 
             }
+        } else {
+            // Apply remaining damage to player's health
+            int newHp = this.hp - totalDamage;
+            this.setHP(Math.max(newHp, 0));
+
+            System.out.println("Player took damage. New HP: " + this.hp);
         }
     }
 
@@ -256,12 +263,7 @@ public class Player extends Entity {
             Item unequippedItem = equippedItems.remove(itemType);
             unequippedItem.setEquipped(false);
             System.out.println("Unequipped item: " + unequippedItem.getName());
-            if (itemType == ItemType.SHIELD){
-            } else if ( itemType == ItemType.WEAPON){
-                ap -= item.getValue();
-            }
-        }
-        else {
+        } else {
             System.out.println("No item of type " + itemType + " is currently equipped.");
         }
     }
@@ -290,6 +292,7 @@ public class Player extends Entity {
                 System.out.println("Used item: " + item.getName());
                 hp += item.getValue();
                 System.out.println("HP increased by: " + item.getValue());
+                inventory.removeItem(item);
                 break;
             default:
                 System.out.println("can't use item: " + item.getName());
