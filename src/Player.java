@@ -5,13 +5,13 @@ import java.util.Objects;
 
 /** Player class is a specific type of Entity */
 public class Player extends Entity {
-    private int ap;             // Attack points
-    private int hp;             // Health Points
+    private int ap;                 // Attack points
+    private int hp;                 // Health Points
     private int maxHp;
     private Inventory inventory;
     private HashMap<ItemType, Item> equippedItems;
-    private int level; // Player level
-    private int enemiesDefeated; // Count of defeated enemies
+    private int level;              // Player level
+    private int enemiesDefeated;    // Count of defeated enemies
 
 
     /**
@@ -35,31 +35,15 @@ public class Player extends Entity {
     }
 
     /**
-     * Retrieves the player's attack points (AP).
+     * Retrieves total (base + weapon) player attack points (ap)
      *
      * @return the player's current attack points.
      */
 
     public int getAP() {
-        return ap + itemAP();
-    }
-
-    /**
-     * Helper method to calculate added AP from all the WEAPONS in inventory
-     */
-    private int itemAP() {
-        List<Item> equipped = this.inventory.getEquippedItems();
-        int itemAP = 0;
-
-        if (Objects.isNull(equipped))
-            return 0;
-
-        for(Item item : equipped) {
-            if (item.getType().equals(ItemType.WEAPON))
-                itemAP += item.getValue();
-        }
-
-        return itemAP;
+        return ap +
+            (getEquippedWeapon()!=null ?
+                    getEquippedWeapon().getValue() : 0);
     }
 
     /**
@@ -301,12 +285,13 @@ public class Player extends Entity {
 
     /**
      * Retrieves the equipped shield for the player.
-     *
      * @return the equipped shield item, or null if no shield is equipped.
      */
     public Item getEquippedShield() {
         return equippedItems.get(ItemType.SHIELD);
     }
+
+    public Item getEquippedWeapon() {return equippedItems.get(ItemType.WEAPON); }
 
     public int getLevel() {
         return level;
