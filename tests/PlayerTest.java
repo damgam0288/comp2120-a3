@@ -133,13 +133,39 @@ public class PlayerTest {
         assertEquals(100,player.getHP());
     }
 
-    // Todo character level correctly adjusts stats
-
-    // Todo level up increase max HP not the actual hp
-    public void test() {
+    @Test(timeout = 1000)
+    public void testAPIsCorrectAfterLevelUp() {
+        assertEquals(player.getAP(), 10);
+        int expectedAp = 10 + GlobalConstants.PLAYER_AP_INCREASE_PER_LEVEL * 3;
         player.levelUp();
-        assertEquals(110,);
+        player.levelUp();
+        player.levelUp();
+        assertEquals(expectedAp, player.getAP());
     }
+
+    @Test(timeout = 1000)
+    public void testMaxHPIncreasesButNotCurrentHPOnLevelUp() {
+        int expectedHp = 100 + (GlobalConstants.PLAYER_HP_INCREASE_PER_LEVEL) * 3;
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        assertEquals(expectedHp, player.getMaxHp());
+        assertEquals(100, player.getHP());
+    }
+
+    @Test(timeout = 1000)
+    public void testDoesNotGoPastMaxLevel() {
+        assertEquals(1, player.getLevel());
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        assertEquals(5, player.getLevel());
+    }
+
+
     // Todo after character level increases, health potions correctly heal up to the maxHP
 
 
