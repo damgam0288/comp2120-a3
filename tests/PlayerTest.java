@@ -136,7 +136,7 @@ public class PlayerTest {
     @Test(timeout = 1000)
     public void testAPIsCorrectAfterLevelUp() {
         assertEquals(player.getAP(), 10);
-        int expectedAp = 10 + GlobalConstants.PLAYER_AP_INCREASE_PER_LEVEL * 3;
+        int expectedAp = player.getAP() + GlobalConstants.PLAYER_AP_INCREASE_PER_LEVEL * 3;
         player.levelUp();
         player.levelUp();
         player.levelUp();
@@ -145,7 +145,7 @@ public class PlayerTest {
 
     @Test(timeout = 1000)
     public void testMaxHPIncreasesButNotCurrentHPOnLevelUp() {
-        int expectedHp = 100 + (GlobalConstants.PLAYER_HP_INCREASE_PER_LEVEL) * 3;
+        int expectedHp = player.getMaxHp() + (GlobalConstants.PLAYER_HP_INCREASE_PER_LEVEL) * 3;
         player.levelUp();
         player.levelUp();
         player.levelUp();
@@ -164,10 +164,4 @@ public class PlayerTest {
         player.levelUp();
         assertEquals(5, player.getLevel());
     }
-
-
-    // Todo after character level increases, health potions correctly heal up to the maxHP
-
-
-
 }

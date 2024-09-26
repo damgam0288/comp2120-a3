@@ -338,7 +338,7 @@ public class Player extends Entity {
             ap      += GlobalConstants.PLAYER_AP_INCREASE_PER_LEVEL;    // Increase base AP by 10
             System.out.println("Congratulations! You've reached level " + level + "!");
             System.out.println("Your new MaxHP: " + maxHp + ", Your new AP: " + ap);
-        }else {
+        } else {
             System.out.println("You have reached the maximum level!"); // Print message if level is already max
         }
     }
