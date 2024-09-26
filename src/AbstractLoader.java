@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Reads JSON files to create objects like NPCs, items etc. This is an abstract class
@@ -82,23 +83,21 @@ class ItemLoader extends AbstractLoader {
      */
     public static Item loadObject(String target) throws Exception {
         JSONObject itemRef = findObject(target, "items", "name", "assets/items.json");
+        ItemType itemType = ItemType.stringToItemType(itemRef.getString("type"));
 
-        // Weapons
-        if (itemRef.getString("type").equalsIgnoreCase("weapon")) {
-            return new Weapon(itemRef.getString("name"),
-                    itemRef.getInt("ap"));
-        }
+        System.out.println(itemType);
 
-        // Shields
-        if (itemRef.getString("type").equalsIgnoreCase("shield")) {
-            return new Shield(itemRef.getString("name"),
-                    itemRef.getInt("hp"));
+        if (itemType==null)
+            throw new IllegalArgumentException("Cannot recognise type");
 
-        }
-
-        // Missing object in a JSON file means game shouldn't run
-        throw new NoSuchFieldException("Could not find " + target +
-                " in the given reference: " + itemRef);
+        return switch (itemType) {
+            case WEAPON
+                    -> new Weapon(itemRef.getString("name"),itemRef.getInt("value"));
+            case SHIELD
+                    -> new Shield(itemRef.getString("name"),itemRef.getInt("value"));
+            case HEALTHPOTION
+                    -> new HealthPotion(itemRef.getString("name"),itemRef.getInt("value"));
+        };
     }
 }
 
