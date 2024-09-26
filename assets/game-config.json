@@ -25,12 +25,14 @@
       "name": "map2",
       "filepath": "assets/map2.json",
       "npcs": [
-        { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "null" }
+        { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "shield2" },
+        { "name": "npc2", "startx": 4, "starty": 4, "char": "2", "item": "healthpotion5" }
       ],
       "enemies": [
         { "startx": 2, "starty": 1, "char": "E", "ap": 10, "hp": 20 },
         { "startx": 2, "starty": 2, "char": "E", "ap": 10, "hp": 20 },
         { "startx": 2, "starty": 3, "char": "E", "ap": 10, "hp": 20 }
+
       ]
     }
   ]
