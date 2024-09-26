@@ -15,8 +15,8 @@ public class MapCollisionTest {
         player = new Player(2,2,'P', 10, 100,1);
 
         testMap = new Map("test-map-1","tests/resources/test-map-1.json",player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
 
         collidingNPC = new NPC(2,2, 'N');
         nonCollidingNPC = new NPC(3,3,'N');
@@ -51,8 +51,8 @@ public class MapCollisionTest {
     public void testCollisionWithNoEntities() throws Exception {
         player = new Player(2,2,'P', 10, 100, 1);
         testMap = new Map("test-map-1","tests/resources/test-map-1.json",player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
 
         assertNull(testMap.getCollidingEntity());
     }

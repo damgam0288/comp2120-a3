@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.concurrent.ExecutionException;
 
 public class Game {
 
@@ -55,8 +54,8 @@ public class Game {
         for (int i = 0; i < levels.length(); i++) {
             JSONObject mapRef = levels.getJSONObject(i);
             Map map = new Map(mapRef.getString("name"), mapRef.getString("filepath"), player,
-                    GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                    GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                    GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                    GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
             maps.add(map);
             loadEntities(map, mapRef);
             enemies.addAll(map.getEnemies());
@@ -77,7 +76,7 @@ public class Game {
         // Load NPCs
         JSONArray npcRefs = mapRef.getJSONArray("npcs");
 
-        if (npcRefs.length()> GlobalConstants.MAX_NPCs_PER_LEVEL)       // Apply max limit  per level
+        if (npcRefs.length()> GlobalConstants.GAME_MAX_NPC_PER_LEVEL)       // Apply max limit  per level
             throw new TooManyEntitiesException("Too many npcs loaded into map");
 
         for (int j = 0; j < npcRefs.length(); j++) {
@@ -96,7 +95,7 @@ public class Game {
         // Load Enemies
         JSONArray enemyRefs = mapRef.getJSONArray("enemies");
 
-        if (enemyRefs.length()> GlobalConstants.MAX_ENEMIES_PER_LEVEL)       // Apply max limit per level
+        if (enemyRefs.length()> GlobalConstants.GAME_MAX_ENEMIES_PER_LEVEL)       // Apply max limit per level
             throw new TooManyEntitiesException("Too many enemies loaded into map");
 
         for (int j = 0; j < enemyRefs.length(); j++) {

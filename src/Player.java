@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Player extends Entity {
     private int ap;
     private int hp;             // Health Points
+    private int maxHp;
     private Inventory inventory;
     private HashMap<ItemType, Item> equippedItems;
     private int level; // Player level
@@ -26,11 +27,11 @@ public class Player extends Entity {
         super(startX, startY, symbol);
         this.ap = ap;
         this.hp = hp;
+        this.maxHp = hp;
         this.inventory = new Inventory();
         this.equippedItems = new HashMap<>();
         this.level = level; // Initial level
         this.enemiesDefeated = 0;
-
     }
 
     /**
@@ -88,6 +89,13 @@ public class Player extends Entity {
         this.hp = hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
 
     /**
      * Updates the player's position on the map by setting the x and y coordinates.
@@ -98,11 +106,6 @@ public class Player extends Entity {
     public void setPosition(int x, int y) {
         setX(x);
         setY(y);
-    }
-
-    public void useHealthPotion(Item item) {
-        hp += item.getValue();      // TODO consider adding a max-health and increase hp up to that number?
-        getInventory().removeItem(item);
     }
 
     public void receiveItem(Item item) {
@@ -291,6 +294,7 @@ public class Player extends Entity {
             case HEALTHPOTION:
                 System.out.println("Used item: " + item.getName());
                 hp += item.getValue();
+                hp = Math.min(hp, maxHp);
                 System.out.println("HP increased by: " + item.getValue());
                 inventory.removeItem(item);
                 break;
@@ -323,13 +327,13 @@ public class Player extends Entity {
     }
 
     public void levelUp() {
-        if (level < 5) { // Maximum level is 5
+        if (level < GlobalConstants.PLAYER_MAX_LEVEL) {
             level++;
-            hp += 20; // Increase HP by 20
-            ap += 10; // Increase AP by 10
+            maxHp   += GlobalConstants.PLAYER_HP_INCREASE_PER_LEVEL; // Increase base HP by 20
+            ap      += GlobalConstants.PLAYER_AP_INCREASE_PER_LEVEL;    // Increase base AP by 10
             System.out.println("Congratulations! You've reached level " + level + "!");
-            System.out.println("Your new HP: " + hp + ", Your new AP: " + ap);
-        }else {
+            System.out.println("Your new MaxHP: " + maxHp + ", Your new AP: " + ap);
+        } else {
             System.out.println("You have reached the maximum level!"); // Print message if level is already max
         }
     }
