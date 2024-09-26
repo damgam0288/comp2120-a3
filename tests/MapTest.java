@@ -18,11 +18,11 @@ public class MapTest {
     public void setup() throws Exception {
         player = new Player(1, 1, 'P', 10, 100, 1);
         map1 = new Map("test-map-1","tests/resources/test-map-1.json",player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
         map2 = new Map("test-map-2", "tests/resources/test-map-2.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     @Test
@@ -100,15 +100,15 @@ public class MapTest {
     @Test(expected = IOException.class)
     public void testFileDoesNotExistThrowsException() throws Exception {
         Map map = new Map("non-existent-map", "resources/non-existent-file.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullPlayerThrowsException() throws Exception {
         Map map = new Map("non-existent-map", "resources/non-existent-file.json", null,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     // ** Entity placement tests **
@@ -168,29 +168,29 @@ public class MapTest {
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
     public void veryWideMapThrowsError() throws Exception {
         Map map = new Map("wide map", "tests/resources/very-wide-map.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
     public void veryTallMapThrowsError() throws Exception {
         Map map = new Map("tall map", "tests/resources/very-tall-map.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
     public void veryNarrowMapThrowsError() throws Exception {
         Map map = new Map("narrow map", "tests/resources/very-narrow-map.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
     public void veryShortMapThrowsError() throws Exception {
         Map map = new Map("short map", "tests/resources/very-short-map.json", player,
-                GlobalConstants.MIN_MAP_WIDTH, GlobalConstants.MIN_MAP_HEIGHT,
-                GlobalConstants.MAX_MAP_WIDTH, GlobalConstants.MAX_MAP_HEIGHT);
+                GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
+                GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
 }

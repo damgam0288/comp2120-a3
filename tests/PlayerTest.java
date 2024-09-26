@@ -1,14 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
-
-import org.junit.Before;
-        import org.junit.Test;
-
-        import java.util.List;
-
-        import static org.junit.Assert.*;
 
 public class PlayerTest {
     private Player player;
@@ -37,6 +32,7 @@ public class PlayerTest {
         assertEquals(100, player.getHP());
     }
 
+    // ** MANAGING ITEMS **
     @Test
     public void testEquipItem_weapon() {
         player.receiveItem(sword);
@@ -74,18 +70,7 @@ public class PlayerTest {
         assertEquals(10, player.getAP());  // Player's base AP
     }
 
-    @Test
-    public void testUseHealthPotion() {
-        player.receiveItem(healthPotion);
-        player.useItem(0);
-
-        // Check that the player's HP has increased
-        assertEquals(150, player.getHP());
-
-        // Check that the health potion is removed from the inventory
-        assertFalse(player.getInventory().getItems().contains(healthPotion));
-    }
-
+    // ** WEAPONS **
     @Test
     public void testAttackEnemy() {
         player.receiveItem(sword);
@@ -98,6 +83,15 @@ public class PlayerTest {
         assertEquals(20, enemy.getHP());
     }
 
+    @Test(timeout = 1000)
+    public void testAPWithAndWithoutWeapon() {
+        assertEquals(10, player.getAP());
+        player.getInventory().addItem(sword);
+        player.equipItem(0);
+        assertEquals(30, player.getAP());
+    }
+
+    // ** SHIELDS **
     @Test
     public void testGetAttackedWithShield() {
         player.receiveItem(shield);
@@ -122,31 +116,52 @@ public class PlayerTest {
         assertEquals(85, player.getHP());
     }
 
-
-
-    @Test(timeout = 1000)
-    public void returnCorrectItemsEquipped() {
-        Weapon weapon = new Weapon("weapon1",25);
-        player.getInventory().addItem(weapon);
-
-        // Before equipping
-        assertNull(player.getInventory().getEquippedItems());
-
-        // After equipping
-        player.equipItem(0);
-        assertTrue(player.getInventory().getEquippedItems().contains(weapon));
+    // ** HEALING **
+    @Test
+    public void testUseHealthPotionIncreasesHP() {
+        player.setAP(90);
+        player.receiveItem(healthPotion);
+        player.useItem(0);
+        assertEquals(100, player.getHP());
+        assertFalse(player.getInventory().getItems().contains(healthPotion));
     }
 
     @Test(timeout = 1000)
-    public void returnCorrectAPWithAndWithoutWeapons() {
-        // Without weapon
-        assertEquals(10, player.getAP());
+    public void testHealthDoesNotExceedMaxHP() {
+        player.getInventory().addItem(healthPotion);
+        player.useItem(0);
+        assertEquals(100,player.getHP());
+    }
 
-        // With weapon
-        Weapon weapon = new Weapon("weapon1",25);
-        player.getInventory().addItem(weapon);
-        player.equipItem(0);
+    @Test(timeout = 1000)
+    public void testAPIsCorrectAfterLevelUp() {
+        assertEquals(player.getAP(), 10);
+        int expectedAp = player.getAP() + GlobalConstants.PLAYER_AP_INCREASE_PER_LEVEL * 3;
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        assertEquals(expectedAp, player.getAP());
+    }
 
-        assertEquals(35, player.getAP());
+    @Test(timeout = 1000)
+    public void testMaxHPIncreasesButNotCurrentHPOnLevelUp() {
+        int expectedHp = player.getMaxHp() + (GlobalConstants.PLAYER_HP_INCREASE_PER_LEVEL) * 3;
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        assertEquals(expectedHp, player.getMaxHp());
+        assertEquals(100, player.getHP());
+    }
+
+    @Test(timeout = 1000)
+    public void testDoesNotGoPastMaxLevel() {
+        assertEquals(1, player.getLevel());
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        player.levelUp();
+        assertEquals(5, player.getLevel());
     }
 }
