@@ -6,7 +6,7 @@ import javax.naming.SizeLimitExceededException;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-/** Tests Map.java class draws floor, player, NPCs etc. correctly */
+/** Tests that Map.java draws floor, player, NPCs etc. correctly */
 public class MapTest {
 
     private Player player;
@@ -26,14 +26,12 @@ public class MapTest {
     }
 
     @Test
-    public void testDrawPlainMap() {
-        // Row 0 and 4
+    public void testDrawPlainMapCorrectly() {
         for (int x = 0; x <= 9; x++) {
             assertEquals(map2.getGridTile(x, 0), '#');
             assertEquals(map2.getGridTile(x, 5), '#');
         }
 
-        // All other rows in between
         for (int x = 1; x <= 8; x++) {
             for (int y = 1; y <= 3; y++) {
                 assertEquals(map2.getGridTile(x, y), '.');
@@ -41,22 +39,21 @@ public class MapTest {
         }
     }
 
-    // ** Map.java methods **
     @Test
-    public void testSetGridTile() {
+    public void testSetAndRetrieveGridTile() {
         assertEquals(map2.getGridTile(2, 2), '.');
         map2.setGridTile(2, 2, 'D');
         assertEquals(map2.getGridTile(2, 2), 'D');
     }
 
     @Test
-    public void testDrawWithPlayer() {
+    public void testDrawMapWithPlayer() {
         map2.draw();
         assertEquals(map2.getGridTile(1, 1), 'P');
     }
 
     @Test
-    public void testMovePlayerDrawMap() {
+    public void testMovePlayerAndRedrawMap() {
         player.move(3, 1, map2);
         map2.draw();
         assertNotEquals(map2.getGridTile(1, 1), 'P');
@@ -64,7 +61,7 @@ public class MapTest {
     }
 
     @Test(timeout = 1000)
-    public void testAddRemoveEntity() throws Exception {
+    public void testAddAndRemoveEntity() throws Exception {
         NPC npcThree = new NPC(5, 1, '3');
         assertTrue(map2.addEntity(npcThree));
         assertFalse(map2.addEntity(npcThree));
@@ -74,12 +71,12 @@ public class MapTest {
     }
 
     @Test(timeout = 1000)
-    public void testDrawEntity() throws Exception {
-        NPC npcOne = new NPC(2, 1, '1');
-        NPC npcTwo = new NPC(3, 1, '2');
+    public void testDrawEntitiesCorrectly() throws Exception {
+        NPC npc1 = new NPC(2, 1, '1');
+        NPC npc2 = new NPC(3, 1, '2');
 
-        map2.addEntity(npcOne);
-        map2.addEntity(npcTwo);
+        map2.addEntity(npc1);
+        map2.addEntity(npc2);
         map2.draw();
 
         assertEquals(map2.getGridTile(2, 1), '1');
@@ -87,14 +84,37 @@ public class MapTest {
     }
 
     @Test(timeout = 1000)
-    public void testMoveEntity() throws Exception {
-        NPC npcFour = new NPC(1, 3, '4');
-        map2.addEntity(npcFour);
-        npcFour.move(1, 0, map2);
+    public void testMovePlayerWithinMap() throws Exception {
+        map2.addEntity(player);
+        player.move(3, 2, map2);
         map2.draw();
-
-        assertEquals(map2.getGridTile(2, 3), '4');
+        assertEquals(map2.getGridTile(4, 3), player.getSymbol());
     }
+
+    @Test(timeout = 1000)
+    public void testBoundaryPreventsPlayerFromMovingTooFarHorizontally() throws Exception {
+        map2.addEntity(player);
+        player.move(1, 0, map2); player.move(1, 0, map2);
+        player.move(1, 0, map2); player.move(1, 0, map2);
+        player.move(1, 0, map2); player.move(1, 0, map2);
+        player.move(1, 0, map2); player.move(1, 0, map2);
+        map2.draw();
+        assertEquals(map2.getGridTile(8, 1), player.getSymbol());
+    }
+
+    @Test(timeout = 1000)
+    public void testBoundaryStopsPlayerMovingTooFarVertically() throws Exception {
+        map2.addEntity(player);
+        player.move(0, 1, map2);
+        player.move(0, 1, map2);
+        player.move(0, 1, map2);
+        player.move(0, 1, map2);
+        player.move(0, 1, map2);
+        player.move(0, 1, map2);
+        map2.draw();
+        assertEquals(map2.getGridTile(1, 4), player.getSymbol());
+    }
+
 
     // ** Wrong/missing files **
     @Test(expected = IOException.class)
@@ -113,84 +133,82 @@ public class MapTest {
 
     // ** Entity placement tests **
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityIllegalX() throws Exception {
+    public void testEntityIllegalX() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc1", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityIllegalY() throws Exception {
+    public void testEntityIllegalY() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc2", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityOutOfBoundsX() throws Exception {
+    public void testEntityOutOfBoundsX() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc3", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityOutOfBoundsY() throws Exception {
+    public void testEntityOutOfBoundsY() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc4", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityOnLeftWall() throws Exception {
+    public void testEntityOnLeftWall() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc5", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityOnRightWall() throws Exception {
+    public void testEntityOnRightWall() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc6", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityOnTopWall() throws Exception {
+    public void testEntityOnTopWall() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc7", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityOnBottomWall() throws Exception {
+    public void testEntityOnBottomWall() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc8", entityJsonBadParameters));
     }
 
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entityOnCentreObstacle() throws Exception {
+    public void testEntityOnCentreObstacle() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc9", entityJsonBadParameters));
     }
 
-    // ** Overlapping entities **
     @Test(timeout = 1000, expected = InvalidEntityPlacementException.class)
-    public void entitiesOverlapping() throws Exception {
+    public void testEntitiesOverlapping() throws Exception {
         map1.addEntity(NPCLoader.loadObject("npc10", entityJsonBadParameters));
         map1.addEntity(NPCLoader.loadObject("npc11", entityJsonBadParameters));
     }
 
-    // ** Map size testing **
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void veryWideMapThrowsError() throws Exception {
+    public void testVeryWideMapThrowsError() throws Exception {
         Map map = new Map("wide map", "tests/resources/very-wide-map.json", player,
                 GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
                 GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void veryTallMapThrowsError() throws Exception {
+    public void testVeryTallMapThrowsError() throws Exception {
         Map map = new Map("tall map", "tests/resources/very-tall-map.json", player,
                 GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
                 GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void veryNarrowMapThrowsError() throws Exception {
+    public void testVeryNarrowMapThrowsError() throws Exception {
         Map map = new Map("narrow map", "tests/resources/very-narrow-map.json", player,
                 GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
                 GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
 
     @Test(timeout = 1000, expected = SizeLimitExceededException.class)
-    public void veryShortMapThrowsError() throws Exception {
+    public void testVeryShortMapThrowsError() throws Exception {
         Map map = new Map("short map", "tests/resources/very-short-map.json", player,
                 GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
                 GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
     }
-
 }
+
