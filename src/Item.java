@@ -23,7 +23,9 @@ public abstract class Item {
         this.value = value;
     }
 
-    // ** Getters **
+
+
+    // ** Getters && Setters **
     public int getValue(){
         return value;
     }
@@ -84,5 +86,16 @@ class Shield extends Item {
 enum ItemType {
     WEAPON,
     SHIELD,
-    HEALTHPOTION
+    HEALTHPOTION;
+
+    /** Parse a string input into an ItemType
+     *  Returns null if the ItemType could not be recognised */
+    public static ItemType stringToItemType(String input) {
+        return switch (input.toLowerCase()) {
+            case "weapon" -> ItemType.WEAPON;
+            case "shield" -> ItemType.SHIELD;
+            case "healthpotion" -> ItemType.HEALTHPOTION;
+            default -> null;
+        };
+    }
 }
