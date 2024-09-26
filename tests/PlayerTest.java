@@ -133,5 +133,7 @@ public class PlayerTest {
         assertEquals(100,player.getHP());
     }
 
+    // Todo character level correctly adjusts stats
 
+    // Todo after character level increases, health potions correctly heal up to the maxHP
 }
