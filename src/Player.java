@@ -108,11 +108,6 @@ public class Player extends Entity {
         setY(y);
     }
 
-    public void useHealthPotion(Item item) {
-        hp += item.getValue();      // TODO consider adding a max-health and increase hp up to that number?
-        getInventory().removeItem(item);
-    }
-
     public void receiveItem(Item item) {
         inventory.addItem(item);
     }
