@@ -118,7 +118,7 @@ public class Game {
         String input;
 
         do {
-            System.out.println(player.toStringHP() + ", AP: " + player.getAP() + ", Level: " + player.getLevel());
+            System.out.println(player.displayStats());
             System.out.println("ENTER W for Up, S for Down, A for Left, D for Right, I for Inventory, P to pause, Q to quit: ");
             input = scanner.nextLine();
 

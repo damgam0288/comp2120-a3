@@ -84,6 +84,12 @@ public class Player extends Entity {
         return "Health: " + getHP() + " / " + getMaxHp();
     }
 
+    public String displayStats() {
+        return "Health: " + getHP() + "/" + getMaxHp() +
+                ", Attack: " + getAP() +
+                ", Level: " + getLevel() + "/" + GlobalConstants.PLAYER_MAX_LEVEL;
+    }
+
     /**
      * Updates the player's position on the map by setting the x and y coordinates.
      *
