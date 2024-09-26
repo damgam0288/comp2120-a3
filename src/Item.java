@@ -75,8 +75,8 @@ class HealthPotion extends Item {
  * An equippable Item that increases Player's health points
  */
 class Shield extends Item {
-    public Shield(String name, int hp) {
-        super(name, ItemType.SHIELD, hp);
+    public Shield(String name, int dp) {
+        super(name, ItemType.SHIELD, dp);
     }
 }
 /**

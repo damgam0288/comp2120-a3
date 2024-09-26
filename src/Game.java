@@ -40,8 +40,6 @@ public class Game {
         player = new Player(playerJson.getInt("startx"), playerJson.getInt("starty"),
                 playerJson.getString("symbol").charAt(0),
                 playerJson.getInt("ap"),playerJson.getInt("hp"), playerJson.getInt("level"));
-        player.initInventory();
-
 
         // Levels, NPCs, enemies
         maps = new ArrayList<>();

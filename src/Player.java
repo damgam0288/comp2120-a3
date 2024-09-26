@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /** Player class is a specific type of Entity */
 public class Player extends Entity {
-    private int ap;
+    private int ap;             // Attack points
     private int hp;             // Health Points
     private int maxHp;
     private Inventory inventory;
@@ -154,7 +154,7 @@ public class Player extends Entity {
             if (shieldValue >= totalDamage) {
                 // Shield absorbs all the damage
                 shield.setValue(shieldValue - totalDamage);
-                System.out.println("Shield absorbed the damage. Shield value left: " + shield.getValue());
+                System.out.println("Shield absorbed the damage. Shield strength: " + shield.getValue());
             } else {
                 // Shield is destroyed, taking full damage
                 totalDamage -= shieldValue;
@@ -175,20 +175,6 @@ public class Player extends Entity {
 
             System.out.println("Player took damage. New HP: " + this.hp);
         }
-    }
-
-    /**
-     * Initializes the player's inventory with a set of predefined items.
-     * This method is typically called during game setup to populate the
-     * inventory with starter items. Additional items can be added manually
-     * or loaded from an external source.
-     * <p>
-     * Currently adds the following example items:
-     * - Health Potion
-     * - Sword
-     */
-    public void initInventory() {
-        // Todo: Remove this method?
     }
 
     /**
