@@ -271,11 +271,12 @@ public class Player extends Entity {
 
         switch (item.getType()) {
             case HEALTHPOTION:
-                System.out.println("Used item: " + item.getName());
+                int oldHp = hp;
                 hp += item.getValue();
                 hp = Math.min(hp, maxHp);
-                System.out.println("HP increased by: " + item.getValue());
                 inventory.removeItem(item);
+                System.out.println("Used item: " + item.getName());
+                System.out.println("HP increased by: " + (hp - oldHp));
                 break;
             default:
                 System.out.println("can't use item: " + item.getName());
