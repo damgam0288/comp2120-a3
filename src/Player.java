@@ -89,6 +89,13 @@ public class Player extends Entity {
         this.hp = hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
 
     /**
      * Updates the player's position on the map by setting the x and y coordinates.
@@ -325,10 +332,10 @@ public class Player extends Entity {
     }
 
     public void levelUp() {
-        if (level < GlobalConstants.MAX_PLAYER_LEVEL) {
+        if (level < GlobalConstants.PLAYER_MAX_LEVEL) {
             level++;
-            maxHp += 20; // Increase base HP by 20
-            ap += 10;    // Increase base AP by 10
+            maxHp += GlobalConstants.PLAYER_HP_INCREASE_PER_LEVEL; // Increase base HP by 20
+            ap += GlobalConstants.PLAYER_AP_INCREASE_PER_LEVEL;    // Increase base AP by 10
             System.out.println("Congratulations! You've reached level " + level + "!");
             System.out.println("Your new HP: " + hp + ", Your new AP: " + ap);
         }else {
