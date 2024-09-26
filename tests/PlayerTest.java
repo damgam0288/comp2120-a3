@@ -136,4 +136,7 @@ public class PlayerTest {
     // Todo character level correctly adjusts stats
 
     // Todo after character level increases, health potions correctly heal up to the maxHP
+
+    // Todo level up increase max HP not the actual hp
+
 }

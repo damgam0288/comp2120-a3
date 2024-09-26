@@ -325,10 +325,10 @@ public class Player extends Entity {
     }
 
     public void levelUp() {
-        if (level < 5) { // Maximum level is 5
+        if (level < GlobalConstants.MAX_PLAYER_LEVEL) {
             level++;
-            hp += 20; // Increase HP by 20
-            ap += 10; // Increase AP by 10
+            maxHp += 20; // Increase base HP by 20
+            ap += 10;    // Increase base AP by 10
             System.out.println("Congratulations! You've reached level " + level + "!");
             System.out.println("Your new HP: " + hp + ", Your new AP: " + ap);
         }else {

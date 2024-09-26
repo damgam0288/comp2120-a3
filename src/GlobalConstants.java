@@ -5,4 +5,5 @@ public class GlobalConstants {
     public static final int MAX_MAP_HEIGHT = 15;
     public static final int MIN_MAP_WIDTH = 10;
     public static final int MIN_MAP_HEIGHT = 5;
+    public static final int MAX_PLAYER_LEVEL = 5;
 }
