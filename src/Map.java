@@ -240,16 +240,6 @@ public class Map {
     }
 
     /**
-     * Checks if the player has won the game.
-     * Victory is achieved if all enemies are defeated and the player is on the 'V' tile (victory point).
-     *
-     * @return true if the player has won the game, false otherwise.
-     */
-    public boolean isVictory() {
-        return allEnemiesDefeated() && getGridTile(player.getX(), player.getY()) == 'V';
-    }
-
-    /**
      * Removes a specified entity from the map and resets the tile where it was located.
      * After removing the entity, the tile it occupied is set back to a default state,
      *

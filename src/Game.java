@@ -138,10 +138,18 @@ public class Game {
 
             currentMap.draw();
             printCurrentMap();
+
         } while (!input.equalsIgnoreCase("q"));
 
         scanner.close();
     }
+
+    public static void clearConsole() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
+        }
+    }
+
 
     /**
      * Opens the player's inventory, allowing them to view and interact with their items.
@@ -289,6 +297,9 @@ public class Game {
             case "a" -> player.move(-1, 0, currentMap);
             case "d" -> player.move(1, 0, currentMap);
         }
+
+        if (currentMap.canMoveToNextMap())
+            handleNextMap();
     }
 
     /**
