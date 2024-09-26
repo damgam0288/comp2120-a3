@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /** Player class is a specific type of Entity */
 public class Player extends Entity {
@@ -88,6 +89,15 @@ public class Player extends Entity {
         return "Health: " + getHP() + "/" + getMaxHp() +
                 ", Attack: " + getAP() +
                 ", Level: " + getLevel() + "/" + GlobalConstants.PLAYER_MAX_LEVEL;
+    }
+
+    public String displayEquippedItems() {
+        if (equippedItems.isEmpty())
+            return "";
+
+        return "Equipped: " + equippedItems.values().stream()
+                .map(item -> item.name)
+                .collect(Collectors.joining(", "));
     }
 
     /**
