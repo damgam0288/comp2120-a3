@@ -13,7 +13,6 @@ public class Player extends Entity {
     private int level;              // Player level
     private int enemiesDefeated;    // Count of defeated enemies
 
-
     /**
      * Constructor
      *
@@ -79,6 +78,10 @@ public class Player extends Entity {
 
     public void setMaxHp(int maxHp) {
         this.maxHp = maxHp;
+    }
+
+    public String toStringHP() {
+        return "Health: " + getHP() + " / " + getMaxHp();
     }
 
     /**
