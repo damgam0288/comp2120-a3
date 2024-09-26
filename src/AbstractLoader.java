@@ -85,6 +85,8 @@ class ItemLoader extends AbstractLoader {
         JSONObject itemRef = findObject(target, "items", "name", "assets/items.json");
         ItemType itemType = ItemType.stringToItemType(itemRef.getString("type"));
 
+        System.out.println(itemType);
+
         if (itemType==null)
             throw new IllegalArgumentException("Cannot recognise type");
 
