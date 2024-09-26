@@ -289,14 +289,6 @@ public class Game {
             case "a" -> player.move(-1, 0, currentMap);
             case "d" -> player.move(1, 0, currentMap);
         }
-        if (currentMap.canMoveToNextMap()) {
-            System.out.println("You've reached the exit! Moving to the next map...");
-            handleNextMap();
-        }
-        if (currentMap.isVictory()) {
-            System.out.println("Congratulations! You've won the game!");
-            System.exit(0);
-        }
     }
 
     /**

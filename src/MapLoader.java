@@ -25,9 +25,6 @@ public class MapLoader {
         int mapMaxWidth = lines.stream().mapToInt(String::length).max().orElse(-1);
         int mapMinWidth = lines.stream().mapToInt(String::length).min().orElse(-1);
 
-        System.out.println(mapMaxWidth);
-        System.out.println(mapMinWidth);
-
         if (mapMaxWidth > maxWidth || lines.size() > maxHeight)
             throw new SizeLimitExceededException("Map too big");
 
