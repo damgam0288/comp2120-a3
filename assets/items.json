@@ -1,19 +1,22 @@
 {
   "items": [
-    {"name": "weapon1", "type": "weapon", "ap": 10},
-    {"name": "weapon2", "type": "weapon", "ap": 20},
-    {"name": "weapon2", "type": "weapon", "ap": 20},
-    {"name": "weapon2", "type": "weapon", "ap": 20},
-    {"name": "weapon2", "type": "weapon", "ap": 20},
-    {"name": "shield1", "type": "shield", "hp": 10},
-    {"name": "shield2", "type": "shield", "hp": 20},
-    {"name": "shield1", "type": "shield", "hp": 10},
-    {"name": "shield2", "type": "shield", "hp": 20},
-    {"name": "shield1", "type": "shield", "hp": 10},
-    {"name": "shield1", "type": "shield", "hp": 10},
-    {"name": "shield2", "type": "shield", "hp": 20},
-    {"name": "shield1", "type": "shield", "hp": 10},
-    {"name": "shield2", "type": "shield", "hp": 20},
-    {"name": "shield1", "type": "shield", "hp": 10}
+
+      {"name": "weapon1", "type": "weapon", "value": 10},
+      {"name": "weapon2", "type": "weapon", "value": 20},
+      {"name": "weapon3", "type": "weapon", "value": 30},
+      {"name": "weapon4", "type": "weapon", "value": 40},
+      {"name": "weapon5", "type": "weapon", "value": 50},
+
+      {"name": "shield1", "type": "shield", "value": 10},
+      {"name": "shield2", "type": "shield", "value": 20},
+      {"name": "shield3", "type": "shield", "value": 30},
+      {"name": "shield4", "type": "shield", "value": 40},
+      {"name": "shield5", "type": "shield", "value": 50},
+
+      {"name": "healthpotion1", "type": "healthpotion", "value": 10},
+      {"name": "healthpotion2", "type": "healthpotion", "value": 20},
+      {"name": "healthpotion3", "type": "healthpotion", "value": 30},
+      {"name": "healthpotion4", "type": "healthpotion", "value": 40},
+      {"name": "healthpotion5", "type": "healthpotion", "value": 50}
   ]
 }
