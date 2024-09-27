@@ -129,8 +129,11 @@ public class Game {
                 openInventory();
             } else {
                 handleMovement(input);
-                // Todo: Note: have moved handleNPC and Enemy to Movement - this might
-                //  cause a bug where NPC/enemy interaction doesn't work at all
+                handleNPCInteraction();
+                handleEnemyInteraction();
+
+                if (currentMap.canMoveToNextMap())
+                    handleNextMap();
             }
 
             currentMap.draw();
@@ -287,35 +290,33 @@ public class Game {
         }
     }
 
-    /**
-     * Given a string, containing a single/combination move this method
-     * updates Player position on the Map. Each move is affected by
-     * collision with obstacles, interaction with NPCs, Enemies etc.
-     * @param move e.g. "wwwww", "wwwsssadd"
-     */
+    /** Given a string containing a single/combination move, this method
+     * moves Player on the Map. If the Player collides with another Entity in the move,
+     * movement is interrupted, but it is not interrupted when colliding with obstacle
+     * @param move e.g. "wwwww", "wwwsssadd" */
     private void handleMovement(String move) {
-        for(char c : move.toLowerCase().toCharArray()) {
+        for (char c : move.toLowerCase().toCharArray()) {
             if (!isValidMove(c))
                 break;
 
-            moveParser(c);
+            movePlayer(c);
+
+            if (currentMap.isCollidingWithEntity(player))
+                break;
         }
     }
 
-    private void moveParser(char move) {
+    /** Helper method: executes the move given a valid char for a move */
+    private void movePlayer(char move) {
         switch (move) {
             case 'w' -> player.move(0, -1, currentMap);
             case 's' -> player.move(0, 1, currentMap);
             case 'a' -> player.move(-1, 0, currentMap);
             case 'd' -> player.move(1, 0, currentMap);
         }
-        handleNPCInteraction();
-        handleEnemyInteraction();
-
-        if (currentMap.canMoveToNextMap())
-            handleNextMap();
     }
 
+    /** Helper method: returns true if the given char is a movement char */
     private boolean isValidMove(char c) {
         if (c=='w' || c=='s' || c=='a' || c=='d') {
             return true;
@@ -337,7 +338,6 @@ public class Game {
 //        if (currentMap.canMoveToNextMap())
 //            handleNextMap();
 //    }
-
 
     /**
      * Handles interactions with enemies on the current map.
