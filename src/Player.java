@@ -328,4 +328,8 @@ public class Player extends Entity {
             System.out.println("You have reached the maximum level!"); // Print message if level is already max
         }
     }
+
+    public int getEnemiesDefeated() {
+        return enemiesDefeated;
+    }
 }
