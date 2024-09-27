@@ -17,8 +17,6 @@ public class Enemy extends Entity {
         this.hp = hp;
     }
 
-    // Getter and setter for AP and HP
-
     /**
      * Retrieves the enemy's attack points (AP).
      *
@@ -58,10 +56,11 @@ public class Enemy extends Entity {
     }
 
     /**
-     * Attacks the player by reducing the player's HP based on the enemy's AP.
+     * Attacks the player by reducing the player's HP based on the enemy's attack points (AP).
      * Displays the enemy's HP, AP, and the player's updated HP after the attack.
      *
      * @param player the player being attacked by the enemy.
+     * @author Rifang Zhou
      */
     public void attack(Player player) {
         System.out.println("Enemy's Health Points (HP): " + getHP() + ", Enemy's Attack Points (AP): " + getAP());
@@ -70,13 +69,23 @@ public class Enemy extends Entity {
     }
 
     /**
-     * Calculates damage taken from the Player after an attack
+     * Calculates damage taken from the Player after an attack.
+     * This method updates the enemy's HP based on the attack points of the player.
+     *
+     * @param player the player whose attack points are used to calculate damage.
+     * @author Rifang Zhou
      */
     public void getAttacked(Player player) {
         int newHp = hp - player.getAP();
         hp = Math.max(newHp, 0);
     }
 
+    /**
+     * Levels up the enemy, increasing its health points (HP) and attack points (AP).
+     * Displays the new HP and AP of the enemy after leveling up.
+     *
+     * @author Rifang Zhou
+     */
     public void levelUp(){
         hp += 10;
         ap += 5;

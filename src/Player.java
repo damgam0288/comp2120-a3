@@ -37,9 +37,10 @@ public class Player extends Entity {
     /**
      * Retrieves total (base + weapon) player attack points (ap)
      *
+     * @author Rifang Zhou
+     *
      * @return the player's current attack points.
      */
-
     public int getAP() {
         return ap +
             (getEquippedWeapon()!=null ?
@@ -48,6 +49,8 @@ public class Player extends Entity {
 
     /**
      * Retrieves the player's health points (HP).
+     *
+     * @author Rifang Zhou
      *
      * @return the player's current health points.
      */
@@ -58,6 +61,8 @@ public class Player extends Entity {
     /**
      * Sets the player's attack points (AP).
      *
+     *@author Rifang Zhou
+     *
      * @param ap the new attack points to set for the player.
      */
     public void setAP(int ap) {
@@ -66,6 +71,8 @@ public class Player extends Entity {
 
     /**
      * Sets the player's health points (HP).
+     *
+     * @author Rifang Zhou
      *
      * @param hp the new health points to set for the player.
      */
@@ -101,10 +108,13 @@ public class Player extends Entity {
     }
 
     /**
-     * Updates the player's position on the map by setting the x and y coordinates.
+     * Sets the position of the entity in the game world by updating its x and y coordinates.
+     * This method calls the appropriate setter methods to change the entity's position.
      *
-     * @param x the new x-coordinate to set for the player.
-     * @param y the new y-coordinate to set for the player.
+     * @author Rifang Zhou
+     *
+     * @param x the new x-coordinate of the entity
+     * @param y the new y-coordinate of the entity
      */
     public void setPosition(int x, int y) {
         setX(x);
@@ -116,10 +126,16 @@ public class Player extends Entity {
     }
 
     /**
-     * Attacks the enemy by reducing its HP based on the player's AP.
-     * Displays the player's HP, AP, and the enemy's updated HP after the attack.
+     * Executes an attack on the specified enemy. This method applies damage to the enemy,
+     * prints the player's current health and attack points, and checks if the enemy has
+     * been defeated. If the enemy's health points (HP) drop to zero or below, the player
+     * is notified of the defeat, and the number of defeated enemies is tracked.
+     * Additionally, the method checks if the player is eligible to level up based on the
+     * number of enemies defeated.
      *
-     * @param enemy the enemy being attacked by the player.
+     * @author Rifang Zhou
+     *
+     * @param enemy the enemy that the player is attacking
      */
     public void attack(Enemy enemy) {
         enemy.getAttacked(this);
@@ -141,8 +157,15 @@ public class Player extends Entity {
     }
 
     /**
-     * Calculates damage taken from the Player after an attack.
-     * If the player has a shield equipped, the damage will be mitigated by the shield's value.
+     * Handles the player's response to an attack from an enemy. This method calculates
+     * the damage the player takes based on the enemy's attack points (AP) and the
+     * player's equipped shield (if any). If the shield can absorb the damage, it is
+     * reduced accordingly. If the shield is destroyed, the remaining damage is applied
+     * to the player's health points (HP).
+     *
+     * @author Rifang Zhou
+     *
+     * @param enemy the enemy that is attacking the player
      */
     public void getAttacked(Enemy enemy) {
         Item shield = getEquippedShield();
@@ -313,10 +336,27 @@ public class Player extends Entity {
 
     public Item getEquippedWeapon() {return equippedItems.get(ItemType.WEAPON); }
 
+    /**
+     * Represents a player in the game with attributes for level, health points (HP),
+     * and attack points (AP). This class provides methods to get the current level,
+     * level up the player, and retrieve the number of defeated enemies.
+     *
+     * @author Rifang Zhou
+     *
+     * @return the current level of the player
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     * Increases the player's level by 1, while also updating the player's
+     * maximum HP and AP based on predefined constants. Prints a congratulatory
+     * message upon leveling up. If the player is already at the maximum level,
+     * a message is displayed indicating that the maximum level has been reached.
+     *
+     * @author Rifang Zhou
+     */
     public void levelUp() {
         if (level < GlobalConstants.PLAYER_MAX_LEVEL) {
             level++;
@@ -329,7 +369,15 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Returns the number of enemies that have been defeated by the player.
+     *
+     * @author Rifang Zhou
+     *
+     * @return the number of enemies defeated
+     */
     public int getEnemiesDefeated() {
         return enemiesDefeated;
     }
 }
+

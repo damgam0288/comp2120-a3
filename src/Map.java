@@ -222,6 +222,8 @@ public class Map {
     /**
      * Checks if all enemies on the map have been defeated.
      *
+     * @author Rifang Zhou
+     *
      * @return true if there are no enemies left on the map, false otherwise.
      */
     public boolean allEnemiesDefeated() {
@@ -232,6 +234,8 @@ public class Map {
      * Determines if the player can move to the next map.
      * The player can only move to the next map if all enemies are defeated
      * and the player is standing on the designated 'O' tile (exit point).
+     *
+     * @author Rifang Zhou
      *
      * @return true if the player can move to the next map, false otherwise.
      */
@@ -281,10 +285,24 @@ public class Map {
                 e1.getY() == e2.getY());
     }
 
+    /**
+     * Retrieves the map number associated with the current map.
+     * This method returns the name of the map, which serves as a placeholder for the map number.
+     *
+     * @author Rifang Zhou
+     * @return the name of the map.
+     */
     public String getMapNumber() {
-        return name;  // Placeholder for map number, adjust if necessary
+        return name;
     }
 
+    /**
+     * Retrieves a list of enemies present in the current map.
+     * This method iterates through the entities in the map and collects those that are instances of the Enemy class.
+     *
+     * @author Rifang Zhou
+     * @return a list of enemies in the current map.
+     */
     public List<Enemy> getEnemies(){
         List<Enemy> enemies = new ArrayList<>();
         for (Entity entity : entities) {
