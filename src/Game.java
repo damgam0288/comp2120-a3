@@ -294,7 +294,7 @@ public class Game {
      * moves Player on the Map. If the Player collides with another Entity in the move,
      * movement is interrupted, but it is not interrupted when colliding with obstacle
      * @param move e.g. "wwwww", "wwwsssadd" */
-    private void handleMovement(String move) {
+    public void handleMovement(String move) {
         for (char c : move.toLowerCase().toCharArray()) {
             if (!isValidMove(c))
                 break;
@@ -468,6 +468,15 @@ public class Game {
             System.out.println("Could not load screen" + e);
         }
 
+    }
+
+    // Getters mainly for testing purposes
+    public Map getCurrentMap() {
+        return currentMap;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     /**
