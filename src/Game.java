@@ -122,7 +122,6 @@ public class Game {
             System.out.println("ENTER W for Up, S for Down, A for Left, D for Right, I for Inventory, P to pause, Q to quit: ");
             input = scanner.nextLine();
 
-            // TODO 2 replace with a state field?
             if (input.equalsIgnoreCase("p")) {
                 handlePaused();
             }
@@ -132,6 +131,9 @@ public class Game {
                 handleMovement(input);
                 handleNPCInteraction();
                 handleEnemyInteraction();
+
+                if (currentMap.canMoveToNextMap())
+                    handleNextMap();
             }
 
             currentMap.draw();
@@ -288,17 +290,54 @@ public class Game {
         }
     }
 
-    private void handleMovement(String move) {
-        switch (move.toLowerCase()) {
-            case "w" -> player.move(0, -1, currentMap);
-            case "s" -> player.move(0, 1, currentMap);
-            case "a" -> player.move(-1, 0, currentMap);
-            case "d" -> player.move(1, 0, currentMap);
-        }
+    /** Given a string containing a single/combination move, this method
+     * moves Player on the Map. If the Player collides with another Entity in the move,
+     * movement is interrupted, but it is not interrupted when colliding with obstacle
+     * @param move e.g. "wwwww", "wwwsssadd" */
+    public void handleMovement(String move) {
+        for (char c : move.toLowerCase().toCharArray()) {
+            if (!isValidMove(c))
+                break;
 
-        if (currentMap.canMoveToNextMap())
-            handleNextMap();
+            movePlayer(c);
+
+            if (currentMap.isCollidingWithEntity(player))
+                break;
+        }
     }
+
+    /** Helper method: executes the move given a valid char for a move */
+    private void movePlayer(char move) {
+        switch (move) {
+            case 'w' -> player.move(0, -1, currentMap);
+            case 's' -> player.move(0, 1, currentMap);
+            case 'a' -> player.move(-1, 0, currentMap);
+            case 'd' -> player.move(1, 0, currentMap);
+        }
+    }
+
+    /** Helper method: returns true if the given char is a movement char */
+    private boolean isValidMove(char c) {
+        if (c=='w' || c=='s' || c=='a' || c=='d') {
+            return true;
+        }
+        return false;
+    }
+
+//    OLD MOVEMENT method that only accepted one move at a time
+//    Retained to make sure new method works well
+//
+//    private void handleMovement(String move) {
+//        switch (move.toLowerCase()) {
+//            case "w" -> player.move(0, -1, currentMap);
+//            case "s" -> player.move(0, 1, currentMap);
+//            case "a" -> player.move(-1, 0, currentMap);
+//            case "d" -> player.move(1, 0, currentMap);
+//        }
+//
+//        if (currentMap.canMoveToNextMap())
+//            handleNextMap();
+//    }
 
     /**
      * Handles interactions with enemies on the current map.
@@ -429,6 +468,15 @@ public class Game {
             System.out.println("Could not load screen" + e);
         }
 
+    }
+
+    // Getters mainly for testing purposes
+    public Map getCurrentMap() {
+        return currentMap;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     /**

@@ -178,7 +178,7 @@ public class Map {
         if (!isValidPosition(e.getX(), e.getY()))
             throw new InvalidEntityPlacementException("Map.addEntity: Bad start position");
 
-        if (entitiesOverlap(e))
+        if (isCollidingWithEntity(e))
             throw new InvalidEntityPlacementException("Map.addEntity: Entities cannot overlap");
 
         entities.add(e);
@@ -213,7 +213,7 @@ public class Map {
             return null;
 
         for (Entity e : entities) {
-            if (isColliding(player,e)) return e;
+            if (entitiesOverlap(player,e)) return e;
         }
 
         return null;
@@ -255,30 +255,30 @@ public class Map {
     }
 
     /**
+     * Method to check the given entity is colliding
+     * with another existing entity
+     */
+    public boolean isCollidingWithEntity(Entity entity) {
+        if (entities.isEmpty())
+            return false;
+
+        for(Entity e : entities) {
+            if (entitiesOverlap(e,entity))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Helper method to check NPC / Enemy collision
      * @param e1 first entity
      * @param e2 second entity
      * @return true if first and second entities are colliding
      */
-    private boolean isColliding(Entity e1, Entity e2) {
+    private boolean entitiesOverlap(Entity e1, Entity e2) {
         return (e1.getX() == e2.getX() &&
                 e1.getY() == e2.getY());
-    }
-
-    /**
-     * Helper method to check the given entity (likely when adding entity to the map)
-     * is overlapping with another existing entity.
-     */
-    private boolean entitiesOverlap(Entity entity) {
-        if (entities.isEmpty())
-            return false;
-
-        for(Entity e : entities) {
-            if (isColliding(e,entity))
-                return true;
-        }
-
-        return false;
     }
 
     public String getMapNumber() {
