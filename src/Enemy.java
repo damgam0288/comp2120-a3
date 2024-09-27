@@ -64,8 +64,8 @@ public class Enemy extends Entity {
      */
     public void attack(Player player) {
         System.out.println("Enemy's Health Points (HP): " + getHP() + ", Enemy's Attack Points (AP): " + getAP());
-        System.out.println("Enemy attacked you! Your HP is now: " + player.getHP());
         player.getAttacked(this);
+        System.out.println("Enemy attacked you! Your HP is now: " + player.getHP());
     }
 
     /**
