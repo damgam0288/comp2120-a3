@@ -41,26 +41,53 @@ public class NPC extends Entity {
     }
 
     /**
-     * Getters and Setters
+     * Retrieves the name of the entity.
+     *
+     * @return the name of the entity.
+     * @author Rifang Zhou
      */
-
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the entity to the specified value.
+     *
+     * @param name the new name to set for the entity.
+     * @author Rifang Zhou
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Sets the specified item for the entity.
+     *
+     * @param item the item to set for the entity.
+     * @author Rifang Zhou
+     */
     public void setItem(Item item) {
         this.item = item;
     }
 
+    /**
+     * Gives the specified item from this entity to the specified player.
+     * The item is removed from this entity after it is given to the player.
+     *
+     * @param player the player to whom the item will be given.
+     * @author Rifang Zhou
+     */
     public void giveItem(Player player) {
         player.receiveItem(item);
         item = null;
     }
 
+    /**
+     * Checks whether the entity currently has an item.
+     *
+     * @return true if the entity has an item, false otherwise.
+     * @author Rifang Zhou
+     */
     public boolean hasItem() {
         return (Objects.nonNull(item));
     }

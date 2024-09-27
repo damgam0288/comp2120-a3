@@ -66,6 +66,8 @@ public class Game {
     /**
      * Helper method to load all NPCs, enemies etc. into each Game Level
      *
+     * @author Rifang Zhou
+     *
      * @param map    the map into which we want to put associated entities
      * @param mapRef JSON object taken from the main config file containing the current level's data
      * @throws Exception if JSON refs are not found
@@ -344,6 +346,8 @@ public class Game {
      * If the player encounters an enemy, they are given the option to fight.
      * After all enemies on the map are defeated, the player can proceed to the next map.
      * Also checks if the player has won the game.
+     *
+     * @author Rifang Zhou
      */
     private void handleEnemyInteraction() {
         Entity collidingEntity = currentMap.getCollidingEntity();
@@ -362,6 +366,8 @@ public class Game {
      * The player and enemy take turns attacking each other.
      * The player can choose to continue fighting or move away.
      * The fight ends when either the player or enemy is defeated.
+     *
+     * @author Rifang Zhou
      *
      * @param enemy The enemy the player is fighting
      */
@@ -399,6 +405,13 @@ public class Game {
         }
     }
 
+    /**
+     * Checks the player's level and upgrades all enemies if the player's level has increased.
+     * This method compares the current player level with the initial level.
+     * If the player has leveled up, it upgrades all enemies and updates the initial player level.
+     *
+     * @author Rifang Zhou
+     */
     private void checkPlayerLevelAndUpgradeEnemies() {
         int currentPlayerLevel = player.getLevel();
         if (currentPlayerLevel > initialPlayerLevel) {
@@ -407,6 +420,12 @@ public class Game {
         }
     }
 
+    /**
+     * Upgrades all enemies by increasing their levels.
+     * This method iterates through the list of enemies and calls the levelUp method on each enemy.
+     *
+     * @author Rifang Zhou
+     */
     private void upgradeEnemies() {
         for (Enemy enemy : enemies) {
             enemy.levelUp();
@@ -416,6 +435,8 @@ public class Game {
     /**
      * Prints the current map number to the console.
      * This is used to indicate which map the player is currently on.
+     *
+     * @author Rifang Zhou
      */
     private void printCurrentMap() {
         System.out.println("Current map: " + currentMap.getMapNumber());
@@ -424,6 +445,8 @@ public class Game {
     /**
      * Handles interactions with NPCs on the current map.
      * When the player collides with an NPC, the NPC interacts with the player.
+     *
+     * @author Rifang Zhou
      */
     private void handleNPCInteraction() {
         Entity collidingEntity = currentMap.getCollidingEntity();
@@ -432,6 +455,14 @@ public class Game {
         }
     }
 
+    /**
+     * Handles the transition to the next map in the game.
+     * This method checks the current map index and moves the player to the next map if available.
+     * If there are no more maps, it shows the victory screen and exits the game.
+     * It also handles any exceptions that may occur during the map transition.
+     *
+     * @author Rifang Zhou
+     */
     public void handleNextMap() {
         try {
             int currentMapIndex = maps.indexOf(currentMap);
