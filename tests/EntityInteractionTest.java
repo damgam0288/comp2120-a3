@@ -59,7 +59,7 @@ public class EntityInteractionTest {
                 GlobalConstants.MAP_MIN_WIDTH, GlobalConstants.MAP_MIN_HEIGHT,
                 GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
 
-        npc.interact(player, currentMap.getMapNumber());
+        npc.interact(player);
         assertFalse(npc.hasItem());
         assertEquals(1, player.getInventory().getItems().size());
         assertEquals("weapon2", player.getInventory().getItems().get(0).getName());
@@ -74,7 +74,7 @@ public class EntityInteractionTest {
                 GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
 
         assertFalse(npc.hasItem());
-        npc.interact(player, currentMap.getMapNumber());
+        npc.interact(player);
         assertTrue(player.getInventory().getItems().isEmpty());
     }
     @Test
@@ -100,11 +100,11 @@ public class EntityInteractionTest {
                 GlobalConstants.MAP_MAX_WIDTH, GlobalConstants.MAP_MAX_HEIGHT);
 
         assertTrue(npc.hasItem());
-        npc.interact(player, currentMap.getMapNumber());
+        npc.interact(player);
         assertFalse(npc.hasItem());
         assertEquals(1, player.getInventory().getItems().size());
 
-        npc.interact(player, currentMap.getMapNumber()); // Interact again, should have no item
+        npc.interact(player); // Interact again, should have no item
         assertFalse(npc.hasItem());
         assertTrue(player.getInventory().getItems().size() <= 1);
     }

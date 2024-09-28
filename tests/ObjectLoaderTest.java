@@ -43,17 +43,6 @@ public class ObjectLoaderTest {
                         npcJsonFilePath);
     }
 
-    // NPC Loader testing
-    @Test(timeout=1000)
-    public void npcLoaderReturnsCorrectNPC() throws Exception {
-       // Todo
-    }
-
-    @Test(timeout=1000)
-    public void npcLoaderNPCNotFound() throws Exception {
-        // Todo
-    }
-
     // Item Loader testing
     @Test(timeout=1000)
     public void itemLoaderReturnsCorrectItem() throws Exception {

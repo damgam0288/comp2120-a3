@@ -326,21 +326,6 @@ public class Game {
         return false;
     }
 
-//    OLD MOVEMENT method that only accepted one move at a time todo: safe to delete
-//    Retained to make sure new method works well
-//
-//    private void handleMovement(String move) {
-//        switch (move.toLowerCase()) {
-//            case "w" -> player.move(0, -1, currentMap);
-//            case "s" -> player.move(0, 1, currentMap);
-//            case "a" -> player.move(-1, 0, currentMap);
-//            case "d" -> player.move(1, 0, currentMap);
-//        }
-//
-//        if (currentMap.canMoveToNextMap())
-//            handleNextMap();
-//    }
-
     /**
      * Handles interactions with enemies on the current map.
      * If the player encounters an enemy, they are given the option to fight.
@@ -395,9 +380,7 @@ public class Game {
 
             String action = scanner.nextLine();
 
-            if (action.equalsIgnoreCase("f")) {
-                continue; // Continue fighting  TODO Dead code?
-            } else {
+            if (!action.equalsIgnoreCase("f")) {
                 System.out.println("You chose to move away.");
                 handleMovement(action);
                 return;
@@ -451,7 +434,7 @@ public class Game {
     private void handleNPCInteraction() {
         Entity collidingEntity = currentMap.getCollidingEntity();
         if (collidingEntity instanceof NPC npc) {
-            npc.interact(player, currentMap.getMapNumber());
+            npc.interact(player);
         }
     }
 
