@@ -7,13 +7,35 @@
     "hp": 100,
     "level": 1
   },
+
+  "items": [
+    {"name": "weapon1", "type": "weapon", "value": 10},
+    {"name": "weapon2", "type": "weapon", "value": 20},
+    {"name": "weapon3", "type": "weapon", "value": 30},
+    {"name": "weapon4", "type": "weapon", "value": 40},
+    {"name": "weapon5", "type": "weapon", "value": 50},
+
+    {"name": "shield1", "type": "shield", "value": 10},
+    {"name": "shield2", "type": "shield", "value": 20},
+    {"name": "shield3", "type": "shield", "value": 30},
+    {"name": "shield4", "type": "shield", "value": 40},
+    {"name": "shield5", "type": "shield", "value": 50},
+
+    {"name": "healthpotion1", "type": "healthpotion", "value": 10},
+    {"name": "healthpotion2", "type": "healthpotion", "value": 20},
+    {"name": "healthpotion3", "type": "healthpotion", "value": 30},
+    {"name": "healthpotion4", "type": "healthpotion", "value": 40},
+    {"name": "healthpotion5", "type": "healthpotion", "value": 50}
+  ],
+
   "levels": [
     {
       "name": "map1",
       "filepath": "assets/map1.json",
       "npcs": [
         { "name": "npc1", "startx": 5, "starty": 1, "char": "1", "item": "weapon2" },
-        { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "shield1" }
+        { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "shield1" },
+        { "name": "npc2", "startx": 3, "starty": 1, "char": "2", "item": "shield2" }
       ],
       "enemies": [
         { "startx": 2, "starty": 1, "char": "E", "ap": 10, "hp": 20 },
@@ -26,13 +48,13 @@
       "filepath": "assets/map2.json",
       "npcs": [
         { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "shield2" },
-        { "name": "npc2", "startx": 4, "starty": 4, "char": "2", "item": "healthpotion5" }
+        { "name": "npc2", "startx": 4, "starty": 4, "char": "2", "item": "shield3" },
+        { "name": "npc2", "startx": 5, "starty": 4, "char": "2", "item": "weapon3" }
       ],
       "enemies": [
         { "startx": 2, "starty": 1, "char": "E", "ap": 10, "hp": 20 },
         { "startx": 2, "starty": 2, "char": "E", "ap": 10, "hp": 20 },
         { "startx": 2, "starty": 3, "char": "E", "ap": 10, "hp": 20 }
-
       ]
     }
   ]

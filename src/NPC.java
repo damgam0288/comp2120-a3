@@ -29,7 +29,7 @@ public class NPC extends Entity {
         this.name = name;
         try {
             this.item = ItemLoader.loadObject(itemName);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             this.item = null;
         }
     }
