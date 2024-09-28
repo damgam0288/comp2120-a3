@@ -23,8 +23,6 @@ public abstract class Item {
         this.value = value;
     }
 
-
-
     // ** Getters && Setters **
     public int getValue(){
         return value;
@@ -92,7 +90,7 @@ enum ItemType {
     /** Parse a string input into an ItemType
      * @string e.g. "weapon", "shield", "healthpotion"
      *  @return null if the ItemType could not be recognised */
-    public static ItemType stringToItemType(String input) {
+    public static ItemType stringToType(String input) {
         return switch (input.toLowerCase()) {
             case "weapon" -> ItemType.WEAPON;
             case "shield" -> ItemType.SHIELD;
