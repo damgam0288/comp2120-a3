@@ -1,8 +1,7 @@
+image: openjdk:17-jdk-alpine
+
 stages:
   - test
-
-variables:
-  JAVA_HOME: "/usr/lib/jvm/java-17-openjdk"
 
 unit_tests:
   stage: test
