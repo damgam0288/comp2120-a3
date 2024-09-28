@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Reads JSON files to create objects like NPCs, items etc. This is an abstract class
@@ -82,8 +81,8 @@ class ItemLoader extends AbstractLoader {
      * or a NoSuchFieldException if the specified item cannot be found.
      */
     public static Item loadObject(String target) throws Exception {
-        JSONObject itemRef = findObject(target, "items", "name", "assets/items.json");
-        ItemType itemType = ItemType.stringToItemType(itemRef.getString("type"));
+        JSONObject itemRef = findObject(target, "items", "name", "assets/game-config.json");
+        ItemType itemType = ItemType.stringToType(itemRef.getString("type"));
 
         if (itemType==null)
             throw new IllegalArgumentException("Cannot recognise type");
