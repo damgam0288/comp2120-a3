@@ -37,9 +37,6 @@ public class Inventory {
         if (items.isEmpty())
             return null;
 
-        if (Objects.isNull(items))
-            return null;
-
         List<Item> list = new ArrayList<>();
         for (Item item : items) {
             if (item.isEquipped()) {
