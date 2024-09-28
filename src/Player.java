@@ -92,18 +92,26 @@ public class Player extends Entity {
         return "Health: " + getHP() + " / " + getMaxHp();
     }
 
+    /**
+     * Provides a string of player health, attack and level
+     * @return e.g. "Health: 100/100, Attack: 15, Level: 1/5"
+     */
     public String displayStats() {
         return "Health: " + getHP() + "/" + getMaxHp() +
                 ", Attack: " + getAP() +
                 ", Level: " + getLevel() + "/" + GlobalConstants.PLAYER_MAX_LEVEL;
     }
 
+    /**
+     * Provides a string of all equipped items and their AP/HP values
+     * @return e.g. "Equipped: Longsword (+35), Wood shield (+10)
+     */
     public String displayEquippedItems() {
         if (equippedItems.isEmpty())
             return "";
 
         return "Equipped: " + equippedItems.values().stream()
-                .map(item -> item.name)
+                .map(item -> item.name + " (+" + item.getValue() + ")")
                 .collect(Collectors.joining(", "));
     }
 
