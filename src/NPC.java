@@ -1,9 +1,3 @@
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -99,9 +93,8 @@ public class NPC extends Entity {
      * the Player well
      *
      * @param player  The player interacting with the NPC.
-     * @param mapName The name of the current map where the interaction occurs. todo no longer required field?
      */
-    public void interact(Player player, String mapName) {
+    public void interact(Player player) {
         if (hasItem()) {
             System.out.println("NPC: Here's something to help! " + item.getName());
             this.giveItem(player);
