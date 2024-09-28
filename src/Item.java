@@ -79,6 +79,7 @@ class Shield extends Item {
         super(name, ItemType.SHIELD, dp);
     }
 }
+
 /**
  * Types of items that the Player can have in inventory.
  * This is useful for knowing which items can be equipped vs used e.g. a weapon vs health potion
@@ -89,7 +90,8 @@ enum ItemType {
     HEALTHPOTION;
 
     /** Parse a string input into an ItemType
-     *  Returns null if the ItemType could not be recognised */
+     * @string e.g. "weapon", "shield", "healthpotion"
+     *  @return null if the ItemType could not be recognised */
     public static ItemType stringToItemType(String input) {
         return switch (input.toLowerCase()) {
             case "weapon" -> ItemType.WEAPON;

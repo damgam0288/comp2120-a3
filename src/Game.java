@@ -174,9 +174,8 @@ public class Game {
             List<Item> equippedItems = player.getEquippedItems();
 
             // Display equipped items
-
             if (equippedItems.isEmpty()) {
-//                System.out.println("No items are currently equipped.");
+                System.out.println("No items are currently equipped.");
             } else {
                 System.out.println("Equipped Items:");
                 for (int i = 0; i < equippedItems.size(); i++) {
@@ -190,15 +189,28 @@ public class Game {
                 }
             }
 
+            // Another line
+            System.out.println();
+
+            // No more items to show
             List<Item> items = player.getInventory().getItems();
             if (items.isEmpty()) {
                 System.out.println("Your inventory is empty.");
                 return;
             }
 
+            // Unequipped items
             System.out.println("Inventory:");
             for (int i = 0; i < items.size(); i++) {
-                System.out.println((i + 1) + ") " + items.get(i).getName());
+                Item item = items.get(i);
+                String type = (item.getType().equals(ItemType.WEAPON) ? "AP"
+                        : (item.getType().equals(ItemType.SHIELD) ? "HP"
+                        : ""));
+                String value = String.valueOf(item.getValue());
+
+                System.out.println((i + 1) + ") " + item.getName()
+                        + " (+" + value + type + ")");
+
             }
 
             System.out.println("Select an item number to interact with, or 0 to exit:");
