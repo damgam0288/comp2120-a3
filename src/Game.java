@@ -326,7 +326,7 @@ public class Game {
         return false;
     }
 
-//    OLD MOVEMENT method that only accepted one move at a time
+//    OLD MOVEMENT method that only accepted one move at a time todo: safe to delete
 //    Retained to make sure new method works well
 //
 //    private void handleMovement(String move) {
