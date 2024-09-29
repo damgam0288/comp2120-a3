@@ -1,9 +1,5 @@
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -34,33 +30,73 @@ public class NPC extends Entity {
         super(startX, startY, symbol);
         this.name = name;
         try {
-            this.item = ItemLoader.loadObject(itemName);
-        } catch (Exception e) {
+            this.item = ItemLoader.loadObject(itemName, GlobalConstants.PATH_TO_CONFIG_FILE);
+        } catch (Exception ignored) {
             this.item = null;
         }
     }
 
     /**
-     * Getters and Setters
+     * Retrieves the name of the entity.
+     *
+     * @return the name of the entity.
+     * @author Rifang Zhou
      */
-
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the entity to the specified value.
+     *
+     * @param name the new name to set for the entity.
+     * @author Rifang Zhou
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Sets the specified item for the entity.
+     *
+     * @param item the item to set for the entity.
+     * @author Rifang Zhou
+     */
     public void setItem(Item item) {
         this.item = item;
     }
 
+    /**
+     * Sets the specified item for the entity.
+     *
+     * @param itemref the string item reference in the "items" Json object
+     * @author Rifang Zhou
+     */
+    public void setItem(String itemref) {
+        try {
+            this.item = ItemLoader.loadObject(itemref, GlobalConstants.PATH_TO_CONFIG_FILE);
+        } catch (Exception ignored) {
+            this.item = null;
+        }
+    }
+    /**
+     * Gives the specified item from this entity to the specified player.
+     * The item is removed from this entity after it is given to the player.
+     *
+     * @param player the player to whom the item will be given.
+     * @author Rifang Zhou
+     */
     public void giveItem(Player player) {
         player.receiveItem(item);
         item = null;
     }
 
+    /**
+     * Checks whether the entity currently has an item.
+     *
+     * @return true if the entity has an item, false otherwise.
+     * @author Rifang Zhou
+     */
     public boolean hasItem() {
         return (Objects.nonNull(item));
     }
@@ -72,9 +108,8 @@ public class NPC extends Entity {
      * the Player well
      *
      * @param player  The player interacting with the NPC.
-     * @param mapName The name of the current map where the interaction occurs. todo no longer required field?
      */
-    public void interact(Player player, String mapName) {
+    public void interact(Player player) {
         if (hasItem()) {
             System.out.println("NPC: Here's something to help! " + item.getName());
             this.giveItem(player);

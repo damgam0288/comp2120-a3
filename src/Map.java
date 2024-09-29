@@ -28,7 +28,9 @@ public class Map {
      * @param filePath - path to json file containing world
      * @throws IOException - in case cannot find json file
      */
-    public Map(String n, String filePath, Player p) throws Exception {
+    public Map(String n, String filePath, Player p,
+                    int minWidth, int minHeight,
+                    int maxWidth, int maxHeight) throws Exception {
         // Player != null to check position once here, instead of in .draw()
         if (Objects.isNull(p)) {
             throw new IllegalArgumentException("Player cannot be null");
@@ -38,7 +40,8 @@ public class Map {
         entities = new ArrayList<>();
         player = p;
 
-        MapLoader.loadMapWorldFromFile(filePath,this);
+        MapLoader.loadMapWorldFromFile(filePath, this,
+                minWidth, minHeight, maxWidth, maxHeight);
     }
 
     /**
@@ -175,7 +178,7 @@ public class Map {
         if (!isValidPosition(e.getX(), e.getY()))
             throw new InvalidEntityPlacementException("Map.addEntity: Bad start position");
 
-        if (entitiesOverlap(e))
+        if (isCollidingWithEntity(e))
             throw new InvalidEntityPlacementException("Map.addEntity: Entities cannot overlap");
 
         entities.add(e);
@@ -210,7 +213,7 @@ public class Map {
             return null;
 
         for (Entity e : entities) {
-            if (isColliding(player,e)) return e;
+            if (entitiesOverlap(player,e)) return e;
         }
 
         return null;
@@ -218,6 +221,8 @@ public class Map {
 
     /**
      * Checks if all enemies on the map have been defeated.
+     *
+     * @author Rifang Zhou
      *
      * @return true if there are no enemies left on the map, false otherwise.
      */
@@ -230,20 +235,12 @@ public class Map {
      * The player can only move to the next map if all enemies are defeated
      * and the player is standing on the designated 'O' tile (exit point).
      *
+     * @author Rifang Zhou
+     *
      * @return true if the player can move to the next map, false otherwise.
      */
     public boolean canMoveToNextMap() {
         return allEnemiesDefeated() && getGridTile(player.getX(), player.getY()) == 'O';
-    }
-
-    /**
-     * Checks if the player has won the game.
-     * Victory is achieved if all enemies are defeated and the player is on the 'V' tile (victory point).
-     *
-     * @return true if the player has won the game, false otherwise.
-     */
-    public boolean isVictory() {
-        return allEnemiesDefeated() && getGridTile(player.getX(), player.getY()) == 'V';
     }
 
     /**
@@ -262,33 +259,57 @@ public class Map {
     }
 
     /**
-     * Helper method to check NPC / Enemy collision
-     * @param e1 first entity
-     * @param e2 second entity
-     * @return true if first and second entities are colliding
+     * Method to check the given entity is colliding
+     * with another existing entity
      */
-    private boolean isColliding(Entity e1, Entity e2) {
-        return (e1.getX() == e2.getX() &&
-                e1.getY() == e2.getY());
-    }
-
-    /**
-     * Helper method to check the given entity (likely when adding entity to the map)
-     * is overlapping with another existing entity.
-     */
-    private boolean entitiesOverlap(Entity entity) {
+    public boolean isCollidingWithEntity(Entity entity) {
         if (entities.isEmpty())
             return false;
 
         for(Entity e : entities) {
-            if (isColliding(e,entity))
+            if (entitiesOverlap(e,entity))
                 return true;
         }
 
         return false;
     }
 
+    /**
+     * Helper method to check NPC / Enemy collision
+     * @param e1 first entity
+     * @param e2 second entity
+     * @return true if first and second entities are colliding
+     */
+    private boolean entitiesOverlap(Entity e1, Entity e2) {
+        return (e1.getX() == e2.getX() &&
+                e1.getY() == e2.getY());
+    }
+
+    /**
+     * Retrieves the map number associated with the current map.
+     * This method returns the name of the map, which serves as a placeholder for the map number.
+     *
+     * @author Rifang Zhou
+     * @return the name of the map.
+     */
     public String getMapNumber() {
-        return name;  // Placeholder for map number, adjust if necessary
+        return name;
+    }
+
+    /**
+     * Retrieves a list of enemies present in the current map.
+     * This method iterates through the entities in the map and collects those that are instances of the Enemy class.
+     *
+     * @author Rifang Zhou
+     * @return a list of enemies in the current map.
+     */
+    public List<Enemy> getEnemies(){
+        List<Enemy> enemies = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (entity instanceof Enemy) {
+                enemies.add((Enemy) entity);
+            }
+        }
+        return enemies;
     }
 }

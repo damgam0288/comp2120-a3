@@ -1,3 +1,5 @@
+image: openjdk:17-jdk-alpine
+
 stages:
   - test
 
@@ -13,4 +15,4 @@ unit_tests:
     - merge_requests      # Required since "branches" does not cover MRs
     - branches            # Execute on GitPush to this branch
   tags:
-    - comp2100
+    - comp2120

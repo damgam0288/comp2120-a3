@@ -23,9 +23,13 @@ public abstract class Item {
         this.value = value;
     }
 
-    // ** Getters **
+    // ** Getters && Setters **
     public int getValue(){
         return value;
+    }
+
+    public void setValue(int value){
+        this.value = value;
     }
 
     public String getName() {
@@ -57,11 +61,20 @@ class Weapon extends Item {
 }
 
 /**
- * A consumable used to health player
+ * A consumable used to heal player by the given number of Health Points
  */
 class HealthPotion extends Item {
     public HealthPotion(String name, int hp) {
         super(name, ItemType.HEALTHPOTION, hp);
+    }
+}
+
+/**
+ * An equippable Item that increases Player's health points
+ */
+class Shield extends Item {
+    public Shield(String name, int dp) {
+        super(name, ItemType.SHIELD, dp);
     }
 }
 
@@ -72,5 +85,17 @@ class HealthPotion extends Item {
 enum ItemType {
     WEAPON,
     SHIELD,
-    HEALTHPOTION
+    HEALTHPOTION;
+
+    /** Parse a string input into an ItemType
+     * @string e.g. "weapon", "shield", "healthpotion"
+     *  @return null if the ItemType could not be recognised */
+    public static ItemType stringToType(String input) {
+        return switch (input.toLowerCase()) {
+            case "weapon" -> ItemType.WEAPON;
+            case "shield" -> ItemType.SHIELD;
+            case "healthpotion" -> ItemType.HEALTHPOTION;
+            default -> null;
+        };
+    }
 }
