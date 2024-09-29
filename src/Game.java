@@ -165,6 +165,8 @@ public class Game {
      * <p>
      * The method continues to run in a loop until the player chooses to exit
      * the inventory by selecting option 0 or 4.
+     *
+     * @author Noah Martin
      */
     private void openInventory() {
         boolean inventoryOpen = true;
@@ -271,6 +273,9 @@ public class Game {
      * - Any other input is considered invalid and the pause menu is re-displayed.
      * <p>
      * The method ensures that no game actions can be taken while the game is paused.
+     *
+     *
+     * @author Noah Martin
      */
     public void handlePaused() {
         if (currentState == GameState.RUNNING) {

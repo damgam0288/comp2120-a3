@@ -38,9 +38,9 @@
         { "name": "npc2", "startx": 3, "starty": 1, "char": "2", "item": "shield2" }
       ],
       "enemies": [
-        { "startx": 2, "starty": 1, "char": "E", "ap": 10, "hp": 20 },
-        { "startx": 2, "starty": 2, "char": "E", "ap": 10, "hp": 20 },
-        { "startx": 2, "starty": 3, "char": "E", "ap": 10, "hp": 20 }
+        { "startx": 2, "starty": 1, "char": "E", "ap": 20, "hp": 100 },
+        { "startx": 2, "starty": 2, "char": "E", "ap": 10, "hp": 50 },
+        { "startx": 2, "starty": 3, "char": "E", "ap": 10, "hp": 70 }
       ]
     },
     {

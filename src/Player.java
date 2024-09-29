@@ -171,7 +171,7 @@ public class Player extends Entity {
      * reduced accordingly. If the shield is destroyed, the remaining damage is applied
      * to the player's health points (HP).
      *
-     * @author Rifang Zhou
+     * @author Rifang Zhou & Noah Martin
      *
      * @param enemy the enemy that is attacking the player
      */
@@ -216,6 +216,8 @@ public class Player extends Entity {
      *
      * @return The player's inventory object, which contains the list of items
      * the player currently possesses and methods for interacting with them.
+     *
+     * @author Noah Martin
      */
     public Inventory getInventory() {
         return inventory;
@@ -230,6 +232,8 @@ public class Player extends Entity {
      * @param itemIndex The index of the item in the inventory list that the player wants to equip.
      *                  Must be within the range of the inventory list.
      *                  If the index is out of bounds, an error message is displayed, and no item is equipped.
+     *
+     * @author Noah Martin
      */
     public void equipItem(int itemIndex) {
         List<Item> items = inventory.getItems();
@@ -279,6 +283,8 @@ public class Player extends Entity {
      *
      * @param item The item to unequip (e.g., WEAPON, SHIELD).
      *                 The itemType must correspond to a type of item that can be equipped by the player.
+     *
+     * @author Noah Martin
      */
     public void unequipItem(Item item) {
         ItemType itemType = item.getType();
@@ -300,6 +306,8 @@ public class Player extends Entity {
      *
      * @param itemIndex The index of the item in the inventory list to be used.
      *                  Must be within the range of the inventory list.
+     *
+     * @author Noah Martin
      */
     public void useItem(int itemIndex) {
         List<Item> items = inventory.getItems();
@@ -329,6 +337,8 @@ public class Player extends Entity {
      * This method returns a list of items that are equipped, including weapons and shields.
      *
      * @return a list of equipped items.
+     *
+     * @author Noah Martin
      */
     public List<Item> getEquippedItems() {
         return new ArrayList<>(equippedItems.values());
@@ -337,6 +347,8 @@ public class Player extends Entity {
     /**
      * Retrieves the equipped shield for the player.
      * @return the equipped shield item, or null if no shield is equipped.
+     *
+     * @author Noah Martin
      */
     public Item getEquippedShield() {
         return equippedItems.get(ItemType.SHIELD);
