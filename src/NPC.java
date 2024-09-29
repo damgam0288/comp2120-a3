@@ -30,7 +30,7 @@ public class NPC extends Entity {
         super(startX, startY, symbol);
         this.name = name;
         try {
-            this.item = ItemLoader.loadObject(itemName);
+            this.item = ItemLoader.loadObject(itemName, GlobalConstants.PATH_TO_CONFIG_FILE);
         } catch (Exception ignored) {
             this.item = null;
         }
@@ -74,7 +74,7 @@ public class NPC extends Entity {
      */
     public void setItem(String itemref) {
         try {
-            this.item = ItemLoader.loadObject(itemref);
+            this.item = ItemLoader.loadObject(itemref, GlobalConstants.PATH_TO_CONFIG_FILE);
         } catch (Exception ignored) {
             this.item = null;
         }

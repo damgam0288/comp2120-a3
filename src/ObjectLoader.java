@@ -16,7 +16,7 @@ abstract class ObjectLoader {
 
     public static JSONObject findObject
             (String targetObject, String jsonArray, String key, String filepath)
-            throws JSONException,IOException,NoSuchFieldException {
+            throws JSONException,IOException {
 
         // Read JSON file
         String content = new String(Files.readAllBytes(Paths.get(filepath)));
@@ -35,7 +35,7 @@ abstract class ObjectLoader {
         }
 
         // Missing object in a JSON configuration file means game shouldn't run
-        throw new NoSuchFieldException("Could not find " + targetObject +
+        throw new JSONException("Could not find " + targetObject +
                 " in the given reference: " +
                 filepath + "/" + jsonArray + "/" + key);
     }
@@ -59,7 +59,7 @@ class NPCLoader extends ObjectLoader {
      * @author Damian Gamlath
      */
     public static NPC loadObject(String target, String filepath)
-            throws JSONException, IOException, NoSuchFieldException {
+            throws JSONException, IOException {
 
         JSONObject jsonObject = ObjectLoader.findObject(target, "npcs", "name", filepath);
         int x = jsonObject.getInt("startx");
@@ -83,8 +83,8 @@ class ItemLoader extends ObjectLoader {
      * Will return JSONExceptions if the KEY-string cannot be found,
      * or a NoSuchFieldException if the specified item cannot be found.
      */ // todo include the filepath parameter
-    public static Item loadObject(String target) throws Exception {
-        JSONObject itemRef = findObject(target, "items", "name", "assets/game-config.json");
+    public static Item loadObject(String target, String filepath) throws Exception {
+        JSONObject itemRef = findObject(target, "items", "name", filepath);
         ItemType itemType = ItemType.stringToType(itemRef.getString("type"));
 
         if (itemType==null)
