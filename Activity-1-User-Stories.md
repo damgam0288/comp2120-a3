@@ -19,15 +19,29 @@ As a game tester, I want an efficient way to test multiple game maps to ensure a
 # User stories for Enemies
 As a player, I want to encounter enemies on the map so that I can participate in battles and make progress in the game.<br>
 As a player, I want to face enemies that block my path, forcing me to either fight them or find alternative routes, so that I can increase the strategic depth of my movements.<br>
+As a player, I want to take damage from enemies during battles, so that combat is more challenging.<br>
+As a player, I want to see the enemy's health, so that I can plan my battle strategy and decide my actions better.<br>
+As a player, I want to only move to the next map after defeating all enemies on the current map, so that the game has a clear goal.<br>
 
 As a designer, I want to define the generation points of enemies in the game configuration file, so that enemies will appear in fixed positions and cause strategic difficulty in certain parts of the map.<br>
 
-# User stories for Inventory system
+# User stories for Additional Feature 1: Play/Pause
 
-# User stories for Additional Feature 1
+As a player, I want to be able to pause the game, so that I can leave the computer and know my progress will not change.
+As a player, I want to be able to unpause the game, so that when the game is in a paused state I can continue playing where I left off.
 
-# User stories for Additional Feature 2
+As a designer, I want the paused game state to change, to clearly indicate when the game is paused and expecting a particular input to continue.
 
-# User stories for Additional Feature 3
+# User stories for Additional Feature 2: Character Levels
 
-# User stories for Additional Feature 4
+As a player, I want to be able to level up my character, so that I can play the game and progess the way that I want to.
+As a player, I want to be able to achieve all in-game achievements, so that I can feel a sense of full completion and mastery of the game.
+
+As a designer, I want to add extra motives to the game, so that the player has a choice to their progression.
+
+# User stories for Additional Feature 3: Inventory
+As a player, I want to be able to choose what items in my invenotry I want to equip, so that I can interact with enemies the way that I want.
+As a player, I want to be able to store items in an inventory, so that I can use items later on in the game.
+
+As a designer, I want the player's inventory to be capped, so that it creates more strategy around what items the player chooses to pick up.
+As a designer, I want the items in the inventory to be useful and different in some way, so that there is a reason for the player to choose which items to use and pick up throughout the game.
