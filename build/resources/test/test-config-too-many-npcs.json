@@ -10,7 +10,7 @@
   "levels": [
     {
       "name": "map1",
-      "filepath": "assets/map1.json",
+      "filepath": "tests/resources/test-map-1.json",
       "npcs": [
         { "name": "npc1", "startx": 4, "starty": 1, "char": "1", "item": "weapon1" },
         { "name": "npc2", "startx": 5, "starty": 2, "char": "2", "item": "weapon2" },

@@ -60,7 +60,8 @@ public class Game {
         }
 
         // Current map
-        currentMap = this.maps.get(0);       // TODO 2 Replace with MapController later
+        currentMap = this.maps.get(0);// TODO 2 Replace with MapController later
+        printCurrentMap();
     }
 
     /**
@@ -520,6 +521,7 @@ public class Game {
         if (Objects.nonNull(args) && args.length>0)
             new Game(args[0]).start();
         else
+            GlobalConstants.setConfigFilePath("assets/game-config.json");
             new Game("assets/game-config.json").start();
     }
 

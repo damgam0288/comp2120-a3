@@ -1,7 +1,13 @@
 import org.junit.Test;
+import org.junit.Before;
 import static org.junit.Assert.*;
 
 public class EntityInteractionTest {
+    @Before
+    public void setup() {
+        GlobalConstants.setConfigFilePath("tests/resources/game-config.json");
+    }
+
 
     @Test
     public void testPlayerAttackEnemy() {
