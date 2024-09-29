@@ -1,3 +1,5 @@
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 /**
@@ -64,6 +66,19 @@ public class NPC extends Entity {
         this.item = item;
     }
 
+    /**
+     * Sets the specified item for the entity.
+     *
+     * @param itemref the string item reference in the "items" Json object
+     * @author Rifang Zhou
+     */
+    public void setItem(String itemref) {
+        try {
+            this.item = ItemLoader.loadObject(itemref);
+        } catch (Exception ignored) {
+            this.item = null;
+        }
+    }
     /**
      * Gives the specified item from this entity to the specified player.
      * The item is removed from this entity after it is given to the player.

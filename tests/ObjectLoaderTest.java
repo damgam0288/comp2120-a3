@@ -17,28 +17,28 @@ public class ObjectLoaderTest {
     // Abstract Loader testing
     @Test(expected = NoSuchFileException.class, timeout=1000)
     public void abstractLoaderNoFileException() throws Exception {
-        AbstractLoader.findObject
+        ObjectLoader.findObject
                 ("npc1","npcs","name",
                         "file-doesnt-exist.json");
     }
 
     @Test(expected = JSONException.class, timeout=1000)
     public void abstractLoaderNoMatchingArrayString() throws Exception {
-        AbstractLoader.findObject
+        ObjectLoader.findObject
                 ("npc1","array-doesnt-exist","name",
                         npcJsonFilePath);
     }
 
     @Test(expected = JSONException.class, timeout=1000)
     public void abstractLoaderBadKeyString() throws Exception {
-        AbstractLoader.findObject
+        ObjectLoader.findObject
                 ("npc1","npcs","bad-keystring",
                         npcJsonFilePath);
     }
 
     @Test(expected = NoSuchFieldException.class, timeout=1000)
     public void abstractLoaderNoMatchingTargetString() throws Exception {
-        AbstractLoader.findObject
+        ObjectLoader.findObject
                 ("bad-target","npcs","name",
                         npcJsonFilePath);
     }
