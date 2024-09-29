@@ -1,3 +1,6 @@
+/**
+ * A globally accessible utility class containing all important constants
+ */
 public class GlobalConstants {
     public static final int GAME_MAX_ENEMIES_PER_LEVEL = 3;
     public static final int GAME_MAX_NPC_PER_LEVEL = 3;

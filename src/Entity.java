@@ -4,7 +4,7 @@
 public abstract class Entity {
 
     private int x, y;
-    private final char symbol;
+    private final char symbol;      // The char used to represent the Entity on the map
 
     /**
      * Constructor
@@ -34,27 +34,49 @@ public abstract class Entity {
     }
 
     /**
-     * Getters and setters
-    */
-
+     * Sets the x-coordinate of this entity
+     *
+     * @param x the x-coordinate to set
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * Sets the y-coordinate of this entity
+     *
+     * @param y the y-coordinate to set
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * Returns the x-coordinate of this entity
+     *
+     * @return the x-coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Returns the y-coordinate of this entity
+     *
+     * @return the y-coordinate
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Returns the symbol representing this entity
+     *
+     * @return the symbol
+     */
     public char getSymbol() {
         return symbol;
     }
+
 
 }
