@@ -13,13 +13,12 @@ import java.util.Objects;
 public class Map {
 
     private String name;
-    private char[][] world;   // Actual map of the world only
-    private char[][] grid;          // Playable grid containing game map, player, items, NPCs etc.
+    private char[][] world;     // Actual map of the world only
+    private char[][] grid;      // Playable grid containing game map, player, items, NPCs etc.
     private int width;
     private int height;
     private Player player;
     private List<Entity> entities;
-
 
     /**
      * Constructor
@@ -27,6 +26,8 @@ public class Map {
      * @param n        - name of the map
      * @param filePath - path to json file containing world
      * @throws IOException - in case cannot find json file
+     *
+     * @author Damian Gamlath
      */
     public Map(String n, String filePath, Player p,
                     int minWidth, int minHeight,
@@ -46,6 +47,8 @@ public class Map {
 
     /**
      * Draws game map together with all entities, items etc. to the terminal
+     *
+     * @author Damian Gamlath
      */
     public void draw() {
         for (int y = 0; y < height; y++) {
@@ -72,9 +75,13 @@ public class Map {
     }
 
     /**
-     * Returns the char from the grid given x and y coordinates
-     * @param x - starts at 0
-     * @param y - starts at 0
+     * Returns the char from the playable grid given x and y coordinates
+     * @param x position of the tile
+     * @param y position of the tile
+     * @return the playable world's grid tile e.g. if 'P' is located above '.' floor tile
+     * then it would return 'P'
+     *
+     * @author Damian Gamlath
      */
     public char getGridTile(int x, int y) {
         return grid[x][y];
@@ -82,76 +89,145 @@ public class Map {
 
     /**
      * Sets the char of the play grid given x,y coordinates and the char
-     * @param x - starts at 0
-     * @param y - starts at 0
+     * @param x position of the tile
+     * @param y position of the tile
+     * @value char symbol to set this tile to
+     *
+     * @author Damian Gamlath
      */
     public void setGridTile(int x, int y, char value) {
         grid[x][y] = value;
     }
 
-    public char getWorldTile(int x, int y) {return world[x][y]; }
-
+    /**
+     * The world tile is actually the floor tile of the game world (i.e. not including
+     * any symbols for Player, NPC etc.)
+     * @param x position of the tile
+     * @param y position of the tile
+     * @param value char value you want to change the floor tile to
+     *
+     * @author Damian Gamlath
+     */
     public void setWorldTile(int x, int y, char value) {world[x][y] = value; }
 
+    /**
+     * Returns the width of the map
+     *
+     * @return the width of the map
+     *
+     * @author Damian Gamlath
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Sets the width of the map
+     *
+     * @param width the width to set
+     *
+     * @author Damian Gamlath
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Returns the height of the map
+     *
+     * @return the height of the map
+     *
+     * @author Damian Gamlath
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Sets the height of the map
+     *
+     * @param height the height to set
+     *
+     * @author Damian Gamlath
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
-    public char[][] getWorld() {
-        return world;
-    }
-
+    /**
+     * Sets the array representing the floor of the map
+     *
+     * @param world char[x][y] array representing the game world
+     *
+     * @author Damian Gamlath
+     */
     public void setWorld(char[][] world) {
         this.world = world;
     }
 
-    public char[][] getGrid() {
-        return grid;
-    }
-
+    /**
+     * Sets the playable grid for this map
+     *
+     * @param grid char[x][y] array representing the playable world
+     *
+     * @author Damian Gamlath
+     */
     public void setGrid(char[][] grid) {
         this.grid = grid;
     }
 
+    /**
+     * Returns the name of the map
+     *
+     * @return the name of the map
+     *
+     * @author Damian Gamlath
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the map
+     *
+     * @param name the name to set
+     *
+     * @author Damian Gamlath
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the player associated with this map
+     *
+     * @return the player object
+     *
+     * @author Damian Gamlath
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Sets the player for this map
+     *
+     * @param player the player to set
+     *
+     * @author Damian Gamlath
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public List<Entity> getEntities() {
-        return entities;
-    }
-
-    public void setEntities(List<Entity> entities) {
-        this.entities = entities;
-    }
 
     /**
      * Checks if given x,y position is not over the game world boundaries
      * or over an obstacle
+     * @return {@code true} if position is NOT outside boundaries/on an obstacle
+     * {@code false} if position IS outside boundary or on an obstacle
+     *
+     * @author Damian Gamlath
      */
     public boolean isValidPosition(int x, int y) {
         return x >= 0 && x < width &&
@@ -160,8 +236,10 @@ public class Map {
     }
 
     /**
-     * Helper method for checking if given x,y coordinates overlaps a
+     * Private helper method for checking if given x,y coordinates overlaps a
      * char that stands for an obstacle e.g. a wall
+     *
+     * @author Damian Gamlath
      */
     private boolean isObstacle(int x, int y) {
         return getGridTile(x, y) == '#';
@@ -170,6 +248,11 @@ public class Map {
     /**
      * Adds (non-duplicate) entity to the list of entities on this map
      * NOTE: does NOT re-draw the game world to the terminal
+     * @throws Exception if position is invalid or is colliding with an existing entity
+     * @return {@code true} if the entity did not already exist
+     * {@code false} if entity already exists in the list
+     *
+     * @author Damian Gamlath
      */
     public boolean addEntity(Entity e) throws Exception {
         if (entities.contains(e))
@@ -190,6 +273,8 @@ public class Map {
      * and if the move is valid.<br>
      * NOTE: Does NOT re-draw the play grid to the terminal - other classes
      * must do that separately if required
+     *
+     * @author Damian Gamlath
      */
     public void moveEntity(Entity e, int newX, int newY) {
         if (isValidPosition(newX, newY)) {
@@ -201,9 +286,12 @@ public class Map {
     }
 
     /**
+     * The entity that the Player is colliding with
+     *
      * @return Null if player is null <br>
      * Null if no entities on the map <br>
-     * The entity that the Player is colliding with
+     *
+     * @author Damian Gamlath
      */
     public Entity getCollidingEntity() {
         if (Objects.isNull(player))
@@ -220,7 +308,7 @@ public class Map {
     }
 
     /**
-     * Checks if all enemies on the map have been defeated.
+     * Checks if all enemies on the map have been defeated
      *
      * @author Rifang Zhou
      *
@@ -263,6 +351,10 @@ public class Map {
     /**
      * Method to check the given entity is colliding
      * with another existing entity
+     * @return {@code true} if the entity is colliding with another one
+     * {@code false} if the entity is not colliding with another entity
+     *
+     * @author Damian Gamlath
      */
     public boolean isCollidingWithEntity(Entity entity) {
         if (entities.isEmpty())
@@ -281,6 +373,8 @@ public class Map {
      * @param e1 first entity
      * @param e2 second entity
      * @return true if first and second entities are colliding
+     *
+     * @author Damian Gamlath
      */
     private boolean entitiesOverlap(Entity e1, Entity e2) {
         return (e1.getX() == e2.getX() &&
