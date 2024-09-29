@@ -107,6 +107,8 @@ public class NPC extends Entity {
      * If the npc has an item, it will give the item to the Player. Otherwise it will wish
      * the Player well
      *
+     * @author Rifang Zhou
+     *
      * @param player  The player interacting with the NPC.
      */
     public void interact(Player player) {
