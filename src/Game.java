@@ -12,8 +12,6 @@ public class Game {
     private Map currentMap;
     private List<Map> maps;
     private final Player player;
-
-    private Map pausedState;        // TODO 2
     private GameState currentState = GameState.RUNNING;
     private Scanner scanner;
     private List<Enemy> enemies;
@@ -60,7 +58,7 @@ public class Game {
         }
 
         // Current map
-        currentMap = this.maps.get(0);// TODO 2 Replace with MapController later
+        currentMap = this.maps.get(0);
         printCurrentMap();
     }
 
