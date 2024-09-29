@@ -12,8 +12,6 @@ public class Game {
     private Map currentMap;
     private List<Map> maps;
     private final Player player;
-
-    private Map pausedState;        // TODO 2
     private GameState currentState = GameState.RUNNING;
     private Scanner scanner;
     private List<Enemy> enemies;
@@ -60,7 +58,8 @@ public class Game {
         }
 
         // Current map
-        currentMap = this.maps.get(0);       // TODO 2 Replace with MapController later
+        currentMap = this.maps.get(0);
+        printCurrentMap();
     }
 
     /**
@@ -165,6 +164,8 @@ public class Game {
      * <p>
      * The method continues to run in a loop until the player chooses to exit
      * the inventory by selecting option 0 or 4.
+     *
+     * @author Noah Martin
      */
     private void openInventory() {
         boolean inventoryOpen = true;
@@ -271,6 +272,9 @@ public class Game {
      * - Any other input is considered invalid and the pause menu is re-displayed.
      * <p>
      * The method ensures that no game actions can be taken while the game is paused.
+     *
+     *
+     * @author Noah Martin
      */
     public void handlePaused() {
         if (currentState == GameState.RUNNING) {
@@ -515,6 +519,7 @@ public class Game {
         if (Objects.nonNull(args) && args.length>0)
             new Game(args[0]).start();
         else
+            GlobalConstants.setConfigFilePath("assets/game-config.json");
             new Game("assets/game-config.json").start();
     }
 

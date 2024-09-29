@@ -1,15 +1,23 @@
-/**
- * This class will load the game world, NPCs, enemies etc. from files and create a Map object
- */
-
 import javax.naming.SizeLimitExceededException;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * A utility class to load the game world, NPCs, enemies etc. from files and create a Map object
+ */
 public class MapLoader {
 
+    /**
+     * Loads a JSON file containing a drawn map into the given Map object
+     * @param mapFilePath filepath to the JSON map file
+     * @param map a Map object into which you want to load this JSON File
+     * @param minWidth there is a restriction on the minimum size of the map
+     * @param minHeight there is a restriction on the minimum size of the map
+     * @param maxWidth there is a restriction on the minimum size of the map
+     * @param maxHeight there is a restriction on the minimum size of the map
+     * @throws Exception if the map is too small/too big or the file doesn't exist
+     */
     public static void loadMapWorldFromFile(String mapFilePath, Map map,
                                             int minWidth, int minHeight,
                                             int maxWidth, int maxHeight) throws Exception {

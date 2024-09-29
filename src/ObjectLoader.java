@@ -11,9 +11,21 @@ import java.util.Objects;
 /**
  * Reads JSON files to create objects like NPCs, items etc. This is an abstract class
  * that holds functionality that goes into loading aforementioned objects
+ *
+ * @author Damian Gamlath
  */
 abstract class ObjectLoader {
 
+    /**
+     * Method to return the JSON object given the parameters
+     * @param targetObject the string value of the object you are looking for
+     * @param jsonArray the array key that this object will be found in
+     * @param key the Json-key string that is associated with the targetObject value
+     * @param filepath the Json's file path
+     * @return a JSON object if the object is found or {@code null} if not found
+     * @throws JSONException if any parameter is not found in the Json file
+     * @throws IOException if the file cannot be found
+     */
     public static JSONObject findObject
             (String targetObject, String jsonArray, String key, String filepath)
             throws JSONException,IOException {
@@ -43,6 +55,8 @@ abstract class ObjectLoader {
 
 /**
  * A custom version of the Object Loader to find an Item in a JSON file
+ *
+ * @author Damian Gamlath
  */
 class NPCLoader extends ObjectLoader {
 
@@ -56,7 +70,6 @@ class NPCLoader extends ObjectLoader {
      * @throws IOException          if the config file can't be found
      * @throws NoSuchFieldException if wrong reference key is used
      *                              or a NoSuchFieldException if the specified item cannot be found.
-     * @author Damian Gamlath
      */
     public static NPC loadObject(String target, String filepath)
             throws JSONException, IOException {
@@ -75,6 +88,8 @@ class NPCLoader extends ObjectLoader {
 
 /**
  * A custom version of the Object Loader to find an Item in a JSON file
+ *
+ * @author Damian Gamlath
  */
 class ItemLoader extends ObjectLoader {
 
@@ -82,7 +97,11 @@ class ItemLoader extends ObjectLoader {
      * Returns a newly created Item object given the target-string and Json file.
      * Will return JSONExceptions if the KEY-string cannot be found,
      * or a NoSuchFieldException if the specified item cannot be found.
-     */ // todo include the filepath parameter
+     * @param target string value of the target item e.g. "weapon2"
+     * @param filepath file path of the Json file this item will be found
+     * @return the specific item if found or {@code null} if not found
+     * @throws Exception JSONException if any key is missing or IOException if the file could not be found
+     */
     public static Item loadObject(String target, String filepath) throws Exception {
         JSONObject itemRef = findObject(target, "items", "name", filepath);
         ItemType itemType = ItemType.stringToType(itemRef.getString("type"));
@@ -101,6 +120,10 @@ class ItemLoader extends ObjectLoader {
     }
 }
 
+/**
+ * A utility class to load the contents of a JSON file, trim leading/trailing spaces and
+ * generate a string. Used to help print a "PAUSED" screen or a "YOU WON!" screen
+ */
 class ScreenLoader {
 
     public static List<String> jsonContentToStringList(String filepath) throws IOException {

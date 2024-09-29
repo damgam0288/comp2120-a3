@@ -20,6 +20,8 @@ public class Enemy extends Entity {
     /**
      * Retrieves the enemy's attack points (AP).
      *
+     * @author Rifang Zhou
+     *
      * @return the enemy's current attack points.
      */
     public int getAP() {
@@ -28,6 +30,8 @@ public class Enemy extends Entity {
 
     /**
      * Retrieves the enemy's health points (HP).
+     *
+     * @author Rifang Zhou
      *
      * @return the enemy's current health points.
      */
@@ -38,21 +42,12 @@ public class Enemy extends Entity {
     /**
      * Sets the enemy's health points (HP).
      *
+     * @author Rifang Zhou
+     *
      * @param hp the new health points to set for the enemy.
      */
     public void setHP(int hp) {
         this.hp = hp;
-    }
-
-    /**
-     * Updates the enemy's position on the map by setting the x and y coordinates.
-     *
-     * @param x the new x-coordinate to set for the enemy.
-     * @param y the new y-coordinate to set for the enemy.
-     */
-    public void setPosition(int x, int y) {
-        setX(x);
-        setY(y);
     }
 
     /**

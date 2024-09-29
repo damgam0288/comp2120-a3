@@ -1,26 +1,121 @@
-Equipped item: Shield
-HP increased by: 30
-2Shield absorbed the damage. Shield value left: 15
-Equipped item: Sword
-Base AP: 10 Weapon AP: 20
-:Your Health Points (HP): 100, Your Attack Points (AP): 30
-,You attacked the enemy. Enemy HP is now: 20
-Used item: Health Potion
-HP increased by: 50
-Equipped item: weapon1
-Base AP: 10 Weapon AP: 25
-Equipped item: weapon1
-Base AP: 10 Weapon AP: 25
-Player took damage. New HP: 85
-	10
-	Equipped item: Sword
-	Base AP: 10 Weapon AP: 20
-	30
-	Unequipped item: Sword
-	10
-
-Equipped item: Shield
-
-HP increased by: 30
-Equipped item: Sword
-Base AP: 10 Weapon AP: 20
+(NPC: Here's something to help! weapon2
+?Enemy's Health Points (HP): 20, Enemy's Attack Points (AP): 5
+ Player took damage. New HP: 45
+(Enemy attacked you! Your HP is now: 45
+?Enemy's Health Points (HP): 20, Enemy's Attack Points (AP): 5
+ Player took damage. New HP: 40
+(Enemy attacked you! Your HP is now: 40
+ Player took damage. New HP: 45
+ Player took damage. New HP: 40
+ Player took damage. New HP: 35
+ Player took damage. New HP: 30
+ Player took damage. New HP: 25
+NPC: Good luck out there!
+ Player took damage. New HP: 45
+ Player took damage. New HP: 40
+:Your Health Points (HP): 50, Your Attack Points (AP): 10
+-You attacked the enemy. Enemy HP is now: 10
+:Your Health Points (HP): 50, Your Attack Points (AP): 10
+,You attacked the enemy. Enemy HP is now: 0
+You defeated an enemy!
+	(NPC: Here's something to help! weapon2
+	NPC: Good luck out there!
+
+Current map: map1
+Current map: map1
+Can't move there!
+Can't move there!
+Current map: map1
+Current map: map1
+Current map: map1
+Current map: map1
+*Congratulations! You've reached level 2!
+*Your new MaxHP: 70, Your new base AP: 20
+%You have reached the maximum level!
+0Enemies level up!Enemies current hp:30   ap:10
+&)##########
+&)#........#
+&)#...P....#
+&)#........#
+&)#........#
+&)##########
+&,Can't move there!
+&,Can't move there!
+&,Can't move there!
+&,##########
+&,#........#
+&,#........#
+&,#........#
+&,#P.......#
+&,##########
+&0Can't move there!
+&0##########
+&0#.......P#
+&0#........#
+&0#........#
+&0#........#
+&0##########
+&5##########
+&5#........#
+&5#........#
+&5#...P....#
+&5#........#
+&5##########
+&6##########
+&6#P.......#
+&6#........#
+&6#........#
+&6#........#
+&6##########
+&;##########
+&;#P12.....#
+&;#........#
+&;#........#
+&;#........#
+&;##########
+GFEquipped item: Shield
+GFHP increased by: 30
+GF1Shield absorbed the damage. Shield strength: 15
+GH*Congratulations! You've reached level 2!
+GH+Your new MaxHP: 120, Your new base AP: 20
+GH*Congratulations! You've reached level 3!
+GH+Your new MaxHP: 140, Your new base AP: 30
+GH*Congratulations! You've reached level 4!
+GH+Your new MaxHP: 160, Your new base AP: 40
+GIEquipped item: Sword
+GIBase AP: 10 Weapon AP: 20
+GI;Your Health Points (HP): 100, Your Attack Points (AP): 30
+GI-You attacked the enemy. Enemy HP is now: 20
+GJ Player took damage. New HP: 85
+GK*Congratulations! You've reached level 2!
+GK+Your new MaxHP: 120, Your new base AP: 20
+GK*Congratulations! You've reached level 3!
+GK+Your new MaxHP: 140, Your new base AP: 30
+GK*Congratulations! You've reached level 4!
+GK+Your new MaxHP: 160, Your new base AP: 40
+GK*Congratulations! You've reached level 5!
+GK+Your new MaxHP: 180, Your new base AP: 50
+GK%You have reached the maximum level!
+GK%You have reached the maximum level!
+GM10
+GMEquipped item: Sword
+GMBase AP: 10 Weapon AP: 20
+GM30
+GMUnequipped item: Sword
+GM10
+GNEquipped item: Shield
+GNHP increased by: 30
+GOEquipped item: Sword
+GOBase AP: 10 Weapon AP: 20
+GPEquipped item: Sword
+GPBase AP: 10 Weapon AP: 20
+GQUsed item: Health Potion
+GQHP increased by: 0
+GR*Congratulations! You've reached level 2!
+GR+Your new MaxHP: 120, Your new base AP: 20
+GR*Congratulations! You've reached level 3!
+GR+Your new MaxHP: 140, Your new base AP: 30
+GR*Congratulations! You've reached level 4!
+GR+Your new MaxHP: 160, Your new base AP: 40
+GSUsed item: Health Potion
+GSHP increased by: 0
