@@ -12,6 +12,7 @@ public class Game {
     private Map currentMap;
     private List<Map> maps;
     private final Player player;
+
     private GameState currentState = GameState.RUNNING;
     private Scanner scanner;
     private List<Enemy> enemies;
@@ -59,7 +60,6 @@ public class Game {
 
         // Current map
         currentMap = this.maps.get(0);
-        printCurrentMap();
     }
 
     /**
@@ -145,13 +145,6 @@ public class Game {
         scanner.close();
     }
 
-    public static void clearConsole() {
-        for (int i = 0; i < 100; i++) {
-            System.out.println();
-        }
-    }
-
-
     /**
      * Opens the player's inventory, allowing them to view and interact with their items.
      * This method displays the list of items in the player's inventory and provides
@@ -179,14 +172,15 @@ public class Game {
                 System.out.println("No items are currently equipped.");
             } else {
                 System.out.println("Equipped Items:");
-                for (int i = 0; i < equippedItems.size(); i++) {
+                for (Item equippedItem : equippedItems) {
                     String points;
-                    if (equippedItems.get(i).getType() == ItemType.WEAPON) {
+                    if (equippedItem.getType() == ItemType.WEAPON) {
                         points = "AP";
-                    } else {
+                    }
+                    else {
                         points = "HP";
                     }
-                    System.out.println(equippedItems.get(i).getName() + " +" + equippedItems.get(i).getValue() + points + "");
+                    System.out.println(equippedItem.getName() + " +" + equippedItem.getValue() + points + "");
                 }
             }
 
@@ -336,10 +330,7 @@ public class Game {
 
     /** Helper method: returns true if the given char is a movement char */
     private boolean isValidMove(char c) {
-        if (c=='w' || c=='s' || c=='a' || c=='d') {
-            return true;
-        }
-        return false;
+        return c == 'w' || c == 's' || c == 'a' || c == 'd';
     }
 
     /**
@@ -479,6 +470,11 @@ public class Game {
         }
     }
 
+    /** Private helper method to display whether the game has been
+     * won or the player lost
+     * @param state Victory or Defeat in this method
+     * @author Damian Gamlath
+     */
     private void showScreen(GameState state) {
         String filepath = "";
 
@@ -500,11 +496,12 @@ public class Game {
 
     }
 
-    // Getters mainly for testing purposes
+    /** Getter mainly for testing purposes */
     public Map getCurrentMap() {
         return currentMap;
     }
 
+    /** Getting mainly for testing purposes */
     public Player getPlayer() {
         return player;
     }
@@ -516,11 +513,13 @@ public class Game {
      */
     public static void main(String[] args) throws Exception {
 
-        if (Objects.nonNull(args) && args.length>0)
+        if (Objects.nonNull(args) && args.length>0) {
             new Game(args[0]).start();
-        else
+        }
+        else {
             GlobalConstants.setConfigFilePath("assets/game-config.json");
             new Game("assets/game-config.json").start();
+        }
     }
 
     // For pausing/unpausing and completion/defeat of the game
