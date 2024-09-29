@@ -1,13 +1,18 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /** Player class is a specific type of Entity */
 public class Player extends Entity {
-    private int ap;  // Attack Power
-    private int hp;  // Health Points
+    private int ap;                 // Attack points
+    private int hp;                 // Health Points
+    private int maxHp;
     private Inventory inventory;
-    private Item equippedItem;
     private HashMap<ItemType, Item> equippedItems;
+    private int level;              // Player level
+    private int enemiesDefeated;    // Count of defeated enemies
 
     /**
      * Constructor
@@ -18,26 +23,34 @@ public class Player extends Entity {
      * @param ap     the player's initial attack points.
      * @param hp     the player's initial health points.
      */
-    public Player(int startX, int startY, char symbol, int ap, int hp) {
+    public Player(int startX, int startY, char symbol, int ap, int hp, int level) {
         super(startX, startY, symbol);
         this.ap = ap;
         this.hp = hp;
+        this.maxHp = hp;
         this.inventory = new Inventory();
         this.equippedItems = new HashMap<>();
-
+        this.level = level; // Initial level
+        this.enemiesDefeated = 0;
     }
 
     /**
-     * Retrieves the player's attack points (AP).
+     * Retrieves total (base + weapon) player attack points (ap)
+     *
+     * @author Rifang Zhou
      *
      * @return the player's current attack points.
      */
     public int getAP() {
-        return ap;
+        return ap +
+            (getEquippedWeapon()!=null ?
+                    getEquippedWeapon().getValue() : 0);
     }
 
     /**
      * Retrieves the player's health points (HP).
+     *
+     * @author Rifang Zhou
      *
      * @return the player's current health points.
      */
@@ -48,6 +61,8 @@ public class Player extends Entity {
     /**
      * Sets the player's attack points (AP).
      *
+     *@author Rifang Zhou
+     *
      * @param ap the new attack points to set for the player.
      */
     public void setAP(int ap) {
@@ -57,27 +72,61 @@ public class Player extends Entity {
     /**
      * Sets the player's health points (HP).
      *
+     * @author Rifang Zhou
+     *
      * @param hp the new health points to set for the player.
      */
     public void setHP(int hp) {
         this.hp = hp;
     }
 
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public String toStringHP() {
+        return "Health: " + getHP() + " / " + getMaxHp();
+    }
 
     /**
-     * Updates the player's position on the map by setting the x and y coordinates.
+     * Provides a string of player health, attack and level
+     * @return e.g. "Health: 100/100, Attack: 15, Level: 1/5"
+     */
+    public String displayStats() {
+        return "Health: " + getHP() + "/" + getMaxHp() +
+                ", Attack: " + getAP() +
+                ", Level: " + getLevel() + "/" + GlobalConstants.PLAYER_MAX_LEVEL;
+    }
+
+    /**
+     * Provides a string of all equipped items and their AP/HP values
+     * @return e.g. "Equipped: Longsword (+35), Wood shield (+10)
+     */
+    public String displayEquippedItems() {
+        if (equippedItems.isEmpty())
+            return "";
+
+        return "Equipped: " + equippedItems.values().stream()
+                .map(item -> item.name + " (+" + item.getValue() + ")")
+                .collect(Collectors.joining(", "));
+    }
+
+    /**
+     * Sets the position of the entity in the game world by updating its x and y coordinates.
+     * This method calls the appropriate setter methods to change the entity's position.
      *
-     * @param x the new x-coordinate to set for the player.
-     * @param y the new y-coordinate to set for the player.
+     * @author Rifang Zhou
+     *
+     * @param x the new x-coordinate of the entity
+     * @param y the new y-coordinate of the entity
      */
     public void setPosition(int x, int y) {
         setX(x);
         setY(y);
-    }
-
-    public void useHealthPotion(Item item) {
-        hp += item.getValue();      // TODO consider adding a max-health and increase hp up to that number?
-        getInventory().removeItem(item);
     }
 
     public void receiveItem(Item item) {
@@ -85,38 +134,81 @@ public class Player extends Entity {
     }
 
     /**
-     * Attacks the enemy by reducing its HP based on the player's AP.
-     * Displays the player's HP, AP, and the enemy's updated HP after the attack.
+     * Executes an attack on the specified enemy. This method applies damage to the enemy,
+     * prints the player's current health and attack points, and checks if the enemy has
+     * been defeated. If the enemy's health points (HP) drop to zero or below, the player
+     * is notified of the defeat, and the number of defeated enemies is tracked.
+     * Additionally, the method checks if the player is eligible to level up based on the
+     * number of enemies defeated.
      *
-     * @param enemy the enemy being attacked by the player.
+     * @author Rifang Zhou
+     *
+     * @param enemy the enemy that the player is attacking
      */
     public void attack(Enemy enemy) {
         enemy.getAttacked(this);
-        System.out.println("Your Health Points (HP): " + hp + ", Your Attack Points (AP): " + ap);
+        System.out.println("Your Health Points (HP): " + getHP() + ", Your Attack Points (AP): " + getAP());
         System.out.println("You attacked the enemy. Enemy HP is now: " + enemy.getHP());
+
+        if (enemy.getHP() <= 0) {
+            enemiesDefeated++;
+            System.out.println("You defeated an enemy!");
+
+            // Check if it's time to level up
+            int enemiesRequiredForNextLevel = (level + 1); // Level 1 requires 2 enemies, level 2 requires 3, and so on.
+
+            if (enemiesDefeated >= enemiesRequiredForNextLevel) {
+                levelUp();
+                enemiesDefeated = 0; // Reset defeated enemies count for the next level
+            }
+        }
     }
 
     /**
-     * Calculates damage taken from the given Enemy after an attack
+     * Handles the player's response to an attack from an enemy. This method calculates
+     * the damage the player takes based on the enemy's attack points (AP) and the
+     * player's equipped shield (if any). If the shield can absorb the damage, it is
+     * reduced accordingly. If the shield is destroyed, the remaining damage is applied
+     * to the player's health points (HP).
+     *
+     * @author Rifang Zhou
+     *
+     * @param enemy the enemy that is attacking the player
      */
     public void getAttacked(Enemy enemy) {
-        int newHp = hp - enemy.getAP();     // todo consider applying damage resistance?
-        hp = Math.max(newHp, 0);
-    }
+        Item shield = getEquippedShield();
 
+        // Total damage the player is going to take
+        int totalDamage = enemy.getAP();
 
-    /**
-     * Initializes the player's inventory with a set of predefined items.
-     * This method is typically called during game setup to populate the
-     * inventory with starter items. Additional items can be added manually
-     * or loaded from an external source.
-     * <p>
-     * Currently adds the following example items:
-     * - Health Potion
-     * - Sword
-     */
-    public void initInventory() {
-        // Todo: Remove this method?
+        if (shield != null) {
+            int shieldValue = shield.getValue();
+
+            // Calculate damage absorbed by the shield
+            if (shieldValue >= totalDamage) {
+                // Shield absorbs all the damage
+                shield.setValue(shieldValue - totalDamage);
+                System.out.println("Shield absorbed the damage. Shield strength: " + shield.getValue());
+            } else {
+                // Shield is destroyed, taking full damage
+                totalDamage -= shieldValue;
+                shield.setValue(0); // Set shield value to 0, it’s broken now
+                System.out.println("Shield is broken. Remaining damage: " + totalDamage);
+
+                // Apply remaining damage to player's health
+                int newHp = this.hp - totalDamage;
+                this.setHP(Math.max(newHp, 0));
+
+                System.out.println("Player took damage. New HP: " + this.hp);
+
+            }
+        } else {
+            // Apply remaining damage to player's health
+            int newHp = this.hp - totalDamage;
+            this.setHP(Math.max(newHp, 0));
+
+            System.out.println("Player took damage. New HP: " + this.hp);
+        }
     }
 
     /**
@@ -158,7 +250,7 @@ public class Player extends Entity {
 
                 // If there's already an item of this type equipped, unequip it first
                 if (equippedItems.containsKey(itemType)) {
-                    unequipItem(itemType);
+                    unequipItem(item);
                 }
 
                 // Equip the new item
@@ -166,7 +258,7 @@ public class Player extends Entity {
                 item.setEquipped(true); // Assuming setEquipped(true) marks the item as equipped
                 System.out.println("Equipped item: " + item.getName());
                 if (item.getType() == ItemType.WEAPON) {
-                    System.out.println("AP increased by: " + item.getValue());
+                    System.out.println("Base AP: " + ap + " Weapon AP: " + item.getValue());
                 }
                 else if (item.getType() == itemType.SHIELD) {
                     System.out.println("HP increased by: " + item.getValue());
@@ -185,16 +277,16 @@ public class Player extends Entity {
      * If such an item is found, it will be removed from the equipped items list and marked as unequipped.
      * If no item of the specified type is equipped, a message is displayed indicating this.
      *
-     * @param itemType The type of item to unequip (e.g., WEAPON, SHIELD).
+     * @param item The item to unequip (e.g., WEAPON, SHIELD).
      *                 The itemType must correspond to a type of item that can be equipped by the player.
      */
-    public void unequipItem(ItemType itemType) {
+    public void unequipItem(Item item) {
+        ItemType itemType = item.getType();
         if (equippedItems.containsKey(itemType)) {
             Item unequippedItem = equippedItems.remove(itemType);
-            unequippedItem.setEquipped(false); // Assuming setEquipped(false) marks the item as unequipped
+            unequippedItem.setEquipped(false);
             System.out.println("Unequipped item: " + unequippedItem.getName());
-        }
-        else {
+        } else {
             System.out.println("No item of type " + itemType + " is currently equipped.");
         }
     }
@@ -220,12 +312,80 @@ public class Player extends Entity {
 
         switch (item.getType()) {
             case HEALTHPOTION:
-                System.out.println("Used item: " + item.getName());
+                int oldHp = hp;
                 hp += item.getValue();
-                System.out.println("HP increased by: " + item.getValue());
+                hp = Math.min(hp, maxHp);
+                inventory.removeItem(item);
+                System.out.println("Used item: " + item.getName());
+                System.out.println("HP increased by: " + (hp - oldHp));
                 break;
             default:
                 System.out.println("can't use item: " + item.getName());
         }
     }
+
+    /**
+     * Retrieves the list of items that are currently equipped by the player.
+     * This method returns a list of items that are equipped, including weapons and shields.
+     *
+     * @return a list of equipped items.
+     */
+    public List<Item> getEquippedItems() {
+        return new ArrayList<>(equippedItems.values());
+    }
+
+    /**
+     * Retrieves the equipped shield for the player.
+     * @return the equipped shield item, or null if no shield is equipped.
+     */
+    public Item getEquippedShield() {
+        return equippedItems.get(ItemType.SHIELD);
+    }
+
+    public Item getEquippedWeapon() {return equippedItems.get(ItemType.WEAPON); }
+
+    /**
+     * Represents a player in the game with attributes for level, health points (HP),
+     * and attack points (AP). This class provides methods to get the current level,
+     * level up the player, and retrieve the number of defeated enemies.
+     *
+     * @author Rifang Zhou
+     *
+     * @return the current level of the player
+     */
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * Increases the player's level by 1, while also updating the player's
+     * maximum HP and AP based on predefined constants. Prints a congratulatory
+     * message upon leveling up. If the player is already at the maximum level,
+     * a message is displayed indicating that the maximum level has been reached.
+     *
+     * @author Rifang Zhou
+     */
+    public void levelUp() {
+        if (level < GlobalConstants.PLAYER_MAX_LEVEL) {
+            level++;
+            maxHp   += GlobalConstants.PLAYER_HP_INCREASE_PER_LEVEL; // Increase base HP by 20
+            ap      += GlobalConstants.PLAYER_AP_INCREASE_PER_LEVEL;    // Increase base AP by 10
+            System.out.println("Congratulations! You've reached level " + level + "!");
+            System.out.println("Your new MaxHP: " + maxHp + ", Your new AP: " + ap);
+        } else {
+            System.out.println("You have reached the maximum level!"); // Print message if level is already max
+        }
+    }
+
+    /**
+     * Returns the number of enemies that have been defeated by the player.
+     *
+     * @author Rifang Zhou
+     *
+     * @return the number of enemies defeated
+     */
+    public int getEnemiesDefeated() {
+        return enemiesDefeated;
+    }
 }
+
