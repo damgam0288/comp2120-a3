@@ -247,6 +247,8 @@ public class Map {
      * Removes a specified entity from the map and resets the tile where it was located.
      * After removing the entity, the tile it occupied is set back to a default state,
      *
+     * @author Rifang Zhou
+     *
      * @param e The entity to be removed from the map.
      */
     public boolean removeEntity(Entity e) {
