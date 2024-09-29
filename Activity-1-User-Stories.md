@@ -27,21 +27,21 @@ As a designer, I want to define the generation points of enemies in the game con
 
 # User stories for Additional Feature 1: Play/Pause
 
-As a player, I want to be able to pause the game, so that I can leave the computer and know my progress will not change.
-As a player, I want to be able to unpause the game, so that when the game is in a paused state I can continue playing where I left off.
+As a player, I want to be able to pause the game, so that I can leave the computer and know my progress will not change.<br>
+As a player, I want to be able to unpause the game, so that when the game is in a paused state I can continue playing where I left off.<br>
 
-As a designer, I want the paused game state to change, to clearly indicate when the game is paused and expecting a particular input to continue.
+As a designer, I want the paused game state to change, to clearly indicate when the game is paused and expecting a particular input to continue.<br>
 
 # User stories for Additional Feature 2: Character Levels
 
-As a player, I want to be able to level up my character, so that I can play the game and progess the way that I want to.
-As a player, I want to be able to achieve all in-game achievements, so that I can feel a sense of full completion and mastery of the game.
+As a player, I want to be able to level up my character, so that I can play the game and progess the way that I want to.<br>
+As a player, I want to be able to achieve all in-game achievements, so that I can feel a sense of full completion and mastery of the game.<br>
 
-As a designer, I want to add extra motives to the game, so that the player has a choice to their progression.
+As a designer, I want to add extra motives to the game, so that the player has a choice to their progression.<br>
 
 # User stories for Additional Feature 3: Inventory
-As a player, I want to be able to choose what items in my invenotry I want to equip, so that I can interact with enemies the way that I want.
-As a player, I want to be able to store items in an inventory, so that I can use items later on in the game.
+As a player, I want to be able to choose what items in my invenotry I want to equip, so that I can interact with enemies the way that I want.<br>
+As a player, I want to be able to store items in an inventory, so that I can use items later on in the game.<br>
 
-As a designer, I want the player's inventory to be capped, so that it creates more strategy around what items the player chooses to pick up.
-As a designer, I want the items in the inventory to be useful and different in some way, so that there is a reason for the player to choose which items to use and pick up throughout the game.
+As a designer, I want the player's inventory to be capped, so that it creates more strategy around what items the player chooses to pick up.<br>
+As a designer, I want the items in the inventory to be useful and different in some way, so that there is a reason for the player to choose which items to use and pick up throughout the game.<br>
