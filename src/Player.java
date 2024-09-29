@@ -188,12 +188,12 @@ public class Player extends Entity {
             if (shieldValue >= totalDamage) {
                 // Shield absorbs all the damage
                 shield.setValue(shieldValue - totalDamage);
-                System.out.println("Shield absorbed the damage. Shield strength: " + shield.getValue());
+                System.out.println(shield.getName() + " absorbed the damage. " + shield.getName() + " strength: " + shield.getValue());
             } else {
                 // Shield is destroyed, taking full damage
                 totalDamage -= shieldValue;
                 shield.setValue(0); // Set shield value to 0, it’s broken now
-                System.out.println("Shield is broken. Remaining damage: " + totalDamage);
+                System.out.println(shield.getName() +  " is broken. Remaining damage: " + totalDamage);
 
                 // Apply remaining damage to player's health
                 int newHp = this.hp - totalDamage;
