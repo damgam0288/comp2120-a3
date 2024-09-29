@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ObjectLoaderTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-09-29T12:51:14" hostname="DESKTOP-1TV7L6O" time="0.034">
+<testsuite name="ObjectLoaderTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-09-29T13:39:01" hostname="MacBook-Air-2.gateway" time="0.007">
   <properties/>
-  <testcase name="itemLoaderItemNotFound" classname="ObjectLoaderTest" time="0.027"/>
-  <testcase name="abstractLoaderBadKeyString" classname="ObjectLoaderTest" time="0.002"/>
-  <testcase name="itemLoaderReturnsCorrectItem" classname="ObjectLoaderTest" time="0.001"/>
-  <testcase name="abstractLoaderNoFileException" classname="ObjectLoaderTest" time="0.002"/>
-  <testcase name="abstractLoaderNoMatchingTargetString" classname="ObjectLoaderTest" time="0.001"/>
-  <testcase name="abstractLoaderNoMatchingArrayString" classname="ObjectLoaderTest" time="0.001"/>
+  <testcase name="itemLoaderItemNotFound" classname="ObjectLoaderTest" time="0.005"/>
+  <testcase name="abstractLoaderBadKeyString" classname="ObjectLoaderTest" time="0.001"/>
+  <testcase name="itemLoaderReturnsCorrectItem" classname="ObjectLoaderTest" time="0.0"/>
+  <testcase name="abstractLoaderNoFileException" classname="ObjectLoaderTest" time="0.001"/>
+  <testcase name="abstractLoaderNoMatchingTargetString" classname="ObjectLoaderTest" time="0.0"/>
+  <testcase name="abstractLoaderNoMatchingArrayString" classname="ObjectLoaderTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="LevelUpTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-09-29T12:51:14" hostname="DESKTOP-1TV7L6O" time="0.003">
+<testsuite name="LevelUpTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-09-29T13:39:01" hostname="MacBook-Air-2.gateway" time="0.001">
   <properties/>
-  <testcase name="testPlayerLevelUp" classname="LevelUpTest" time="0.002"/>
+  <testcase name="testPlayerLevelUp" classname="LevelUpTest" time="0.001"/>
   <testcase name="testPlayerLevelUpAtMaxLevel" classname="LevelUpTest" time="0.0"/>
-  <testcase name="testEnemyLevelUp" classname="LevelUpTest" time="0.001"/>
+  <testcase name="testEnemyLevelUp" classname="LevelUpTest" time="0.0"/>
   <system-out><![CDATA[Congratulations! You've reached level 2!
 Your new MaxHP: 70, Your new base AP: 20
 You have reached the maximum level!

@@ -13,7 +13,20 @@ dependencies {
 }
 
 application {
+    // Specify the main class of your application
     mainClass.set('Game')
+}
+
+// Configure the JAR task to include the main class in the manifest
+jar {
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass.get()
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 test {
@@ -39,4 +52,3 @@ sourceSets {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
-

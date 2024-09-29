@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="PlayerTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2024-09-29T12:51:14" hostname="DESKTOP-1TV7L6O" time="0.02">
+<testsuite name="PlayerTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2024-09-29T13:39:01" hostname="MacBook-Air-2.gateway" time="0.007">
   <properties/>
-  <testcase name="testGetAttackedWithShield" classname="PlayerTest" time="0.006"/>
-  <testcase name="testMaxHPIncreasesButNotCurrentHPOnLevelUp" classname="PlayerTest" time="0.001"/>
+  <testcase name="testGetAttackedWithShield" classname="PlayerTest" time="0.003"/>
+  <testcase name="testMaxHPIncreasesButNotCurrentHPOnLevelUp" classname="PlayerTest" time="0.0"/>
   <testcase name="testAttackEnemy" classname="PlayerTest" time="0.001"/>
   <testcase name="testGetAttackedWithoutShield" classname="PlayerTest" time="0.0"/>
-  <testcase name="testDoesNotGoPastMaxLevel" classname="PlayerTest" time="0.006"/>
+  <testcase name="testDoesNotGoPastMaxLevel" classname="PlayerTest" time="0.001"/>
   <testcase name="testInitialPlayerStats" classname="PlayerTest" time="0.0"/>
-  <testcase name="testUnequipItem" classname="PlayerTest" time="0.001"/>
+  <testcase name="testUnequipItem" classname="PlayerTest" time="0.0"/>
   <testcase name="testEquipItem_shield" classname="PlayerTest" time="0.0"/>
   <testcase name="testEquipItem_weapon" classname="PlayerTest" time="0.0"/>
-  <testcase name="testAPWithAndWithoutWeapon" classname="PlayerTest" time="0.002"/>
-  <testcase name="testHealthDoesNotExceedMaxHP" classname="PlayerTest" time="0.001"/>
+  <testcase name="testAPWithAndWithoutWeapon" classname="PlayerTest" time="0.0"/>
+  <testcase name="testHealthDoesNotExceedMaxHP" classname="PlayerTest" time="0.0"/>
   <testcase name="testAPIsCorrectAfterLevelUp" classname="PlayerTest" time="0.001"/>
   <testcase name="testUseHealthPotionIncreasesHP" classname="PlayerTest" time="0.0"/>
   <system-out><![CDATA[Equipped item: Shield

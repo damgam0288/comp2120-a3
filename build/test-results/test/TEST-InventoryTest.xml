@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="InventoryTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2024-09-29T12:51:14" hostname="DESKTOP-1TV7L6O" time="0.026">
+<testsuite name="InventoryTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2024-09-29T13:39:01" hostname="MacBook-Air-2.gateway" time="0.002">
   <properties/>
   <testcase name="testNullSafetyInGetEquippedItems" classname="InventoryTest" time="0.0"/>
-  <testcase name="testAddItem" classname="InventoryTest" time="0.008"/>
+  <testcase name="testAddItem" classname="InventoryTest" time="0.0"/>
   <testcase name="testRemoveItem1" classname="InventoryTest" time="0.0"/>
-  <testcase name="testAddItem1" classname="InventoryTest" time="0.001"/>
-  <testcase name="testGetItem" classname="InventoryTest" time="0.012"/>
-  <testcase name="testRemoveItem" classname="InventoryTest" time="0.002"/>
+  <testcase name="testAddItem1" classname="InventoryTest" time="0.0"/>
+  <testcase name="testGetItem" classname="InventoryTest" time="0.0"/>
+  <testcase name="testRemoveItem" classname="InventoryTest" time="0.0"/>
   <testcase name="testGetEquippedItems" classname="InventoryTest" time="0.0"/>
   <testcase name="testGetUnequippedItems" classname="InventoryTest" time="0.001"/>
   <testcase name="testGetEquippedItemsWhenEmpty" classname="InventoryTest" time="0.0"/>

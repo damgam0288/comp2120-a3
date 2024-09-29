@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MapTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2024-09-29T12:51:14" hostname="DESKTOP-1TV7L6O" time="0.272">
+<testsuite name="MapTest" tests="25" skipped="0" failures="0" errors="0" timestamp="2024-09-29T13:39:01" hostname="MacBook-Air-2.gateway" time="0.024">
   <properties/>
-  <testcase name="testEntityOnCentreObstacle" classname="MapTest" time="0.008"/>
-  <testcase name="testEntityOutOfBoundsX" classname="MapTest" time="0.018"/>
-  <testcase name="testEntityOutOfBoundsY" classname="MapTest" time="0.024"/>
-  <testcase name="testMovePlayerAndRedrawMap" classname="MapTest" time="0.008"/>
-  <testcase name="testVeryTallMapThrowsError" classname="MapTest" time="0.01"/>
-  <testcase name="testDrawPlainMapCorrectly" classname="MapTest" time="0.007"/>
-  <testcase name="testBoundaryStopsPlayerMovingTooFarVertically" classname="MapTest" time="0.016"/>
-  <testcase name="testFileDoesNotExistThrowsException" classname="MapTest" time="0.003"/>
+  <testcase name="testEntityOnCentreObstacle" classname="MapTest" time="0.001"/>
+  <testcase name="testEntityOutOfBoundsX" classname="MapTest" time="0.001"/>
+  <testcase name="testEntityOutOfBoundsY" classname="MapTest" time="0.001"/>
+  <testcase name="testMovePlayerAndRedrawMap" classname="MapTest" time="0.001"/>
+  <testcase name="testVeryTallMapThrowsError" classname="MapTest" time="0.001"/>
+  <testcase name="testDrawPlainMapCorrectly" classname="MapTest" time="0.001"/>
+  <testcase name="testBoundaryStopsPlayerMovingTooFarVertically" classname="MapTest" time="0.004"/>
+  <testcase name="testFileDoesNotExistThrowsException" classname="MapTest" time="0.0"/>
   <testcase name="testSetAndRetrieveGridTile" classname="MapTest" time="0.001"/>
-  <testcase name="testEntityOnLeftWall" classname="MapTest" time="0.007"/>
-  <testcase name="testBoundaryPreventsPlayerFromMovingTooFarHorizontally" classname="MapTest" time="0.01"/>
-  <testcase name="testVeryNarrowMapThrowsError" classname="MapTest" time="0.004"/>
-  <testcase name="testVeryWideMapThrowsError" classname="MapTest" time="0.008"/>
-  <testcase name="testEntityOnTopWall" classname="MapTest" time="0.01"/>
-  <testcase name="testNullPlayerThrowsException" classname="MapTest" time="0.007"/>
-  <testcase name="testMovePlayerWithinMap" classname="MapTest" time="0.021"/>
-  <testcase name="testDrawMapWithPlayer" classname="MapTest" time="0.011"/>
-  <testcase name="testVeryShortMapThrowsError" classname="MapTest" time="0.033"/>
-  <testcase name="testEntityOnRightWall" classname="MapTest" time="0.026"/>
-  <testcase name="testEntityIllegalX" classname="MapTest" time="0.004"/>
-  <testcase name="testEntityIllegalY" classname="MapTest" time="0.008"/>
-  <testcase name="testDrawEntitiesCorrectly" classname="MapTest" time="0.003"/>
-  <testcase name="testEntityOnBottomWall" classname="MapTest" time="0.003"/>
-  <testcase name="testEntitiesOverlapping" classname="MapTest" time="0.009"/>
-  <testcase name="testAddAndRemoveEntity" classname="MapTest" time="0.003"/>
+  <testcase name="testEntityOnLeftWall" classname="MapTest" time="0.0"/>
+  <testcase name="testBoundaryPreventsPlayerFromMovingTooFarHorizontally" classname="MapTest" time="0.0"/>
+  <testcase name="testVeryNarrowMapThrowsError" classname="MapTest" time="0.001"/>
+  <testcase name="testVeryWideMapThrowsError" classname="MapTest" time="0.001"/>
+  <testcase name="testEntityOnTopWall" classname="MapTest" time="0.001"/>
+  <testcase name="testNullPlayerThrowsException" classname="MapTest" time="0.0"/>
+  <testcase name="testMovePlayerWithinMap" classname="MapTest" time="0.001"/>
+  <testcase name="testDrawMapWithPlayer" classname="MapTest" time="0.001"/>
+  <testcase name="testVeryShortMapThrowsError" classname="MapTest" time="0.001"/>
+  <testcase name="testEntityOnRightWall" classname="MapTest" time="0.001"/>
+  <testcase name="testEntityIllegalX" classname="MapTest" time="0.001"/>
+  <testcase name="testEntityIllegalY" classname="MapTest" time="0.001"/>
+  <testcase name="testDrawEntitiesCorrectly" classname="MapTest" time="0.0"/>
+  <testcase name="testEntityOnBottomWall" classname="MapTest" time="0.001"/>
+  <testcase name="testEntitiesOverlapping" classname="MapTest" time="0.0"/>
+  <testcase name="testAddAndRemoveEntity" classname="MapTest" time="0.001"/>
   <system-out><![CDATA[##########
 #........#
 #...P....#

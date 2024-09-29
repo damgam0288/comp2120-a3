@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="EntityInteractionTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-09-29T12:51:14" hostname="DESKTOP-1TV7L6O" time="0.047">
+<testsuite name="EntityInteractionTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-09-29T13:39:01" hostname="MacBook-Air-2.gateway" time="0.019">
   <properties/>
-  <testcase name="testInteractWithItem" classname="EntityInteractionTest" time="0.03"/>
-  <testcase name="testEnemyAttackPlayer" classname="EntityInteractionTest" time="0.01"/>
+  <testcase name="testInteractWithItem" classname="EntityInteractionTest" time="0.012"/>
+  <testcase name="testEnemyAttackPlayer" classname="EntityInteractionTest" time="0.004"/>
   <testcase name="testEnemyGetAttackedByPlayer" classname="EntityInteractionTest" time="0.0"/>
-  <testcase name="testPlayerHealthCannotGoBelowZero" classname="EntityInteractionTest" time="0.001"/>
-  <testcase name="testInteractWithoutItem" classname="EntityInteractionTest" time="0.002"/>
+  <testcase name="testPlayerHealthCannotGoBelowZero" classname="EntityInteractionTest" time="0.0"/>
+  <testcase name="testInteractWithoutItem" classname="EntityInteractionTest" time="0.0"/>
   <testcase name="testPlayerGetAttacked" classname="EntityInteractionTest" time="0.0"/>
-  <testcase name="testPlayerAttackEnemy" classname="EntityInteractionTest" time="0.001"/>
-  <testcase name="testMultipleInteractionsWithNPC" classname="EntityInteractionTest" time="0.003"/>
+  <testcase name="testPlayerAttackEnemy" classname="EntityInteractionTest" time="0.0"/>
+  <testcase name="testMultipleInteractionsWithNPC" classname="EntityInteractionTest" time="0.001"/>
   <system-out><![CDATA[NPC: Here's something to help! weapon2
 Enemy's Health Points (HP): 20, Enemy's Attack Points (AP): 5
 Player took damage. New HP: 45
