@@ -8,4 +8,5 @@ public class GlobalConstants {
     public static final int PLAYER_MAX_LEVEL = 5;
     public static final int PLAYER_HP_INCREASE_PER_LEVEL = 20;
     public static final int PLAYER_AP_INCREASE_PER_LEVEL = 10;
+    public static final String PATH_TO_CONFIG_FILE = "assets/game-config.json";
 }
