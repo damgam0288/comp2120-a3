@@ -31,7 +31,7 @@
   "levels": [
     {
       "name": "map1",
-      "filepath": "assets/map1.json",
+      "filepath": "tests/resources/test-map-1.json",
       "npcs": [
         { "name": "npc1", "startx": 5, "starty": 1, "char": "1", "item": "weapon2" },
         { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "shield1" },
@@ -45,7 +45,7 @@
     },
     {
       "name": "map2",
-      "filepath": "assets/map2.json",
+      "filepath": "tests/resources/test-map-2.json",
       "npcs": [
         { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "shield2" },
         { "name": "npc2", "startx": 4, "starty": 4, "char": "2", "item": "shield3" },

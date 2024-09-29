@@ -1,6 +1,6 @@
 {
   "player": {
-    "startx": 1,
+    "startx": 18,
     "starty": 1,
     "symbol": "P",
     "ap": 15,
@@ -9,52 +9,76 @@
   },
 
   "items": [
-    {"name": "weapon1", "type": "weapon", "value": 10},
-    {"name": "weapon2", "type": "weapon", "value": 20},
-    {"name": "weapon3", "type": "weapon", "value": 30},
-    {"name": "weapon4", "type": "weapon", "value": 40},
-    {"name": "weapon5", "type": "weapon", "value": 50},
 
-    {"name": "shield1", "type": "shield", "value": 10},
-    {"name": "shield2", "type": "shield", "value": 20},
-    {"name": "shield3", "type": "shield", "value": 30},
-    {"name": "shield4", "type": "shield", "value": 40},
-    {"name": "shield5", "type": "shield", "value": 50},
+    {"name": "glass shard", "type": "weapon", "value": 10},
+    {"name": "wooden bat", "type": "weapon", "value": 20},
+    {"name": "knife", "type": "weapon", "value": 30},
+    {"name": "sword", "type": "weapon", "value": 40},
+    {"name": "handgun", "type": "weapon", "value": 50},
 
-    {"name": "healthpotion1", "type": "healthpotion", "value": 10},
-    {"name": "healthpotion2", "type": "healthpotion", "value": 20},
-    {"name": "healthpotion3", "type": "healthpotion", "value": 30},
-    {"name": "healthpotion4", "type": "healthpotion", "value": 40},
-    {"name": "healthpotion5", "type": "healthpotion", "value": 50}
+    {"name": "gloves", "type": "shield", "value": 10},
+    {"name": "armoured vest", "type": "shield", "value": 20},
+    {"name": "wooden shield", "type": "shield", "value": 30},
+    {"name": "armoured bodysuit", "type": "shield", "value": 40},
+    {"name": "reinforced shield", "type": "shield", "value": 50},
+
+    {"name": "small healing herbs", "type": "healthpotion", "value": 10},
+    {"name": "antiseptic", "type": "healthpotion", "value": 20},
+    {"name": "bandages", "type": "healthpotion", "value": 30},
+    {"name": "med kit", "type": "healthpotion", "value": 40},
+    {"name": "refined medicine", "type": "healthpotion", "value": 50}
   ],
 
   "levels": [
+
     {
       "name": "map1",
       "filepath": "assets/map1.json",
       "npcs": [
-        { "name": "npc1", "startx": 5, "starty": 1, "char": "1", "item": "weapon2" },
-        { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "shield1" },
-        { "name": "npc2", "startx": 3, "starty": 1, "char": "2", "item": "shield2" }
+        { "name": "npc1", "startx": 2, "starty": 1, "char": "G", "item": "glass shard" },
+        { "name": "npc2", "startx": 8, "starty": 4, "char": "Q", "item": "gloves" }
       ],
       "enemies": [
-        { "startx": 2, "starty": 1, "char": "E", "ap": 10, "hp": 20 },
-        { "startx": 2, "starty": 2, "char": "E", "ap": 10, "hp": 20 },
-        { "startx": 2, "starty": 3, "char": "E", "ap": 10, "hp": 20 }
+        { "startx": 2, "starty": 6, "char": "E", "ap": 10, "hp": 50 }
       ]
     },
     {
       "name": "map2",
       "filepath": "assets/map2.json",
       "npcs": [
-        { "name": "npc2", "startx": 4, "starty": 1, "char": "2", "item": "shield2" },
-        { "name": "npc2", "startx": 4, "starty": 4, "char": "2", "item": "shield3" },
-        { "name": "npc2", "startx": 5, "starty": 4, "char": "2", "item": "weapon3" }
+        { "name": "npc2", "startx": 1, "starty": 1, "char": "D", "item": "armoured vest" },
+        { "name": "npc2", "startx": 7, "starty": 3, "char": "H", "item": "small healing herbs" },
+        { "name": "npc2", "startx": 20, "starty": 1, "char": "@", "item": "" }
       ],
       "enemies": [
-        { "startx": 2, "starty": 1, "char": "E", "ap": 10, "hp": 20 },
-        { "startx": 2, "starty": 2, "char": "E", "ap": 10, "hp": 20 },
-        { "startx": 2, "starty": 3, "char": "E", "ap": 10, "hp": 20 }
+        { "startx": 5, "starty": 6, "char": "E", "ap": 10, "hp": 40 },
+        { "startx": 7, "starty": 6, "char": "E", "ap": 10, "hp": 40 }
+      ]
+    },
+    {
+      "name": "map3",
+      "filepath": "assets/map3.json",
+      "npcs": [
+        { "name": "npc2", "startx": 1, "starty": 5, "char": "K", "item": "med kit" },
+        { "name": "npc2", "startx": 2, "starty": 6, "char": "L", "item": "armoured bodysuit" },
+        { "name": "npc2", "startx": 3, "starty": 5, "char": "Z", "item": "sword" }
+      ],
+      "enemies": [
+        { "startx": 7, "starty": 1, "char": "E", "ap": 50, "hp": 40 },
+        { "startx": 9, "starty": 3, "char": "E", "ap": 30, "hp": 100 }
+      ]
+    },
+    {
+      "name": "map4",
+      "filepath": "assets/map4.json",
+      "npcs": [
+        { "name": "npc2", "startx": 4, "starty": 4, "char": "N", "item": "handgun" },
+        { "name": "npc2", "startx": 6, "starty": 4, "char": "J", "item": "refined medicine" },
+        { "name": "npc2", "startx": 3, "starty": 5, "char": "C", "item": "reinforced shield" }
+      ],
+      "enemies": [
+        { "startx": 12, "starty": 2, "char": "E", "ap": 60, "hp": 200 },
+        { "startx": 12, "starty": 4, "char": "E", "ap": 85, "hp": 100 }
       ]
     }
   ]

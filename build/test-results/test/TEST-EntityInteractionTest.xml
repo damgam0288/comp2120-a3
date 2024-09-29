@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="EntityInteractionTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2024-09-29T12:51:14" hostname="DESKTOP-1TV7L6O" time="0.047">
+  <properties/>
+  <testcase name="testInteractWithItem" classname="EntityInteractionTest" time="0.03"/>
+  <testcase name="testEnemyAttackPlayer" classname="EntityInteractionTest" time="0.01"/>
+  <testcase name="testEnemyGetAttackedByPlayer" classname="EntityInteractionTest" time="0.0"/>
+  <testcase name="testPlayerHealthCannotGoBelowZero" classname="EntityInteractionTest" time="0.001"/>
+  <testcase name="testInteractWithoutItem" classname="EntityInteractionTest" time="0.002"/>
+  <testcase name="testPlayerGetAttacked" classname="EntityInteractionTest" time="0.0"/>
+  <testcase name="testPlayerAttackEnemy" classname="EntityInteractionTest" time="0.001"/>
+  <testcase name="testMultipleInteractionsWithNPC" classname="EntityInteractionTest" time="0.003"/>
+  <system-out><![CDATA[NPC: Here's something to help! weapon2
+Enemy's Health Points (HP): 20, Enemy's Attack Points (AP): 5
+Player took damage. New HP: 45
+Enemy attacked you! Your HP is now: 45
+Enemy's Health Points (HP): 20, Enemy's Attack Points (AP): 5
+Player took damage. New HP: 40
+Enemy attacked you! Your HP is now: 40
+Player took damage. New HP: 45
+Player took damage. New HP: 40
+Player took damage. New HP: 35
+Player took damage. New HP: 30
+Player took damage. New HP: 25
+NPC: Good luck out there!
+Player took damage. New HP: 45
+Player took damage. New HP: 40
+Your Health Points (HP): 50, Your Attack Points (AP): 10
+You attacked the enemy. Enemy HP is now: 10
+Your Health Points (HP): 50, Your Attack Points (AP): 10
+You attacked the enemy. Enemy HP is now: 0
+You defeated an enemy!
+NPC: Here's something to help! weapon2
+NPC: Good luck out there!
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

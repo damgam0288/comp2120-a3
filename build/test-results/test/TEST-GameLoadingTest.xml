@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="GameLoadingTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2024-09-29T12:51:14" hostname="DESKTOP-1TV7L6O" time="0.078">
+  <properties/>
+  <testcase name="tooManyNpcs" classname="GameLoadingTest" time="0.024"/>
+  <testcase name="testPlayerMoveStoppedByObstacle" classname="GameLoadingTest" time="0.008"/>
+  <testcase name="testComplexPlayerMove" classname="GameLoadingTest" time="0.008"/>
+  <testcase name="testPlayerMoveStoppedByEntity" classname="GameLoadingTest" time="0.009"/>
+  <testcase name="tooManyEnemies" classname="GameLoadingTest" time="0.021"/>
+  <testcase name="testPlayerMoveWithoutCollision" classname="GameLoadingTest" time="0.007"/>
+  <system-out><![CDATA[Current map: map1
+Current map: map1
+Can't move there!
+Can't move there!
+Current map: map1
+Current map: map1
+Current map: map1
+Current map: map1
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
